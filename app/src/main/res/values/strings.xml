@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">work</string>
+    <string name="hello_world">hello_world</string>
+    <string name="logotext">Студенческое мобильное приложение Южного федерального университета</string>
 </resources>
