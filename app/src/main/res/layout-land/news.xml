@@ -15,21 +15,21 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/a"
+            app:srcCompat="@drawable/news"
             android:id="@+id/imageView"
             android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/b"
+            app:srcCompat="@drawable/job"
             android:id="@+id/imageView2"
             android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/c"
+            app:srcCompat="@drawable/stock"
             android:id="@+id/imageView3"
             android:layout_weight="1" />
 
