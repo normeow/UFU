@@ -2,4 +2,7 @@
     <string name="app_name">work</string>
     <string name="hello_world">hello_world</string>
     <string name="logotext">Студенческое мобильное приложение Южного федерального университета</string>
+    <string name="news">Новости</string>
+    <string name="job">Работа</string>
+    <string name="stock">Акций</string>
 </resources>

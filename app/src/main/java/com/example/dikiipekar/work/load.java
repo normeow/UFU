@@ -20,6 +20,6 @@ public class load extends AppCompatActivity {
                                           startActivity(i);
                                           finish();
                                       }
-                                  },3*1000);
+                                  },2*1000);
         }
     }

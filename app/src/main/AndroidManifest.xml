@@ -8,15 +8,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".news">
+        <activity android:name=".load">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      <activity android:name=".news"></activity>
+      <activity android:name=".news">
 
+      </activity>
+        <activity android:name=".job"
+            />
+        <activity android:name=".stock"
+            />
     </application>
-
 </manifest>
