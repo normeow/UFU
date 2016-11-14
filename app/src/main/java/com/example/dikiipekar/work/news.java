@@ -21,44 +21,34 @@ import android.widget.ViewFlipper;
 
 import static com.example.dikiipekar.work.R.id.action_job;
 
-public class news extends AppCompatActivity    {
+public class news extends AppCompatActivity {
 
-
+    private TextView infoTextView;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news);
 
-/*
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_news:
-                                Intent i1 = new Intent(news.this, news.class);
-                                startActivity(i1);
+        infoTextView = (TextView) findViewById(R.id.infoTextView);
 
-                                break;
-                            case action_job:
-                                Intent i2 = new Intent(news.this, job.class);
-                                startActivity(i2);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
-                                break;
-                            case R.id.action_stock:
-                                Intent i3 = new Intent(news.this, stock.class);
-                                startActivity(i3);
-    
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                */
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.action_news) {
+                    infoTextView.setText(R.string.news);
+                } else if (item.getItemId() == R.id.action_job) {
+                    infoTextView.setText(R.string.job);
+                } else if (item.getItemId() == R.id.action_stock) {
+                    infoTextView.setText(R.string.stock);
+                }
+
+                return false;
+            }
+        });
     }
-
-
-    }
+}
