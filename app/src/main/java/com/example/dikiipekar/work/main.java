@@ -1,44 +1,73 @@
 package com.example.dikiipekar.work;
 
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
-import android.view.MenuItem;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation.OnTabSelectedListener;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.dikiipekar.work.Fragments.Job;
+import com.example.dikiipekar.work.Fragments.News;
+import com.example.dikiipekar.work.Fragments.Stock;
 
-import android.widget.TextView;
 
 
-public class main extends AppCompatActivity {
 
-    private TextView infoTextView;
-    private BottomNavigationView bottomNavigationView;
+public class Main extends AppCompatActivity implements OnTabSelectedListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        AHBottomNavigation bottomNavigation;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        infoTextView = (TextView) findViewById(R.id.infoTextView);
+        bottomNavigation= (AHBottomNavigation) findViewById(R.id.myBottomNavigation_ID);
+        bottomNavigation.setOnTabSelectedListener(this);
+        this.createNavItems();
+        }
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+private void createNavItems()
+        {
+        //CREATE ITEMS
+        AHBottomNavigationItem newsItem=new AHBottomNavigationItem("Новости",R.drawable.aa);
+        AHBottomNavigationItem jobItem=new AHBottomNavigationItem("Работа",R.drawable.bb);
+        AHBottomNavigationItem stockItem=new AHBottomNavigationItem("Акций",R.drawable.cc);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.fragment_news) {
-                    infoTextView.setText(R.string.news);
-                } else if (item.getItemId() == R.id.fragment_job) {
-                    infoTextView.setText(R.string.job);
-                } else if (item.getItemId() == R.id.fragment_stock) {
-                    infoTextView.setText(R.string.stock);
-                }
+        //ADD THEM to bar
+        bottomNavigation.addItem(newsItem);
+        bottomNavigation.addItem(jobItem);
+        bottomNavigation.addItem(stockItem);
 
-                return false;
-            }
-        });
-    }
+        //set properties
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+
+        //set current item
+        bottomNavigation.setCurrentItem(0);
+
+        }
+
+@Override
+
+public void onTabSelected(int position, boolean wasSelected) {
+        //show fragment
+        if (position==0)
+        {
+        News newsFragment = new News();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_id,newsFragment).commit();
+        }else  if (position==1)
+        {
+        Job jobFragment=new Job();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_id,jobFragment).commit();
+        }else  if (position==2)
+        {
+        Stock stockFragment=new Stock();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_id,stockFragment).commit();
+        }
+     }
 }

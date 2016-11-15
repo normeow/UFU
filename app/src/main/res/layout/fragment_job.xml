@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_job"
     android:background="#2f9bc1"
-    tools:context="com.example.dikiipekar.work.Fragments.job">
+    tools:context="com.example.dikiipekar.work.Fragments.Job">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
