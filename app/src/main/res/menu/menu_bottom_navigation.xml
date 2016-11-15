@@ -2,15 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_news"
+        android:id="@+id/fragment_news"
         android:icon="@drawable/aa2"
         android:title="@string/news" />
     <item
-        android:id="@+id/action_job"
+        android:id="@+id/fragment_job"
         android:icon="@drawable/bb"
         android:title="@string/job" />
     <item
-        android:id="@+id/action_stock"
+        android:id="@+id/fragment_stock"
         android:icon="@drawable/cc"
         android:title="@string/stock" />
 </menu>

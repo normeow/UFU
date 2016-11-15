@@ -25,7 +25,7 @@ public class load extends AppCompatActivity {
                     Toast.makeText(load.this, "Connected", Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(load.this, "No Connected", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(load.this, news.class);
+                Intent i = new Intent(load.this, main.class);
                 startActivity(i);
                 finish();
             }

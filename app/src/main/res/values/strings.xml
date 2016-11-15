@@ -5,4 +5,9 @@
     <string name="news">Новости</string>
     <string name="job">Работа</string>
     <string name="stock">Акций</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment_news">Fragment_news</string>
+    <string name="hello_blank_fragment_job">Fragment_job</string>
+    <string name="hello_blank_fragment_stock">Fragment_stock</string>
 </resources>
