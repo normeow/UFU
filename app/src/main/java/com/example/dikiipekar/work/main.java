@@ -48,6 +48,7 @@ private void createNavItems()
 
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#2c2c2c"));
 
+                bottomNavigation.setAccentColor(Color.parseColor("#FFFFFF"));
         //set current item
         bottomNavigation.setCurrentItem(0);
 
