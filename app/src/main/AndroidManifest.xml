@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Load">
+            android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +17,7 @@
             </intent-filter>
         </activity>
 
-      <activity android:name=".Main">
 
-      </activity>
 
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

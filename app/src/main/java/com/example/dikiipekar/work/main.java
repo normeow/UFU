@@ -45,7 +45,8 @@ private void createNavItems()
         bottomNavigation.addItem(stockItem);
 
         //set properties
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#2c2c2c"));
 
         //set current item
         bottomNavigation.setCurrentItem(0);
@@ -60,6 +61,7 @@ public void onTabSelected(int position, boolean wasSelected) {
         {
         News newsFragment = new News();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_id,newsFragment).commit();
+
         }else  if (position==1)
         {
         Job jobFragment=new Job();

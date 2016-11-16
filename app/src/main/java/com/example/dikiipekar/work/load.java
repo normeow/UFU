@@ -1,13 +1,15 @@
 package com.example.dikiipekar.work;
 
+/**
+ * Created by DIKII PEKAR on 15.11.2016.
+ */
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-
-public class load extends AppCompatActivity {
+public class Load extends AppCompatActivity {
 
     ConnectionDetector cd;
 
@@ -22,15 +24,14 @@ public class load extends AppCompatActivity {
             @Override
             public void run() {
                 if(cd.isConnected()){
-                    Toast.makeText(load.this, "Connected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Load.this, "Connected", Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(load.this, "No Connected", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(load.this, main.class);
+                else Toast.makeText(Load.this, "No Connected", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(Load.this, Main.class);
                 startActivity(i);
                 finish();
             }
         }, 2 * 1000);
 
     }
-
 }
