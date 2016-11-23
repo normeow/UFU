@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">UFU</string>
+
+    <string name="tab1">text
+Type: String or Number or Boolean
+The text to set as the content of each matched element. When Number or Boolean is supplied, it will be converted to a String representation.</string>
+    <string name="tab2">CHATS</string>
+    <string name="tab3">CONTACTS</string>
+    <string name="news">Новости</string>
+    <string name="job">Работа</string>
+    <string name="stock">Акций</string>
+
+</resources>
