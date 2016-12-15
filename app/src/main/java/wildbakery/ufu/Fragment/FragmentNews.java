@@ -3,10 +3,21 @@ package wildbakery.ufu.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import wildbakery.ufu.Interfaces.APIservice;
+import wildbakery.ufu.Model.Job.JobsModel;
+import wildbakery.ufu.Model.News.Image;
+import wildbakery.ufu.Model.News.NewsModel;
 import wildbakery.ufu.R;
 
 
@@ -15,7 +26,8 @@ import wildbakery.ufu.R;
  */
 public class FragmentNews extends Fragment {
 
-    //private TextView infoTextView;
+
+    final String TAG = "lifecycle";
 
 
     public FragmentNews() {
@@ -26,12 +38,12 @@ public class FragmentNews extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_news, container, false);
-        // infoTextView = (TextView) v.findViewById(R.id.infoTextView);
-        // MainActivity.infoTextView.setText(R.string.news);
-        return v;
-    }
+        Log.d(TAG, "Activity создано");
 
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+
+        return view;
+    }
 
 }

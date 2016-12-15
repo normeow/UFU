@@ -1,39 +1,19 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="droidmentor.work.Fragment.CallsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo"
-            android:id="@+id/imageView2" />
-
-        <TextView
-            android:text="@string/job"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            android:id="@+id/textView4" />
-
-        <TextView
-            android:text="@string/tab1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="60sp"
-            android:id="@+id/textView3" />
-    </LinearLayout>
+    android:orientation="vertical"
+    tools:context="wildbakery.ufu.Fragment.FragmentJob">
 
 
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/recyclerview1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#923454"
+    >
 
+</android.support.v7.widget.RecyclerView>
 
-</ScrollView>
+</LinearLayout>

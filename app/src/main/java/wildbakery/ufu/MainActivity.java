@@ -16,6 +16,8 @@ import wildbakery.ufu.Fragment.FragmentStock;
 
 public class MainActivity extends AppCompatActivity {
 
+    final String TAG = "lifecycle1";
+
     BottomNavigationView bottomNavigationView;
 
     //This is our viewPager
@@ -33,8 +35,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(TAG,"Activity создано");
         //Initializing viewPager
+
+
+
+
+
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
         //Initializing the bottomNavigationView
@@ -94,19 +102,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe
-
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
-
-        */
-
         setupViewPager(viewPager);
     }
 
@@ -119,5 +114,35 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(jobFragment);
         adapter.addFragment(stockFragment);
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"Activity запущено");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"Activity видимо");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"Activity приостановлено");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"Activity остановлено");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"Activity уничтожено");
     }
 }
