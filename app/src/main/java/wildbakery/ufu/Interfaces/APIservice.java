@@ -20,14 +20,29 @@ import static wildbakery.ufu.Constants.HTTP.BASE_URL;
 public interface APIservice {
 
     @GET("v1/jobs.json")
-    Call<List<JobsModel>> getAllJob();
+    Call<JobsModel> getAllJob();
 
     @GET("v1/news.json")
-    Call<List<NewsModel>> getAllNews();
+    Call<NewsModel> getAllNews();
 
     @GET("v1/events.json")
-    Call<List<StockModel>> getAllStock();
+    Call<StockModel> getAllStock();
 
+    class Factory {
+        private  static  APIservice service;
+        public static  APIservice getInstance(){
+            if (service == null){
+                Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                service = retrofit.create(APIservice.class);
+                return service;
+            }
+            else {
+                return service;
+            }
+        }
+    }
 
 
 }

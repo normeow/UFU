@@ -1,39 +1,16 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wildbakery.ufu.Fragment.FragmentStock">
+    android:orientation="vertical"
+    tools:context="wildbakery.ufu.Fragment.FragmentJob">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:orientation="vertical"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewStock"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo"
-            android:id="@+id/imageView3" />
-
-        <TextView
-            android:text="@string/stock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            android:id="@+id/textView4" />
-
-        <TextView
-            android:text="@string/tab1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="60sp"
-            android:id="@+id/textView3" />
-    </LinearLayout>
-
-
-
-
-</ScrollView>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/fragment_stock_row_item"
+        />
+</LinearLayout>

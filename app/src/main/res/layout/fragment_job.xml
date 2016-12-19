@@ -7,13 +7,10 @@
     tools:context="wildbakery.ufu.Fragment.FragmentJob">
 
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recyclerview1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#923454"
-    >
-
-</android.support.v7.widget.RecyclerView>
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewJob"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/fragment_job_row_item"
+        />
 </LinearLayout>
