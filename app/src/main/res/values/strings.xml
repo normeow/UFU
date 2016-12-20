@@ -1,17 +1,13 @@
 <resources>
-    <string name="app_name">work</string>
-    <string name="hello_world">hello_world</string>
-    <string name="logotext">Студенческое мобильное приложение Южного федерального университета</string>
+    <string name="app_name">UFU</string>
+
+    <string name="tab1">text
+Type: String or Number or Boolean
+The text to set as the content of each matched element. When Number or Boolean is supplied, it will be converted to a String representation.</string>
+    <string name="tab2">CHATS</string>
+    <string name="tab3">CONTACTS</string>
     <string name="news">Новости</string>
     <string name="job">Работа</string>
     <string name="stock">Акций</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment_news">Fragment_news</string>
-    <string name="hello_blank_fragment_job">Fragment_job</string>
-    <string name="hello_blank_fragment_stock">Fragment_stock</string>
-    <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

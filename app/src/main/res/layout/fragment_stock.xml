@@ -1,15 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_stock"
-    android:background="#c36188"
-    tools:context="com.example.dikiipekar.work.Fragments.Stock">
+    android:orientation="vertical"
+    tools:context="wildbakery.ufu.Fragment.FragmentJob">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewStock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment_stock" />
-
-</FrameLayout>
+        tools:listitem="@layout/fragment_stock_row_item"
+        />
+</LinearLayout>
