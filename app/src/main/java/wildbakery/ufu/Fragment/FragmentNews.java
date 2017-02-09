@@ -10,9 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +19,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterNews;
 import wildbakery.ufu.Interfaces.APIservice;
-
-import wildbakery.ufu.Model.News.Image;
 import wildbakery.ufu.Model.News.Item;
 import wildbakery.ufu.Model.News.NewsModel;
 import wildbakery.ufu.R;
+
+import static wildbakery.ufu.R.id.recyclerviewNews;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentNews extends Fragment {
+public class FragmentNews extends BaseFragment {
 
 
     private RecyclerView recyclerView;
     private List<Item> listItems;
     private ItemsAdapterNews mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private DetailFragmentNews activeDetailFragment;
 
     public FragmentNews() {
 
@@ -51,28 +49,33 @@ public class FragmentNews extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewNews);
-
+        recyclerView = (RecyclerView) view.findViewById(recyclerviewNews);
 
 
         APIservice.Factory.getInstance().getAllNews().enqueue(new Callback<NewsModel>() {
 
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
-
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     listItems = new ArrayList<>();
                     NewsModel result = response.body();
                     listItems = result.getItems();
 
-                    mAdapter = new ItemsAdapterNews(listItems);
+                    mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Item item) {
+                            Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
+                            activeDetailFragment = DetailFragmentNews.newInstance(item);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.rootView, activeDetailFragment).commit();
+                            recyclerView.setVisibility(View.GONE);
+                        }
+                    });
 
                     mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(mAdapter);
                 }
-
             }
 
             @Override
@@ -85,4 +88,16 @@ public class FragmentNews extends Fragment {
         return view;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        if (activeDetailFragment != null) {
+
+            getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
+            activeDetailFragment = null;
+            recyclerView.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            return super.onBackPressed();
+        }
+    }
 }

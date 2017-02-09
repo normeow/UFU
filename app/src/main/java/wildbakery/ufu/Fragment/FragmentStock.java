@@ -26,7 +26,7 @@ import wildbakery.ufu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentStock extends Fragment {
+public class FragmentStock extends BaseFragment {
     private RecyclerView recyclerView;
     private List<Item> listItems;
     private ItemsAdapterStock mAdapter;
@@ -51,7 +51,7 @@ public class FragmentStock extends Fragment {
             @Override
             public void onResponse(Call<StockModel> call, Response<StockModel> response) {
 
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     listItems = new ArrayList<>();
                     StockModel result = response.body();
                     listItems = result.getItems();
@@ -73,17 +73,7 @@ public class FragmentStock extends Fragment {
         });
 
 
-
-
-
-
-
-
-
-
-
         return view;
-
 
 
     }

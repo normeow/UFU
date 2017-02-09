@@ -34,7 +34,7 @@ import wildbakery.ufu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentJob extends Fragment {
+public class FragmentJob extends BaseFragment {
 
     private RecyclerView recyclerView;
     private List<Item> listItems;

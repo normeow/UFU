@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import wildbakery.ufu.Fragment.BaseFragment;
 import wildbakery.ufu.Fragment.FragmentJob;
 import wildbakery.ufu.Fragment.FragmentNews;
 import wildbakery.ufu.Fragment.FragmentStock;
@@ -29,24 +30,21 @@ public class MainActivity extends AppCompatActivity {
     FragmentNews newsFragment;
     FragmentJob jobFragment;
     FragmentStock stockFragment;
+    BaseFragment activeFragment;
     MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG,"Activity создано");
+        Log.d(TAG, "Activity создано");
         //Initializing viewPager
-
-
-
-
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
         //Initializing the bottomNavigationView
-        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -85,12 +83,21 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
-                }
-                else
-                {
+                } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+position);
+                Log.d("page", "onPageSelected: " + position);
+                switch (position) {
+                    case 0:
+                        activeFragment = newsFragment;
+                        break;
+                    case 1:
+                        activeFragment = jobFragment;
+                        break;
+                    case 2:
+                        activeFragment = stockFragment;
+                        break;
+                }
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
@@ -107,42 +114,50 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        newsFragment=new FragmentNews();
-        jobFragment=new FragmentJob();
-        stockFragment=new FragmentStock();
+        newsFragment = new FragmentNews();
+        jobFragment = new FragmentJob();
+        stockFragment = new FragmentStock();
         adapter.addFragment(newsFragment);
         adapter.addFragment(jobFragment);
         adapter.addFragment(stockFragment);
         viewPager.setAdapter(adapter);
+
+        activeFragment = newsFragment;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG,"Activity запущено");
+        Log.d(TAG, "Activity запущено");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG,"Activity видимо");
+        Log.d(TAG, "Activity видимо");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG,"Activity приостановлено");
+        Log.d(TAG, "Activity приостановлено");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG,"Activity остановлено");
+        Log.d(TAG, "Activity остановлено");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG,"Activity уничтожено");
+        Log.d(TAG, "Activity уничтожено");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (activeFragment.onBackPressed())
+            super.onBackPressed();
     }
 }

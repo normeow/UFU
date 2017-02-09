@@ -4,7 +4,9 @@ package wildbakery.ufu.Model.News;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -95,4 +97,17 @@ public class Item {
         this.orientationMode = orientationMode;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", newsWhen='" + newsWhen + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", image=" + image +
+                ", orientationMode=" + orientationMode +
+                '}';
+    }
 }
