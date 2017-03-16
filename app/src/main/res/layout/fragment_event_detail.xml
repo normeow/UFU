@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewEventDetail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/tvImageEvent_2"
+            />
+
+        <TextView
+            android:id="@+id/tvWhenEvent_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/event_when_detail"
+            android:textColor="@color/DateTextGrey"
+            android:layout_margin="6dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="@string/event_name_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:id="@+id/tvNameEvent" />
+
+    <TextView
+        android:id="@+id/tvShortDescriptionSale_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_description_detail"
+        android:textColor="@color/Desciption_text"
+        android:layout_margin="6dp" />
+    <View
+        android:layout_width="wrap_content"
+        android:background="@drawable/line"
+        android:layout_height="1dp"
+
+        />
+
+</LinearLayout>

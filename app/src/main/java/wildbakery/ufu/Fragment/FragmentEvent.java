@@ -1,5 +1,8 @@
 package wildbakery.ufu.Fragment;
 
+/**
+ * Created by DIKII PEKAR on 13.02.2017.
+ */
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,59 +20,62 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapter.ItemsAdapterNews;
+import wildbakery.ufu.Adapter.ItemsAdapterEvent;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.News.Item;
-import wildbakery.ufu.Model.News.NewsModel;
+import wildbakery.ufu.Model.Event.EventModel;
+import wildbakery.ufu.Model.Event.Item;
 import wildbakery.ufu.R;
 
-import static wildbakery.ufu.R.id.recyclerviewNews;
+
+
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentNews extends BaseFragment {
-
+public class FragmentEvent extends BaseFragment {
 
     private RecyclerView recyclerView;
     private List<Item> listItems;
-    private ItemsAdapterNews mAdapter;
+    private ItemsAdapterEvent mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private DetailFragmentNews activeDetailFragment;
+    private DetailFragmentEvent activeDetailFragment;
 
-    public FragmentNews() {
 
+    public FragmentEvent() {
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view =  inflater.inflate(R.layout.fragment_event, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewEvent);
 
 
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        recyclerView = (RecyclerView) view.findViewById(recyclerviewNews);
 
 
-        APIservice.Factory.getInstance().getAllNews().enqueue(new Callback<NewsModel>() {
+
+
+
+        APIservice.Factory.getInstance().getAllEvent().enqueue(new Callback<EventModel>() {
 
             @Override
-            public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
-                if (response.isSuccess()) {
+            public void onResponse(Call<EventModel> call, Response<EventModel> response) {
+
+                if(response.isSuccess()){
                     listItems = new ArrayList<>();
-                    NewsModel result = response.body();
+                    EventModel result = response.body();
                     listItems = result.getItems();
 
-                    mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
+                    mAdapter = new ItemsAdapterEvent(listItems,new ItemsAdapterEvent.OnItemClickListener(){
                         @Override
                         public void onItemClick(Item item) {
                             Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
-                            activeDetailFragment = DetailFragmentNews.newInstance(item);
-
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewNews, activeDetailFragment).commit();
+                            activeDetailFragment =  DetailFragmentEvent.newInstance(item);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewEvent, activeDetailFragment).commit();
                             recyclerView.setVisibility(View.GONE);
                         }
+
+
                     });
 
                     mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -79,10 +85,11 @@ public class FragmentNews extends BaseFragment {
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(mAdapter);
                 }
+
             }
 
             @Override
-            public void onFailure(Call<NewsModel> call, Throwable t) {
+            public void onFailure(Call<EventModel> call, Throwable t) {
 
             }
         });
@@ -103,4 +110,18 @@ public class FragmentNews extends BaseFragment {
             return super.onBackPressed();
         }
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

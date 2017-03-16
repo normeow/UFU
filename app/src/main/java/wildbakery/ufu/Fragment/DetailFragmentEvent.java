@@ -3,57 +3,56 @@ package wildbakery.ufu.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import wildbakery.ufu.Model.Job.Item;
+
+import wildbakery.ufu.Model.Event.Item;
 import wildbakery.ufu.R;
 
 /**
  * Created by DIKII PEKAR on 19.12.2016.
  */
 
-public class DetailFragmentJob extends Fragment {
+public class DetailFragmentEvent extends Fragment {
 
     private static String ARG_ITEM;
-    private Item item;
-
-    private TextView tvDetailName,tvDetailWage,tvDetailDescription;
-    public DetailFragmentJob(){
+    public Item item;
+    private ImageView detailImage;
+    private TextView detailName;
+    private  TextView detailWhen;
+    public DetailFragmentEvent(){
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = (Item) getArguments().getSerializable("item");
+
+
     }
+
+
+
 
     @Nullable
     @Override
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_job_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
-        tvDetailName = (TextView) view.findViewById(R.id.tvNameJobDetail);
-        tvDetailDescription = (TextView) view.findViewById(R.id.tvDetailDescriptionJob);
-
-        tvDetailName.setText(item.getName());
-        tvDetailDescription.setText(Html.fromHtml(item.getDescription()));
 
         return view;
     }
 
-
-
-    public static DetailFragmentJob newInstance(Item item) {
-
+    public static DetailFragmentEvent newInstance(Item item){
         Bundle args = new Bundle();
         ARG_ITEM = "item";
         args.putSerializable(ARG_ITEM, item);
-        DetailFragmentJob fragment = new DetailFragmentJob();
+        DetailFragmentEvent fragment = new DetailFragmentEvent();
         fragment.setArguments(args);
         return fragment;
     }

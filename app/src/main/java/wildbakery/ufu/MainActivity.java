@@ -1,6 +1,7 @@
 package wildbakery.ufu;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,9 +11,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import wildbakery.ufu.Fragment.BaseFragment;
+import wildbakery.ufu.Fragment.FragmentEvent;
 import wildbakery.ufu.Fragment.FragmentJob;
 import wildbakery.ufu.Fragment.FragmentNews;
-import wildbakery.ufu.Fragment.FragmentStock;
+import wildbakery.ufu.Fragment.FragmentSale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentNews newsFragment;
     FragmentJob jobFragment;
-    FragmentStock stockFragment;
+    FragmentSale saleFragment;
+    FragmentEvent eventFragment;
     BaseFragment activeFragment;
     MenuItem prevMenuItem;
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "Activity создано");
+
         //Initializing viewPager
 
 
@@ -63,11 +67,15 @@ public class MainActivity extends AppCompatActivity {
                                 viewPager.setCurrentItem(1);
 
                                 break;
-                            case R.id.action_stock:
-                                infoTextView.setText(R.string.stock);
+                            case R.id.action_sale:
+                                infoTextView.setText(R.string.sale);
                                 viewPager.setCurrentItem(2);
 
                                 break;
+                            case R.id.action_event:
+                                infoTextView.setText(R.string.event);
+                                viewPager.setCurrentItem(3);
+
                         }
                         return false;
                     }
@@ -90,13 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         activeFragment = newsFragment;
+                        infoTextView.setText(R.string.news);
                         break;
                     case 1:
                         activeFragment = jobFragment;
+                        infoTextView.setText(R.string.job);
                         break;
                     case 2:
-                        activeFragment = stockFragment;
+                        activeFragment = saleFragment;
+                        infoTextView.setText(R.string.sale);
                         break;
+                    case 3:
+                        activeFragment = eventFragment;
+                        infoTextView.setText(R.string.event);
                 }
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
@@ -113,17 +127,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         newsFragment = new FragmentNews();
         jobFragment = new FragmentJob();
-        stockFragment = new FragmentStock();
+        saleFragment = new FragmentSale();
+        eventFragment = new FragmentEvent();
         adapter.addFragment(newsFragment);
         adapter.addFragment(jobFragment);
-        adapter.addFragment(stockFragment);
-        viewPager.setAdapter(adapter);
+        adapter.addFragment(saleFragment);
+        adapter.addFragment(eventFragment);
 
+         viewPager.setAdapter(adapter);
         activeFragment = newsFragment;
     }
+
 
     @Override
     protected void onStart() {
@@ -160,4 +178,5 @@ public class MainActivity extends AppCompatActivity {
         if (activeFragment.onBackPressed())
             super.onBackPressed();
     }
+
 }

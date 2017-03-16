@@ -1,13 +1,58 @@
 <resources>
     <string name="app_name">UFU</string>
-
-    <string name="tab1">text
-Type: String or Number or Boolean
-The text to set as the content of each matched element. When Number or Boolean is supplied, it will be converted to a String representation.</string>
-    <string name="tab2">CHATS</string>
-    <string name="tab3">CONTACTS</string>
     <string name="news">Новости</string>
     <string name="job">Работа</string>
-    <string name="stock">Акций</string>
+    <string name="sale">Акций</string>
+    <string name="event">События</string>
+
+
+    <string name="news_when_2">When</string>
+    <string name="news_category_2">Category</string>
+    <string name="news_name_2">Name</string>
+    <string name="news_short_description_2">Short Description</string>
+
+    <string name="news_when_1">When</string>
+    <string name="news_category_1">Category</string>
+    <string name="news_name_1">Name</string>
+
+    <string name="news_when_detail">When</string>
+    <string name="news_category_detail">Category</string>
+    <string name="news_name_detail">Name</string>
+    <string name="news_description_detail">Description</string>
+
+    <string name="job_name">Name</string>
+    <string name="job_when">When</string>
+    <string name="job_wage">Wage</string>
+    <string name="job_short_description">Short Description</string>
+
+    <string name="job_name_detail">Name</string>
+    <string name="job_when_detail">When</string>
+    <string name="job_wage_detaiil">Wage</string>
+    <string name="job_description_detail">Description</string>
+
+    <string name="sale_name">Name</string>
+    <string name="sale_who">Who</string>
+    <string name="sale_desciption">Description</string>
+    <string name="sale_date_start">Date Start</string>
+    <string name="sale_date_end">Date End</string>
+
+    <string name="event_when_2">When</string>
+    <string name="event_name_2">Name</string>
+    <string name="event_month_2">Month</string>
+    <string name="event_short_description_2">Short Description</string>
+
+
+    <string name="event_when_1">When</string>
+    <string name="event_name_1">Name</string>
+
+    <string name="event_name_detail">Name</string>
+    <string name="event_when_detail">When</string>
+    <string name="event_description_detail">Description</string>
+
+
+
+
+    <string name="textWage">Уровень зарплаты</string>
+
 
 </resources>

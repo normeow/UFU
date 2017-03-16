@@ -1,11 +1,13 @@
 
-package wildbakery.ufu.Model.Stock;
+package wildbakery.ufu.Model.Event;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class StockModel {
+import java.io.Serializable;
+import java.util.List;
+
+public class EventModel implements Serializable {
 
     @SerializedName("_query_time")
     @Expose

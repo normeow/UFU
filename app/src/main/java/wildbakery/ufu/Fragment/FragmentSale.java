@@ -16,49 +16,42 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapter.ItemsAdapterStock;
+import wildbakery.ufu.Adapter.ItemsAdapterSale;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Stock.Item;
-import wildbakery.ufu.Model.Stock.StockModel;
+import wildbakery.ufu.Model.Sale.Item;
+import wildbakery.ufu.Model.Sale.SaleModel;
 import wildbakery.ufu.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentStock extends BaseFragment {
+public class FragmentSale extends BaseFragment {
     private RecyclerView recyclerView;
     private List<Item> listItems;
-    private ItemsAdapterStock mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private ItemsAdapterSale mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
-
-    public FragmentStock() {
-
+    public FragmentSale() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_stock, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewStock);
-
-
-        APIservice.Factory.getInstance().getAllStock().enqueue(new Callback<StockModel>() {
+        View view = inflater.inflate(R.layout.fragment_sale, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewSale);
+        APIservice.Factory.getInstance().getAllSale().enqueue(new Callback<SaleModel>() {
 
             @Override
-            public void onResponse(Call<StockModel> call, Response<StockModel> response) {
-
+            public void onResponse(Call<SaleModel> call, Response<SaleModel> response) {
                 if (response.isSuccess()) {
                     listItems = new ArrayList<>();
-                    StockModel result = response.body();
+                    SaleModel result = response.body();
                     listItems = result.getItems();
-
-                    mAdapter = new ItemsAdapterStock(listItems);
-
+                    mAdapter = new ItemsAdapterSale(listItems);
                     mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+                    mLayoutManager.setStackFromEnd(true);
+                    mLayoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(mAdapter);
@@ -67,7 +60,7 @@ public class FragmentStock extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<StockModel> call, Throwable t) {
+            public void onFailure(Call<SaleModel> call, Throwable t) {
 
             }
         });

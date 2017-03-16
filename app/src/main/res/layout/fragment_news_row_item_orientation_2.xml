@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scroll_"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/viewNewsDetail"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:orientation="vertical"
-    >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/viewNews_2"
+              android:background="@color/TextWhite"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+
+              >
 
     <RelativeLayout
         android:orientation="vertical"
@@ -24,27 +18,28 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@color/RecyclerViewBackground"
-            android:id="@+id/tvImageNews_details"
+
             android:scaleType="centerCrop"
-            />
+
+            android:id="@+id/tvImageNews_2"
+             />
 
         <TextView
-            android:id="@+id/tvWhenNews_details"
+            android:id="@+id/tvWhenNews_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="When"
+            android:text="@string/news_when_2"
             android:textColor="@color/TextWhite"
             android:layout_margin="8dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true" />
 
         <TextView
-            android:id="@+id/tvCategoryNews_details"
+            android:id="@+id/tvCategoryNews_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/news_category_2"
             android:layout_margin="8dp"
             android:textColor="@color/TextWhite"
             android:layout_alignParentBottom="true"
@@ -52,29 +47,39 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tvNameNews_details"
+        android:id="@+id/tvNameNews_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="News"
+        android:text="@string/news_name_2"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/LargeTextBlack"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="6dp" />
 
-        />
+    <TextView
+        android:id="@+id/tvShortDescriptionNews_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/news_short_description_2"
+        android:textColor="@color/Desciption_text"
+        android:layout_margin="6dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <TextView
-        android:id="@+id/tvDescriptionNews_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:textColor="@color/Desciption_text"
-        android:layout_margin="8dp" />
-</RelativeLayout>
+        android:layout_height="14dp"
+        android:background="@color/RecyclerViewBackground"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:background="@drawable/line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:layout_marginTop="13.6dp"
+            android:background="@drawable/line" />
+    </RelativeLayout>
+
 </LinearLayout>
-</ScrollView>

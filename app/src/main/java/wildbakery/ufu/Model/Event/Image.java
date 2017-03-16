@@ -1,5 +1,5 @@
 
-package wildbakery.ufu.Model.Stock;
+package wildbakery.ufu.Model.Event;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

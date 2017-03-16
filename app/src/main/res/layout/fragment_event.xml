@@ -1,21 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/viewJob"
-    tools:context="wildbakery.ufu.Fragment.FragmentJob">
-
+    tools:context="wildbakery.ufu.Fragment.FragmentEvent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewJob"
+        android:id="@+id/recyclerviewEvent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
-        tools:listitem="@layout/fragment_job_row_item">
+        tools:listitem="@layout/fragment_event_row_item">
 
     </android.support.v7.widget.RecyclerView>
 
 
-</FrameLayout>
+</LinearLayout>

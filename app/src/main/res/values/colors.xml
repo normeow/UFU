@@ -6,9 +6,17 @@
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="logocolor">#ffffff</color>
-
+    <color name="LargeTextBlack">#000000</color>
+    <color name="DateTextGrey">#646464</color>
+    <color name="TextWhite">#FFFFFF</color>
+    <color name="CategoryTextBlue">#4A90E2</color>
+    <color name="RecyclerViewBackground">#edeef0</color>
+    <color name="Desciption_text">#333333</color>
+    <color name="Wage">#F2F2F2</color>
     <color name="tab_disable">#979797</color>
     <color name="tab_enable">#FFFFFF</color>
     <color name="tab_checked">#F3CD70</color>
     <color name="tab_unchecked">#FFFFFF</color>
+    <color name="solid">#e3e3e3</color>
+    <color name="white_1">#f7fafc</color>
 </resources>

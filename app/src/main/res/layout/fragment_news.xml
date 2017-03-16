@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/rootView"
+              android:id="@+id/viewNews"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
@@ -11,6 +11,8 @@
         android:id="@+id/recyclerviewNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/fragment_news_row_item"
+        tools:listitem="@layout/fragment_news_row_item_orientation_2"
+        android:layout_marginBottom="50dp"
+        android:stackFromBottom="true"
         />
 </LinearLayout>

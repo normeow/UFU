@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="wildbakery.ufu.Fragment.FragmentJob">
+
+    tools:context="wildbakery.ufu.Fragment.FragmentSale">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewStock"
+        android:id="@+id/recyclerviewSale"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/fragment_stock_row_item"
+        tools:listitem="@layout/fragment_sale_row_item"
+        android:layout_marginBottom="50dp"
+
         />
 </LinearLayout>

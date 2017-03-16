@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_news"
-        android:checked="true"
-        android:icon="@drawable/aa"
+        android:icon="@drawable/news50"
         android:title="@string/news"
-        app:showAsAction="ifRoom" />
+
+        app:showAsAction="ifRoom"
+        />
     <item
-        android:id="@+id/action_job"
-        android:checked="false"
-        android:icon="@drawable/bb"
-        android:title="@string/job"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/action_job"
+            android:checked="false"
+            android:icon="@drawable/job50"
+            android:title="@string/job"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_sale"
+            android:checked="false"
+            android:icon="@drawable/sale50"
+            android:title="@string/sale"
+            app:showAsAction="ifRoom"
+            />
     <item
-        android:id="@+id/action_stock"
+        android:id="@+id/action_event"
         android:checked="false"
-        android:icon="@drawable/cc"
-        android:title="@string/stock"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/event50"
+        android:title="@string/event"
+        app:showAsAction="ifRoom"/>
+
 </menu>

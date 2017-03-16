@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewJob"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
     android:orientation="vertical"
-    android:weightSum="1">
 
-    <LinearLayout
+    >
+
+
+    <TextView
+        android:id="@+id/tvNameJob"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3.10">
+        android:layout_height="wrap_content"
+        android:text="@string/sale_name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/LargeTextBlack"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+    <TextView
+        android:id="@+id/tvWageJob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/job_wage"
+        android:textColor="@color/DateTextGrey"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
 
+        />
 
-            <TextView
-                android:id="@+id/tvNameJob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tom Cruise"
-                android:textColor="#166CED"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_weight="1" />
+    <TextView
+        android:text="@string/job_short_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="16sp"
+        android:textColor="@color/Desciption_text"
+        android:id="@+id/tvShortDescriptionJob" />
 
-            <TextView
-                android:id="@+id/tvDescriptionJob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#009A57"
-                android:text="Short_description"
-                android:layout_weight="1" />
+    <View
+        android:layout_width="wrap_content"
+        android:background="@drawable/line"
+        android:layout_height="0.5dp"
 
-        </LinearLayout>
-
-    </LinearLayout>
+        />
 
 </LinearLayout>

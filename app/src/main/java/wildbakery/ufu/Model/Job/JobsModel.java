@@ -1,26 +1,30 @@
 
 package wildbakery.ufu.Model.Job;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import wildbakery.ufu.Model.Job.Item;
+import java.io.Serializable;
+import java.util.List;
 
-public class JobsModel {
+public class JobsModel implements Serializable {
 
     @SerializedName("_query_time")
     @Expose
     private double queryTime;
     @SerializedName("count")
     @Expose
-    private int count;
+    private String count;
     @SerializedName("_count_query_time")
     @Expose
     private double countQueryTime;
     @SerializedName("items")
     @Expose
     private List<Item> items = null;
+
+
+
+
 
     /**
      * 
@@ -45,7 +49,7 @@ public class JobsModel {
      * @return
      *     The count
      */
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
@@ -54,7 +58,7 @@ public class JobsModel {
      * @param count
      *     The count
      */
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 

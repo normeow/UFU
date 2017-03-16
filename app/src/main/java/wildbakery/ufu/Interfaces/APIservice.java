@@ -1,14 +1,13 @@
 package wildbakery.ufu.Interfaces;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import wildbakery.ufu.Model.Event.EventModel;
 import wildbakery.ufu.Model.Job.JobsModel;
 import wildbakery.ufu.Model.News.NewsModel;
-import wildbakery.ufu.Model.Stock.StockModel;
+import wildbakery.ufu.Model.Sale.SaleModel;
 
 import static wildbakery.ufu.Constants.HTTP.BASE_URL;
 
@@ -26,7 +25,10 @@ public interface APIservice {
     Call<NewsModel> getAllNews();
 
     @GET("v1/events.json")
-    Call<StockModel> getAllStock();
+    Call<EventModel> getAllEvent();
+
+    @GET("v1/sales.json")
+    Call<SaleModel> getAllSale();
 
     class Factory {
         private  static  APIservice service;

@@ -4,7 +4,11 @@ package wildbakery.ufu.Model.Job;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
+
+
 
     @SerializedName("id")
     @Expose
@@ -18,6 +22,18 @@ public class Item {
     @SerializedName("wage")
     @Expose
     private int wage;
+    @SerializedName("count")
+    @Expose
+    private String count;
+
+
+    public String getCount(){
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
 
     /**
      * 
@@ -91,4 +107,14 @@ public class Item {
         this.wage = wage;
     }
 
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", count='" + count + '\'' +
+                '}';
+    }
 }

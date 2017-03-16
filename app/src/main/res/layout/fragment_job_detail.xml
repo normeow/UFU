@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragmentTextView"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/viewJobDetail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="detail fragment"/>
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvNameJobDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/job_name"
+            android:textColor="@color/LargeTextBlack"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvNameJobDetail"
+            android:layout_marginTop="8dp"
+            android:background="@color/Wage"
+            android:id="@+id/relativeLayout">
+
+            <TextView
+                android:id="@+id/textWageJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/textWage"
+                android:textColor="@color/DateTextGrey" />
+
+            <TextView
+                android:id="@+id/tvWageJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/job_wage_detaiil"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginTop="16dp"
+          >
+            <TextView
+                android:id="@+id/tvDetailDescriptionJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/job_description_detail"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="8dp"
+                 />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,5 +1,5 @@
 
-package wildbakery.ufu.Model.News;
+package wildbakery.ufu.Model.Sale;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class NewsModel implements Serializable {
+public class SaleModel implements Serializable {
 
     @SerializedName("_query_time")
     @Expose

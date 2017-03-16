@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewEvent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:weightSum="1">
+
+    <TextView
+
+        android:id="@+id/tvMonthEvent_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_month_2"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/LargeTextBlack"
+        android:paddingLeft="6dp"
+
+       />
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:id="@+id/tvImageEvent_2"
+            />
+
+        <TextView
+            android:id="@+id/tvWhenEvent_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/event_when_2"
+            android:textColor="@color/TextWhite"
+            android:layout_margin="6dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="@string/event_name_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/LargeTextBlack"
+        android:textStyle="bold"
+        android:layout_marginLeft="6dp"
+        android:id="@+id/tvNameEvent" />
+
+    <TextView
+        android:id="@+id/tvShortDescriptionSale_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_short_description_2"
+        android:textColor="@color/Desciption_text"
+        android:layout_margin="6dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/RecyclerViewBackground"
+        >
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@drawable/line"
+            />
+    </LinearLayout>
+
+</LinearLayout>

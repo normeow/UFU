@@ -1,10 +1,12 @@
 
-package wildbakery.ufu.Model.Stock;
+package wildbakery.ufu.Model.Event;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -71,6 +73,17 @@ public class Item {
 
     public void setOrientationMode(int orientationMode) {
         this.orientationMode = orientationMode;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", when='" + eventWhen + '\'' +
+                ", image='" + image + '\'' +
+                '}';
     }
 
 }

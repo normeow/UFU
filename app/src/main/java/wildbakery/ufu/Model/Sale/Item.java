@@ -1,5 +1,5 @@
 
-package wildbakery.ufu.Model.News;
+package wildbakery.ufu.Model.Sale;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,32 +8,30 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-
     @SerializedName("id")
     @Expose
     private int id;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("news_when")
-    @Expose
-    private String newsWhen;
-    @SerializedName("short_description")
-    @Expose
-    private String shortDescription;
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("category")
+    @SerializedName("who")
     @Expose
-    private Category category;
+    private String who;
     @SerializedName("image")
     @Expose
     private Image image;
     @SerializedName("orientation_mode")
     @Expose
     private int orientationMode;
-
+    @SerializedName("date_start")
+    @Expose
+    private String dateStart;
+    @SerializedName("date_end")
+    @Expose
+    private String dateEnd;
 
     public int getId() {
         return id;
@@ -51,22 +49,6 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public String getNewsWhen() {
-        return newsWhen;
-    }
-
-    public void setNewsWhen(String newsWhen) {
-        this.newsWhen = newsWhen;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -75,12 +57,12 @@ public class Item implements Serializable {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getWho() {
+        return who;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setWho(String who) {
+        this.who = who;
     }
 
     public Image getImage() {
@@ -99,19 +81,20 @@ public class Item implements Serializable {
         this.orientationMode = orientationMode;
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", newsWhen='" + newsWhen + '\'' +
-                ", shortDescription='" + shortDescription + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category +
-                ", image=" + image +
-                ", orientationMode=" + orientationMode +
-                '}';
+    public String getDateStart() {
+        return dateStart;
     }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
 }
