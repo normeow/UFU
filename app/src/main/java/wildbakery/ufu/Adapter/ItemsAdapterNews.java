@@ -17,24 +17,24 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.News.Item;
+import wildbakery.ufu.Model.News.NewsItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Item> items;
+    private List<NewsItem> items;
 
     private OnItemClickListener onItemClickListener;
     final int ORIENTATION_MODE_1 = 1;
     final int ORIENTATION_MODE_2 = 2;
-    public ItemsAdapterNews(List<Item> items, OnItemClickListener onItemClickListener) {
+    public ItemsAdapterNews(List<NewsItem> items, OnItemClickListener onItemClickListener) {
         this.items = items;
         this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public int getItemViewType(int i) {
-        final Item item = items.get(i);
+        final NewsItem item = items.get(i);
         if(item.getOrientationMode() == 1){
             return ORIENTATION_MODE_1;
         }
@@ -62,7 +62,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
-        final Item item = items.get(i);
+        final NewsItem item = items.get(i);
 
         if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder)viewHolder;
@@ -153,7 +153,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface OnItemClickListener {
 
-        void onItemClick(Item item);
+        void onItemClick(NewsItem item);
     }
 
 

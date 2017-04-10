@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterSale;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Sale.Item;
+import wildbakery.ufu.Model.Sale.SaleItem;
 import wildbakery.ufu.Model.Sale.SaleModel;
 import wildbakery.ufu.R;
 
@@ -31,7 +31,7 @@ public class FragmentSale extends BaseFragment {
 
     private static final String TAG = "FragmentSale";
     private RecyclerView recyclerView;
-    private List<Item> listItems;
+    private List<SaleItem> listItems;
     private ItemsAdapterSale mAdapter;
     private LinearLayoutManager mLayoutManager;
 

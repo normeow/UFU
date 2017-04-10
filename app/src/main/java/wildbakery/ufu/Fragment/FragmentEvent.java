@@ -23,7 +23,7 @@ import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterEvent;
 import wildbakery.ufu.Interfaces.APIservice;
 import wildbakery.ufu.Model.Event.EventModel;
-import wildbakery.ufu.Model.Event.Item;
+import wildbakery.ufu.Model.Event.EventItem;
 import wildbakery.ufu.R;
 
 
@@ -37,7 +37,7 @@ public class FragmentEvent extends BaseFragment {
 
     private static final String TAG = "FragmentEvent";
     private RecyclerView recyclerView;
-    private List<Item> listItems;
+    private List<EventItem> listItems;
     private ItemsAdapterEvent mAdapter;
     private LinearLayoutManager mLayoutManager;
     private DetailFragmentEvent activeDetailFragment;
@@ -75,7 +75,7 @@ public class FragmentEvent extends BaseFragment {
 
                     mAdapter = new ItemsAdapterEvent(listItems,new ItemsAdapterEvent.OnItemClickListener(){
                         @Override
-                        public void onItemClick(Item item) {
+                        public void onItemClick(EventItem item) {
                             Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
                             activeDetailFragment =  DetailFragmentEvent.newInstance(item);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewEvent, activeDetailFragment).commit();

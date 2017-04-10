@@ -20,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterJob;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Job.Item;
+import wildbakery.ufu.Model.Job.JobItem;
 import wildbakery.ufu.Model.Job.JobsModel;
 import wildbakery.ufu.R;
 
@@ -34,7 +34,7 @@ public class FragmentJob extends BaseFragment {
     private static final String TAG = "FragmentJob";
 
     private RecyclerView recyclerView;
-    private List<Item> listItems;
+    private List<JobItem> listItems;
     private ItemsAdapterJob mAdapter;
     private LinearLayoutManager mLayoutManager;
     private DetailFragmentJob activeDetailFragment;
@@ -71,13 +71,13 @@ public class FragmentJob extends BaseFragment {
                     listItems = new ArrayList<>();
                     JobsModel result = response.body();
                     listItems = result.getItems();
-                    listItems.add(listItems.size(),new Item());
+                    listItems.add(listItems.size(),new JobItem());
 
 
 
                     mAdapter = new ItemsAdapterJob(listItems,new ItemsAdapterJob.OnItemClickListener(){
                         @Override
-                        public void onItemClick(Item item) {
+                        public void onItemClick(JobItem item) {
                             Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
                             activeDetailFragment = DetailFragmentJob.newInstance(item);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewJob, activeDetailFragment).commit();

@@ -20,7 +20,7 @@ public class NewsModel implements Serializable {
     private double countQueryTime;
     @SerializedName("items")
     @Expose
-    private List<Item> items = null;
+    private List<NewsItem> items = null;
 
     public double getQueryTime() {
         return queryTime;
@@ -46,11 +46,11 @@ public class NewsModel implements Serializable {
         this.countQueryTime = countQueryTime;
     }
 
-    public List<Item> getItems() {
+    public List<NewsItem> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<NewsItem> items) {
         this.items = items;
     }
 

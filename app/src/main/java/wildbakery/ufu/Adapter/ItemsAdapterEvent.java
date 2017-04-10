@@ -16,17 +16,17 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Event.Item;
+import wildbakery.ufu.Model.Event.EventItem;
 import wildbakery.ufu.R;
 
 
 
 
 public class ItemsAdapterEvent extends RecyclerView.Adapter<ItemsAdapterEvent.ViewHolder> {
-    private List<Item> items;
+    private List<EventItem> items;
     private OnItemClickListener onItemClickListener;
 
-    public ItemsAdapterEvent(List<Item> items,ItemsAdapterEvent.OnItemClickListener onItemClickListener) {
+    public ItemsAdapterEvent(List<EventItem> items, ItemsAdapterEvent.OnItemClickListener onItemClickListener) {
         this.items = items;
         this.onItemClickListener = onItemClickListener;
     }
@@ -45,7 +45,7 @@ public class ItemsAdapterEvent extends RecyclerView.Adapter<ItemsAdapterEvent.Vi
 
     @Override
     public void onBindViewHolder(ItemsAdapterEvent.ViewHolder viewHolder, int i) {
-        final Item item = items.get(i);
+        final EventItem item = items.get(i);
 
         viewHolder.tv_when_event.setText(item.getEventWhen().substring(0,10));
         viewHolder.tv_name_event.setText(item.getName());
@@ -88,7 +88,7 @@ public class ItemsAdapterEvent extends RecyclerView.Adapter<ItemsAdapterEvent.Vi
         }
     }
     public interface OnItemClickListener {
-        void onItemClick(Item item);
+        void onItemClick(EventItem item);
     }
 }
 

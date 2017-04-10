@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.News.Item;
+import wildbakery.ufu.Model.News.NewsItem;
 import wildbakery.ufu.R;
 
 /**
@@ -23,7 +23,7 @@ import wildbakery.ufu.R;
 public class DetailFragmentNews extends Fragment {
 
     private static String ARG_ITEM;
-    private Item item;
+    private NewsItem item;
     private TextView tvNameDetail,tvCatrgoryDetail,tvWhenDetail,tvDescriptionDetail;
     private ImageView tvImageDetail;
     public DetailFragmentNews() {
@@ -32,7 +32,7 @@ public class DetailFragmentNews extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = (Item) getArguments().getSerializable("item");
+        item = (NewsItem) getArguments().getSerializable("item");
     }
 
     @Nullable
@@ -62,7 +62,7 @@ public class DetailFragmentNews extends Fragment {
         return view;
     }
 
-    public static DetailFragmentNews newInstance(Item item) {
+    public static DetailFragmentNews newInstance(NewsItem item) {
 
         Bundle args = new Bundle();
         ARG_ITEM = "item";

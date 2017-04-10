@@ -20,7 +20,7 @@ public class EventModel implements Serializable {
     private double countQueryTime;
     @SerializedName("items")
     @Expose
-    private List<Item> items = null;
+    private List<EventItem> items = null;
 
     public double getQueryTime() {
         return queryTime;
@@ -46,11 +46,11 @@ public class EventModel implements Serializable {
         this.countQueryTime = countQueryTime;
     }
 
-    public List<Item> getItems() {
+    public List<EventItem> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<EventItem> items) {
         this.items = items;
     }
 

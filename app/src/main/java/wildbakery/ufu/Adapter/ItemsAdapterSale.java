@@ -18,13 +18,13 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Sale.Item;
+import wildbakery.ufu.Model.Sale.SaleItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterSale extends  RecyclerView.Adapter<ItemsAdapterSale.ViewHolder>  {
-    private List<Item> items;
+    private List<SaleItem> items;
 
-    public ItemsAdapterSale(List<Item> items) {
+    public ItemsAdapterSale(List<SaleItem> items) {
         this.items = items;
     }
 
@@ -38,7 +38,7 @@ public class ItemsAdapterSale extends  RecyclerView.Adapter<ItemsAdapterSale.Vie
     @Override
     public void onBindViewHolder(ItemsAdapterSale.ViewHolder viewHolder, int i) {
 
-        final Item item = items.get(i);
+        final SaleItem item = items.get(i);
 
         viewHolder.tv_name_sale.setText(item.getName());
         viewHolder.tv_description_sale.setText(Html.fromHtml(item.getDescription()));

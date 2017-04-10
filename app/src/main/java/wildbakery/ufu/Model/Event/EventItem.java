@@ -7,18 +7,10 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 import wildbakery.ufu.Model.Image;
+import wildbakery.ufu.Model.Item;
 
-public class Item implements Serializable {
+public class EventItem extends Item implements Serializable {
 
-    @SerializedName("id")
-    @Expose
-    private int id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("description")
-    @Expose
-    private String description;
     @SerializedName("event_when")
     @Expose
     private String eventWhen;
@@ -28,30 +20,6 @@ public class Item implements Serializable {
     @SerializedName("orientation_mode")
     @Expose
     private int orientationMode;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getEventWhen() {
         return eventWhen;
@@ -79,7 +47,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "SaleItem{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

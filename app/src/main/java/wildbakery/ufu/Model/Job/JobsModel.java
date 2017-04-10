@@ -20,7 +20,7 @@ public class JobsModel implements Serializable {
     private double countQueryTime;
     @SerializedName("items")
     @Expose
-    private List<Item> items = null;
+    private List<JobItem> items = null;
 
 
 
@@ -85,7 +85,7 @@ public class JobsModel implements Serializable {
      * @return
      *     The items
      */
-    public List<Item> getItems() {
+    public List<JobItem> getItems() {
         return items;
     }
 
@@ -94,7 +94,7 @@ public class JobsModel implements Serializable {
      * @param items
      *     The items
      */
-    public void setItems(List<Item> items) {
+    public void setItems(List<JobItem> items) {
         this.items = items;
     }
 

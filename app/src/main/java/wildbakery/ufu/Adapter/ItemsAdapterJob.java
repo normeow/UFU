@@ -8,17 +8,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import wildbakery.ufu.Model.Job.Item;
+import wildbakery.ufu.Model.Job.JobItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Item> items;
+    private List<JobItem> items;
 
     private OnItemClickListener onItemClickListener;
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
 
-    public ItemsAdapterJob(List<Item> items,OnItemClickListener onItemClickListener) {
+    public ItemsAdapterJob(List<JobItem> items, OnItemClickListener onItemClickListener) {
         this.items = items;
         this.onItemClickListener = onItemClickListener;
     }
@@ -52,7 +52,7 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        final Item item = items.get(i);
+        final JobItem item = items.get(i);
             if ( viewHolder instanceof OrientationMode0ViewHolder ) {
                 OrientationMode0ViewHolder viewHolder0 = (OrientationMode0ViewHolder) viewHolder;
                 viewHolder0.tv_job_count.setText(Integer.toString(items.size()-1) + " вакансии");
@@ -111,6 +111,6 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     public interface OnItemClickListener {
-        void onItemClick(Item item);
+        void onItemClick(JobItem item);
     }
 }

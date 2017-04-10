@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterNews;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.News.Item;
+import wildbakery.ufu.Model.News.NewsItem;
 import wildbakery.ufu.Model.News.NewsModel;
 import wildbakery.ufu.R;
 
@@ -33,7 +33,7 @@ public class FragmentNews extends BaseFragment {
     private static final String TAG = "FragmentNews";
 
     private RecyclerView recyclerView;
-    private List<Item> listItems;
+    private List<NewsItem> listItems;
     private ItemsAdapterNews mAdapter;
     private LinearLayoutManager mLayoutManager;
     private DetailFragmentNews activeDetailFragment;
@@ -73,7 +73,7 @@ public class FragmentNews extends BaseFragment {
 
                     mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
                         @Override
-                        public void onItemClick(Item item) {
+                        public void onItemClick(NewsItem item) {
                             Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
                             activeDetailFragment = DetailFragmentNews.newInstance(item);
 

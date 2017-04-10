@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import wildbakery.ufu.Model.Job.Item;
+import wildbakery.ufu.Model.Job.JobItem;
 import wildbakery.ufu.R;
 
 /**
@@ -19,7 +19,7 @@ import wildbakery.ufu.R;
 public class DetailFragmentJob extends Fragment {
 
     private static String ARG_ITEM;
-    private Item item;
+    private JobItem item;
 
     private TextView tvDetailName,tvDetailWage,tvDetailDescription;
     public DetailFragmentJob(){
@@ -28,7 +28,7 @@ public class DetailFragmentJob extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = (Item) getArguments().getSerializable("item");
+        item = (JobItem) getArguments().getSerializable("item");
     }
 
     @Nullable
@@ -48,7 +48,7 @@ public class DetailFragmentJob extends Fragment {
 
 
 
-    public static DetailFragmentJob newInstance(Item item) {
+    public static DetailFragmentJob newInstance(JobItem item) {
 
         Bundle args = new Bundle();
         ARG_ITEM = "item";

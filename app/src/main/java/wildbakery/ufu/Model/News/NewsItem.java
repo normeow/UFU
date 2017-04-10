@@ -7,51 +7,25 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 import wildbakery.ufu.Model.Image;
+import wildbakery.ufu.Model.Item;
 
-public class Item implements Serializable {
+public class NewsItem extends Item implements Serializable {
 
-
-    @SerializedName("id")
-    @Expose
-    private int id;
-    @SerializedName("name")
-    @Expose
-    private String name;
     @SerializedName("news_when")
     @Expose
     private String newsWhen;
     @SerializedName("short_description")
     @Expose
     private String shortDescription;
-    @SerializedName("description")
-    @Expose
-    private String description;
     @SerializedName("category")
     @Expose
-    private Category category;
+    private NewsCategory category;
     @SerializedName("image")
     @Expose
     private Image image;
     @SerializedName("orientation_mode")
     @Expose
     private int orientationMode;
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getNewsWhen() {
         return newsWhen;
@@ -69,19 +43,11 @@ public class Item implements Serializable {
         this.shortDescription = shortDescription;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Category getCategory() {
+    public NewsCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(NewsCategory category) {
         this.category = category;
     }
 
@@ -105,7 +71,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "SaleItem{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", newsWhen='" + newsWhen + '\'' +

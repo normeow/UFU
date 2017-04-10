@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import wildbakery.ufu.Model.Event.Item;
+import wildbakery.ufu.Model.Event.EventItem;
 import wildbakery.ufu.R;
 
 /**
@@ -20,7 +20,7 @@ import wildbakery.ufu.R;
 public class DetailFragmentEvent extends Fragment {
 
     private static String ARG_ITEM;
-    public Item item;
+    public EventItem item;
     private ImageView detailImage;
     private TextView detailName;
     private  TextView detailWhen;
@@ -30,7 +30,7 @@ public class DetailFragmentEvent extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = (Item) getArguments().getSerializable("item");
+        item = (EventItem) getArguments().getSerializable("item");
 
 
     }
@@ -48,7 +48,7 @@ public class DetailFragmentEvent extends Fragment {
         return view;
     }
 
-    public static DetailFragmentEvent newInstance(Item item){
+    public static DetailFragmentEvent newInstance(EventItem item){
         Bundle args = new Bundle();
         ARG_ITEM = "item";
         args.putSerializable(ARG_ITEM, item);

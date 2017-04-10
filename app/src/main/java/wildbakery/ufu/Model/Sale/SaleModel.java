@@ -20,7 +20,7 @@ public class SaleModel implements Serializable {
     private double countQueryTime;
     @SerializedName("items")
     @Expose
-    private List<Item> items = null;
+    private List<SaleItem> items = null;
 
     public double getQueryTime() {
         return queryTime;
@@ -46,11 +46,11 @@ public class SaleModel implements Serializable {
         this.countQueryTime = countQueryTime;
     }
 
-    public List<Item> getItems() {
+    public List<SaleItem> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<SaleItem> items) {
         this.items = items;
     }
 

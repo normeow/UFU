@@ -4,7 +4,7 @@ package wildbakery.ufu.Model.News;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Category {
+public class NewsCategory {
 
     @SerializedName("id")
     @Expose
