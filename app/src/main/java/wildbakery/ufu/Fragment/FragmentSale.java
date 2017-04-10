@@ -38,6 +38,15 @@ public class FragmentSale extends BaseFragment {
     public FragmentSale() {
     }
 
+    public static FragmentSale newInstance() {
+
+        Bundle args = new Bundle();
+
+        FragmentSale fragment = new FragmentSale();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

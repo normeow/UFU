@@ -26,15 +26,10 @@ public class MainActivity extends AppCompatActivity {
     //This is our viewPager
     private ViewPager viewPager;
     private TextView infoTextView;
-
+    private BaseFragment currentFragment;
+    private ViewPagerAdapter adapter;
     //Fragments
 
-    FragmentNews newsFragment;
-    FragmentJob jobFragment;
-    FragmentSale saleFragment;
-    FragmentEvent eventFragment;
-    BaseFragment activeFragment;
-    MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Activity создано");
 
         //Initializing viewPager
-
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
@@ -89,32 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                /*if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
-                })*/
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                currentFragment = (BaseFragment) adapter.getItem(viewPager.getCurrentItem());
                 Log.d("page", "onPageSelected: " + position);
-                switch (position) {
-                    case 0:
-                        activeFragment = newsFragment;
-                        infoTextView.setText(R.string.news);
-                        break;
-                    case 1:
-                        activeFragment = jobFragment;
-                        infoTextView.setText(R.string.job);
-                        break;
-                    case 2:
-                        activeFragment = saleFragment;
-                        infoTextView.setText(R.string.sale);
-                        break;
-                    case 3:
-                        activeFragment = eventFragment;
-                        infoTextView.setText(R.string.event);
-                }
-                //bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                //prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                setCurrentFragment();
 
             }
 
@@ -123,24 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         setupViewPager(viewPager);
+        setCurrentFragment();
+    }
+
+    private void setCurrentFragment(){
+        currentFragment = (BaseFragment) adapter.getItem(viewPager.getCurrentItem());
     }
 
     private void setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        newsFragment = new FragmentNews();
-        jobFragment = new FragmentJob();
-        saleFragment = new FragmentSale();
-        eventFragment = new FragmentEvent();
-        adapter.addFragment(newsFragment);
-        adapter.addFragment(jobFragment);
-        adapter.addFragment(saleFragment);
-        adapter.addFragment(eventFragment);
-
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        activeFragment = newsFragment;
     }
 
 
@@ -176,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (activeFragment.onBackPressed())
+
+        if (currentFragment.onBackPressed())
             super.onBackPressed();
     }
 

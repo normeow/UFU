@@ -45,6 +45,15 @@ public class FragmentEvent extends BaseFragment {
 
     public FragmentEvent() {
     }
+
+    public static FragmentEvent newInstance() {
+
+        Bundle args = new Bundle();
+
+        FragmentEvent fragment = new FragmentEvent();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

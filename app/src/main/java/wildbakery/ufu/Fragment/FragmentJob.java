@@ -44,6 +44,16 @@ public class FragmentJob extends BaseFragment {
 
     public FragmentJob() {
     }
+
+    public static FragmentJob newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        FragmentJob fragment = new FragmentJob();
+        fragment.setArguments(args);
+        return fragment;
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

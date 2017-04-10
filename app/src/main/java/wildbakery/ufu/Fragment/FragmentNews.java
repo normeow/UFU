@@ -42,6 +42,14 @@ public class FragmentNews extends BaseFragment {
 
     }
 
+    public static FragmentNews newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        FragmentNews fragment = new FragmentNews();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
