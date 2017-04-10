@@ -10,7 +10,6 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".LeakCanaryApplication"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name="wildbakery.ufu.MainActivity"
             android:screenOrientation="portrait">

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import wildbakery.ufu.R;
  * A simple {@link Fragment} subclass.
  */
 public class FragmentSale extends BaseFragment {
+
+    private static final String TAG = "FragmentSale";
     private RecyclerView recyclerView;
     private List<Item> listItems;
     private ItemsAdapterSale mAdapter;
@@ -40,11 +43,13 @@ public class FragmentSale extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sale, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewSale);
+        Log.v(TAG, "onCreateView()");
         APIservice.Factory.getInstance().getAllSale().enqueue(new Callback<SaleModel>() {
 
             @Override
             public void onResponse(Call<SaleModel> call, Response<SaleModel> response) {
                 if (response.isSuccess()) {
+                    Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
                     SaleModel result = response.body();
                     listItems = result.getItems();

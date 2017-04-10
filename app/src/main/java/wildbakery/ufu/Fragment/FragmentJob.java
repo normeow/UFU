@@ -30,6 +30,9 @@ import wildbakery.ufu.R;
  */
 public class FragmentJob extends BaseFragment {
 
+
+    private static final String TAG = "FragmentJob";
+
     private RecyclerView recyclerView;
     private List<Item> listItems;
     private ItemsAdapterJob mAdapter;
@@ -46,12 +49,7 @@ public class FragmentJob extends BaseFragment {
                              Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_job, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewJob);
-
-
-
-
-
-
+        Log.v(TAG, "onCreateView()");
 
         APIservice.Factory.getInstance().getAllJob().enqueue(new Callback<JobsModel>() {
 
@@ -59,6 +57,7 @@ public class FragmentJob extends BaseFragment {
             public void onResponse(Call<JobsModel> call, Response<JobsModel> response) {
 
                 if(response.isSuccess()){
+                    Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
                     JobsModel result = response.body();
                     listItems = result.getItems();

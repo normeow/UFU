@@ -30,7 +30,7 @@ import static wildbakery.ufu.R.id.recyclerviewNews;
  * A simple {@link Fragment} subclass.
  */
 public class FragmentNews extends BaseFragment {
-
+    private static final String TAG = "FragmentNews";
 
     private RecyclerView recyclerView;
     private List<Item> listItems;
@@ -52,11 +52,13 @@ public class FragmentNews extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(recyclerviewNews);
 
 
+        Log.v(TAG, "onCreateView()");
         APIservice.Factory.getInstance().getAllNews().enqueue(new Callback<NewsModel>() {
 
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
                 if (response.isSuccess()) {
+                    Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
                     NewsModel result = response.body();
                     listItems = result.getItems();

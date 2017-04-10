@@ -89,11 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (prevMenuItem != null) {
+                /*if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
-                }
+                })*/
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 Log.d("page", "onPageSelected: " + position);
                 switch (position) {
                     case 0:
@@ -112,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
                         activeFragment = eventFragment;
                         infoTextView.setText(R.string.event);
                 }
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                //bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                //prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
             }
 
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(saleFragment);
         adapter.addFragment(eventFragment);
 
-         viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
         activeFragment = newsFragment;
     }
 

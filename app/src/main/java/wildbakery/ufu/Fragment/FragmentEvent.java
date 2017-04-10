@@ -35,6 +35,7 @@ import wildbakery.ufu.R;
  */
 public class FragmentEvent extends BaseFragment {
 
+    private static final String TAG = "FragmentEvent";
     private RecyclerView recyclerView;
     private List<Item> listItems;
     private ItemsAdapterEvent mAdapter;
@@ -50,18 +51,15 @@ public class FragmentEvent extends BaseFragment {
         View view =  inflater.inflate(R.layout.fragment_event, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewEvent);
 
-
-
-
-
-
-
+        Log.v(TAG, "onCreateView()");
         APIservice.Factory.getInstance().getAllEvent().enqueue(new Callback<EventModel>() {
 
             @Override
             public void onResponse(Call<EventModel> call, Response<EventModel> response) {
 
                 if(response.isSuccess()){
+
+                    Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
                     EventModel result = response.body();
                     listItems = result.getItems();
