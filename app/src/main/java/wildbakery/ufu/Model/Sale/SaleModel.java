@@ -7,44 +7,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class SaleModel implements Serializable {
+import wildbakery.ufu.Model.QueryModel;
 
-    @SerializedName("_query_time")
-    @Expose
-    private double queryTime;
-    @SerializedName("count")
-    @Expose
-    private int count;
-    @SerializedName("_count_query_time")
-    @Expose
-    private double countQueryTime;
+public class SaleModel extends QueryModel implements Serializable {
+
     @SerializedName("items")
     @Expose
     private List<SaleItem> items = null;
-
-    public double getQueryTime() {
-        return queryTime;
-    }
-
-    public void setQueryTime(double queryTime) {
-        this.queryTime = queryTime;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public double getCountQueryTime() {
-        return countQueryTime;
-    }
-
-    public void setCountQueryTime(double countQueryTime) {
-        this.countQueryTime = countQueryTime;
-    }
 
     public List<SaleItem> getItems() {
         return items;
