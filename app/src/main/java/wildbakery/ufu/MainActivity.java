@@ -19,7 +19,7 @@ import wildbakery.ufu.Fragment.FragmentSale;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String TAG = "lifecycle1";
+    final String TAG = "MainActivity";
 
     BottomNavigationView bottomNavigationView;
 

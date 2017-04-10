@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import wildbakery.ufu.Model.Image;
+
 public class Item implements Serializable {
 
     @SerializedName("id")

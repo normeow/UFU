@@ -90,7 +90,6 @@ public class FragmentJob extends BaseFragment {
                     mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
                     mLayoutManager.setReverseLayout(true);
                     mLayoutManager.setStackFromEnd(true);
-
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setNestedScrollingEnabled(false);
