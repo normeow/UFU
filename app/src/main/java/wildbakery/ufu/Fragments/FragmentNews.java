@@ -3,28 +3,19 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import wildbakery.ufu.Adapters.ItemsAdapterNews;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.FetchDataPackage.DataFetcher;
 import wildbakery.ufu.Models.NewsItem;
-import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
-
-import static wildbakery.ufu.R.id.recyclerviewNews;
-import static wildbakery.ufu.R.id.submenuarrow;
 
 
 /**
@@ -34,7 +25,7 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
     private static final String TAG = "FragmentNews";
 
     private List<NewsItem> listItems;
-    private ItemsAdapterNews mAdapter;
+    private ItemsAdapterNews adapter;
     private DetailFragmentNews activeDetailFragment;
 
     public FragmentNews() {
@@ -52,9 +43,22 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
 
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
-
+        try {
+            updateList();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return view;
+    }
+
+    private void updateList() throws ExecutionException, InterruptedException {
+        DataFetcher dataFetcher = DataFetcher.getInstance();
+        listItems = dataFetcher.getNews();
+        setRecyclerView();
+
     }
 
     @Override
@@ -72,25 +76,15 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
 
     private void setRecyclerView(){
 
-        mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
-            @Override
-            public void onItemClick(NewsItem item) {
-            }
-        });
-
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        adapter = new ItemsAdapterNews(listItems, this);
+        super.setRecyclerView(adapter);
     }
 
     @Override
     public void onItemClick(NewsItem item) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
         activeDetailFragment = DetailFragmentNews.newInstance(item);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewNews, activeDetailFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
     }
 }
