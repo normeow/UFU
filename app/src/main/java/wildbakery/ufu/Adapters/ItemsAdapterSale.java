@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Sale.SaleItem;
+import wildbakery.ufu.Model.SaleItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterSale extends  RecyclerView.Adapter<ItemsAdapterSale.ViewHolder>  {

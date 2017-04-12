@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Event.EventItem;
+import wildbakery.ufu.Model.EventItem;
 import wildbakery.ufu.R;
 
 
