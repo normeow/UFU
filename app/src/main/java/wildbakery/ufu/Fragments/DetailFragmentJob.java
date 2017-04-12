@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import wildbakery.ufu.Model.Job.JobItem;
+import wildbakery.ufu.Models.JobItem;
 import wildbakery.ufu.R;
 
 /**

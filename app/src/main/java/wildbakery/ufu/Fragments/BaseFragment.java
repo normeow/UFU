@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 import android.support.v4.app.Fragment;
 

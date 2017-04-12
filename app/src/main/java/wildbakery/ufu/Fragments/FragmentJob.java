@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapter.ItemsAdapterJob;
-import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.JobItem;
-import wildbakery.ufu.Model.QueryModel;
+import wildbakery.ufu.Adapters.ItemsAdapterJob;
+import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.Models.JobItem;
+import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
 
 
@@ -61,7 +61,7 @@ public class FragmentJob extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewJob);
         Log.v(TAG, "onCreateView()");
 
-        APIservice.Factory.getInstance().getAllJob().enqueue(new Callback<QueryModel<JobItem>>() {
+        VuzAPI.Factory.getInstance().getJobs().enqueue(new Callback<QueryModel<JobItem>>() {
 
             @Override
             public void onResponse(Call<QueryModel<JobItem>> call, Response<QueryModel<JobItem>> response) {

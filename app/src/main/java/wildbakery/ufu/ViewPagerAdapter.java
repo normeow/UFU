@@ -4,16 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.jsoup.Connection;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import wildbakery.ufu.Fragment.BaseFragment;
-import wildbakery.ufu.Fragment.FragmentEvent;
-import wildbakery.ufu.Fragment.FragmentJob;
-import wildbakery.ufu.Fragment.FragmentNews;
-import wildbakery.ufu.Fragment.FragmentSale;
+import wildbakery.ufu.Fragments.BaseFragment;
+import wildbakery.ufu.Fragments.FragmentEvent;
+import wildbakery.ufu.Fragments.FragmentJob;
+import wildbakery.ufu.Fragments.FragmentNews;
+import wildbakery.ufu.Fragments.FragmentSale;
 
 /**
  * Created by Jaison on 23/10/16.

@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.News.NewsItem;
+import wildbakery.ufu.Models.NewsItem;
 import wildbakery.ufu.R;
 
 /**

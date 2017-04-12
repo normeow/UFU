@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import wildbakery.ufu.Model.Event.EventItem;
+import wildbakery.ufu.Models.EventItem;
 import wildbakery.ufu.R;
 
 /**

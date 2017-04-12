@@ -1,5 +1,5 @@
 
-package wildbakery.ufu.Model;
+package wildbakery.ufu.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

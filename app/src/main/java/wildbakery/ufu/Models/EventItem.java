@@ -1,13 +1,10 @@
 
-package wildbakery.ufu.Model;
+package wildbakery.ufu.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
-import wildbakery.ufu.Model.Image;
-import wildbakery.ufu.Model.Item;
 
 public class EventItem extends Item implements Serializable {
 

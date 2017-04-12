@@ -1,7 +1,6 @@
 package wildbakery.ufu;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,11 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import wildbakery.ufu.Fragment.BaseFragment;
-import wildbakery.ufu.Fragment.FragmentEvent;
-import wildbakery.ufu.Fragment.FragmentJob;
-import wildbakery.ufu.Fragment.FragmentNews;
-import wildbakery.ufu.Fragment.FragmentSale;
+import wildbakery.ufu.Fragments.BaseFragment;
 
 
 public class MainActivity extends AppCompatActivity {

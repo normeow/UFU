@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/viewJob"
-    tools:context="wildbakery.ufu.Fragment.FragmentJob">
+    tools:context="wildbakery.ufu.Fragments.FragmentJob">
 
 
     <android.support.v7.widget.RecyclerView

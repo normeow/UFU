@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 
 import android.os.Bundle;
@@ -17,11 +17,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapter.ItemsAdapterSale;
-import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.SaleItem;
+import wildbakery.ufu.Adapters.ItemsAdapterSale;
+import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.Models.SaleItem;
 import wildbakery.ufu.R;
-import wildbakery.ufu.Model.QueryModel;
+import wildbakery.ufu.Models.QueryModel;
 
 
 /**
@@ -53,7 +53,7 @@ public class FragmentSale extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_sale, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewSale);
         Log.v(TAG, "onCreateView()");
-        APIservice.Factory.getInstance().getAllSale().enqueue(new Callback<QueryModel<SaleItem>>() {
+        VuzAPI.Factory.getInstance().getSales().enqueue(new Callback<QueryModel<SaleItem>>() {
 
             @Override
             public void onResponse(Call<QueryModel<SaleItem>> call, Response<QueryModel<SaleItem>> response) {

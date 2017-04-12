@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="wildbakery.ufu.Fragment.FragmentSale">
+    tools:context="wildbakery.ufu.Fragments.FragmentSale">
 
 
     <android.support.v7.widget.RecyclerView

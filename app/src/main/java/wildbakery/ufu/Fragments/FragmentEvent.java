@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragment;
+package wildbakery.ufu.Fragments;
 
 /**
  * Created by DIKII PEKAR on 13.02.2017.
@@ -20,10 +20,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapter.ItemsAdapterEvent;
-import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.EventItem;
-import wildbakery.ufu.Model.QueryModel;
+import wildbakery.ufu.Adapters.ItemsAdapterEvent;
+import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.Models.EventItem;
+import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
 
 
@@ -61,7 +61,7 @@ public class FragmentEvent extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewEvent);
 
         Log.v(TAG, "onCreateView()");
-        APIservice.Factory.getInstance().getAllEvent().enqueue(new Callback<QueryModel<EventItem>>() {
+        VuzAPI.Factory.getInstance().getEvents().enqueue(new Callback<QueryModel<EventItem>>() {
 
             @Override
             public void onResponse(Call<QueryModel<EventItem>> call, Response<QueryModel<EventItem>> response) {
