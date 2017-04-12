@@ -19,9 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterSale;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Sale.SaleItem;
-import wildbakery.ufu.Model.Sale.SaleModel;
+import wildbakery.ufu.Model.SaleItem;
 import wildbakery.ufu.R;
+import wildbakery.ufu.Model.QueryModel;
 
 
 /**
@@ -53,14 +53,14 @@ public class FragmentSale extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_sale, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewSale);
         Log.v(TAG, "onCreateView()");
-        APIservice.Factory.getInstance().getAllSale().enqueue(new Callback<SaleModel>() {
+        APIservice.Factory.getInstance().getAllSale().enqueue(new Callback<QueryModel<SaleItem>>() {
 
             @Override
-            public void onResponse(Call<SaleModel> call, Response<SaleModel> response) {
+            public void onResponse(Call<QueryModel<SaleItem>> call, Response<QueryModel<SaleItem>> response) {
                 if (response.isSuccess()) {
                     Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
-                    SaleModel result = response.body();
+                    QueryModel<SaleItem> result = response.body();
                     listItems = result.getItems();
                     mAdapter = new ItemsAdapterSale(listItems);
                     mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -74,7 +74,7 @@ public class FragmentSale extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<SaleModel> call, Throwable t) {
+            public void onFailure(Call<QueryModel<SaleItem>> call, Throwable t) {
 
             }
         });

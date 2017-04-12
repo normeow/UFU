@@ -20,8 +20,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterJob;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Job.JobItem;
-import wildbakery.ufu.Model.Job.JobsModel;
+import wildbakery.ufu.Model.JobItem;
+import wildbakery.ufu.Model.QueryModel;
 import wildbakery.ufu.R;
 
 
@@ -61,15 +61,15 @@ public class FragmentJob extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewJob);
         Log.v(TAG, "onCreateView()");
 
-        APIservice.Factory.getInstance().getAllJob().enqueue(new Callback<JobsModel>() {
+        APIservice.Factory.getInstance().getAllJob().enqueue(new Callback<QueryModel<JobItem>>() {
 
             @Override
-            public void onResponse(Call<JobsModel> call, Response<JobsModel> response) {
+            public void onResponse(Call<QueryModel<JobItem>> call, Response<QueryModel<JobItem>> response) {
 
                 if(response.isSuccess()){
                     Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
-                    JobsModel result = response.body();
+                    QueryModel<JobItem> result = response.body();
                     listItems = result.getItems();
                     listItems.add(listItems.size(),new JobItem());
 
@@ -101,7 +101,7 @@ public class FragmentJob extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<JobsModel> call, Throwable t) {
+            public void onFailure(Call<QueryModel<JobItem>> call, Throwable t) {
 
             }
         });

@@ -22,8 +22,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterEvent;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.Event.EventModel;
-import wildbakery.ufu.Model.Event.EventItem;
+import wildbakery.ufu.Model.EventItem;
+import wildbakery.ufu.Model.QueryModel;
 import wildbakery.ufu.R;
 
 
@@ -61,16 +61,16 @@ public class FragmentEvent extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewEvent);
 
         Log.v(TAG, "onCreateView()");
-        APIservice.Factory.getInstance().getAllEvent().enqueue(new Callback<EventModel>() {
+        APIservice.Factory.getInstance().getAllEvent().enqueue(new Callback<QueryModel<EventItem>>() {
 
             @Override
-            public void onResponse(Call<EventModel> call, Response<EventModel> response) {
+            public void onResponse(Call<QueryModel<EventItem>> call, Response<QueryModel<EventItem>> response) {
 
                 if(response.isSuccess()){
 
                     Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
-                    EventModel result = response.body();
+                    QueryModel<EventItem> result = response.body();
                     listItems = result.getItems();
 
                     mAdapter = new ItemsAdapterEvent(listItems,new ItemsAdapterEvent.OnItemClickListener(){
@@ -96,7 +96,7 @@ public class FragmentEvent extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<EventModel> call, Throwable t) {
+            public void onFailure(Call<QueryModel<EventItem>> call, Throwable t) {
 
             }
         });

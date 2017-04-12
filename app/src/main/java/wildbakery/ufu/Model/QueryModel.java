@@ -6,13 +6,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-import wildbakery.ufu.Model.Event.EventItem;
-
 /**
  * Created by Tatiana on 10/04/2017.
  */
 
-public class QueryModel implements Serializable {
+public class QueryModel<T> implements Serializable {
 
     @SerializedName("_query_time")
     @Expose
@@ -24,10 +22,9 @@ public class QueryModel implements Serializable {
     @Expose
     private double countQueryTime;
 
-    /*@SerializedName("items")
+    @SerializedName("items")
     @Expose
-    private List<Item> items = null;
-    */
+    private List<T> items = null;
 
     public double getQueryTime() {
         return queryTime;
@@ -53,13 +50,13 @@ public class QueryModel implements Serializable {
         this.countQueryTime = countQueryTime;
     }
 
-    /*
-    public List<Item> getItems() {
+    public List<T> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
-    */
+
+
 }

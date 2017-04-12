@@ -19,8 +19,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Adapter.ItemsAdapterNews;
 import wildbakery.ufu.Interfaces.APIservice;
-import wildbakery.ufu.Model.News.NewsItem;
-import wildbakery.ufu.Model.News.NewsModel;
+import wildbakery.ufu.Model.NewsItem;
+import wildbakery.ufu.Model.QueryModel;
 import wildbakery.ufu.R;
 
 import static wildbakery.ufu.R.id.recyclerviewNews;
@@ -43,11 +43,7 @@ public class FragmentNews extends BaseFragment {
     }
 
     public static FragmentNews newInstance() {
-        
-        Bundle args = new Bundle();
-        
         FragmentNews fragment = new FragmentNews();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,38 +57,21 @@ public class FragmentNews extends BaseFragment {
 
 
         Log.v(TAG, "onCreateView()");
-        APIservice.Factory.getInstance().getAllNews().enqueue(new Callback<NewsModel>() {
+        APIservice.Factory.getInstance().getAllNews().enqueue(new Callback<QueryModel<NewsItem>>() {
 
             @Override
-            public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+            public void onResponse(Call<QueryModel<NewsItem>> call, Response<QueryModel<NewsItem>> response) {
                 if (response.isSuccess()) {
                     Log.v(TAG, "refresh");
                     listItems = new ArrayList<>();
-                    NewsModel result = response.body();
+                    QueryModel<NewsItem> result = response.body();
                     listItems = result.getItems();
-
-                    mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(NewsItem item) {
-                            Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
-                            activeDetailFragment = DetailFragmentNews.newInstance(item);
-
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewNews, activeDetailFragment).commit();
-                            recyclerView.setVisibility(View.GONE);
-                        }
-                    });
-
-                    mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-                    mLayoutManager.setReverseLayout(true);
-                    mLayoutManager.setStackFromEnd(true);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(mAdapter);
+                    setRecyclerView();
                 }
             }
 
             @Override
-            public void onFailure(Call<NewsModel> call, Throwable t) {
+            public void onFailure(Call<QueryModel<NewsItem>> call, Throwable t) {
 
             }
         });
@@ -112,5 +91,26 @@ public class FragmentNews extends BaseFragment {
         } else {
             return super.onBackPressed();
         }
+    }
+
+    private void setRecyclerView(){
+
+        mAdapter = new ItemsAdapterNews(listItems, new ItemsAdapterNews.OnItemClickListener() {
+            @Override
+            public void onItemClick(NewsItem item) {
+                Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
+                activeDetailFragment = DetailFragmentNews.newInstance(item);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewNews, activeDetailFragment).commit();
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
     }
 }

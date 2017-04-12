@@ -1,13 +1,10 @@
 
-package wildbakery.ufu.Model.News;
+package wildbakery.ufu.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
-import wildbakery.ufu.Model.Image;
-import wildbakery.ufu.Model.Item;
 
 public class NewsItem extends Item implements Serializable {
 
@@ -19,7 +16,7 @@ public class NewsItem extends Item implements Serializable {
     private String shortDescription;
     @SerializedName("category")
     @Expose
-    private NewsCategory category;
+    private Category category;
     @SerializedName("image")
     @Expose
     private Image image;
@@ -43,11 +40,11 @@ public class NewsItem extends Item implements Serializable {
         this.shortDescription = shortDescription;
     }
 
-    public NewsCategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(NewsCategory category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
