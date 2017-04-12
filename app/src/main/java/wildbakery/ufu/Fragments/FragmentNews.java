@@ -3,7 +3,6 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,7 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         try {
-            updateList();
+            updateRecycleView();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -54,11 +53,12 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
         return view;
     }
 
-    private void updateList() throws ExecutionException, InterruptedException {
+
+    @Override
+    protected void updateRecycleView() throws ExecutionException, InterruptedException {
         DataFetcher dataFetcher = DataFetcher.getInstance();
         listItems = dataFetcher.getNews();
         setRecyclerView();
-
     }
 
     @Override
@@ -75,7 +75,6 @@ public class FragmentNews extends FragmentPage implements ItemsAdapterNews.OnIte
     }
 
     private void setRecyclerView(){
-
         adapter = new ItemsAdapterNews(listItems, this);
         super.setRecyclerView(adapter);
     }

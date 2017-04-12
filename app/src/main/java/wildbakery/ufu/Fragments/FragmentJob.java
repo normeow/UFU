@@ -3,52 +3,38 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import wildbakery.ufu.Adapters.ItemsAdapterJob;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.FetchDataPackage.DataFetcher;
 import wildbakery.ufu.Models.JobItem;
-import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentJob extends BaseFragment {
-
+public class FragmentJob extends FragmentPage implements ItemsAdapterJob.OnItemClickListener {
 
     private static final String TAG = "FragmentJob";
 
-    private RecyclerView recyclerView;
     private List<JobItem> listItems;
-    private ItemsAdapterJob mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private ItemsAdapterJob adapter;
     private DetailFragmentJob activeDetailFragment;
-    private TextView mText;
-
-
 
     public FragmentJob() {
     }
 
     public static FragmentJob newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         FragmentJob fragment = new FragmentJob();
         fragment.setArguments(args);
         return fragment;
@@ -57,56 +43,15 @@ public class FragmentJob extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view =  inflater.inflate(R.layout.fragment_job, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewJob);
+        View view =  super.onCreateView(inflater, container, savedInstanceState);
         Log.v(TAG, "onCreateView()");
-
-        VuzAPI.Factory.getInstance().getJobs().enqueue(new Callback<QueryModel<JobItem>>() {
-
-            @Override
-            public void onResponse(Call<QueryModel<JobItem>> call, Response<QueryModel<JobItem>> response) {
-
-                if(response.isSuccess()){
-                    Log.v(TAG, "refresh");
-                    listItems = new ArrayList<>();
-                    QueryModel<JobItem> result = response.body();
-                    listItems = result.getItems();
-                    listItems.add(listItems.size(),new JobItem());
-
-
-
-                    mAdapter = new ItemsAdapterJob(listItems,new ItemsAdapterJob.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(JobItem item) {
-                            Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
-                            activeDetailFragment = DetailFragmentJob.newInstance(item);
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewJob, activeDetailFragment).commit();
-                            recyclerView.setVisibility(View.GONE);
-                        }
-
-
-                    });
-
-                    mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-                    mLayoutManager.setReverseLayout(true);
-                    mLayoutManager.setStackFromEnd(true);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setNestedScrollingEnabled(false);
-                    recyclerView.setAdapter(mAdapter);
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<QueryModel<JobItem>> call, Throwable t) {
-
-            }
-        });
-
-
+        try {
+            updateRecycleView();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -124,6 +69,26 @@ public class FragmentJob extends BaseFragment {
     }
 
 
+    @Override
+    protected void updateRecycleView() throws ExecutionException, InterruptedException {
+        DataFetcher dataFetcher = DataFetcher.getInstance();
+        listItems = dataFetcher.getJobs();
+        setRecyclerView();
+    }
+
+    private void setRecyclerView(){
+        adapter = new ItemsAdapterJob(listItems, this);
+        super.setRecyclerView(adapter);
+    }
+
+    @Override
+    public void onItemClick(JobItem item) {
+
+        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
+        activeDetailFragment = DetailFragmentJob.newInstance(item);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
+        recyclerView.setVisibility(View.GONE);
+    }
 }
 
 

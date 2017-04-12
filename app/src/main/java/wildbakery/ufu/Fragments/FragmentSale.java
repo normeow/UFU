@@ -3,37 +3,26 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import wildbakery.ufu.Adapters.ItemsAdapterSale;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.FetchDataPackage.DataFetcher;
 import wildbakery.ufu.Models.SaleItem;
-import wildbakery.ufu.R;
-import wildbakery.ufu.Models.QueryModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentSale extends BaseFragment {
+public class FragmentSale extends FragmentPage {
 
     private static final String TAG = "FragmentSale";
-    private RecyclerView recyclerView;
     private List<SaleItem> listItems;
-    private ItemsAdapterSale mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private ItemsAdapterSale adapter;
 
     public FragmentSale() {
     }
@@ -50,39 +39,27 @@ public class FragmentSale extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sale, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewSale);
-        Log.v(TAG, "onCreateView()");
-        VuzAPI.Factory.getInstance().getSales().enqueue(new Callback<QueryModel<SaleItem>>() {
-
-            @Override
-            public void onResponse(Call<QueryModel<SaleItem>> call, Response<QueryModel<SaleItem>> response) {
-                if (response.isSuccess()) {
-                    Log.v(TAG, "refresh");
-                    listItems = new ArrayList<>();
-                    QueryModel<SaleItem> result = response.body();
-                    listItems = result.getItems();
-                    mAdapter = new ItemsAdapterSale(listItems);
-                    mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-                    mLayoutManager.setStackFromEnd(true);
-                    mLayoutManager.setReverseLayout(true);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(mAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<QueryModel<SaleItem>> call, Throwable t) {
-
-            }
-        });
-
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        try {
+            updateRecycleView();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return view;
-
-
     }
 
+    @Override
+    protected void updateRecycleView() throws ExecutionException, InterruptedException {
+        DataFetcher dataFetcher = DataFetcher.getInstance();
+        listItems = dataFetcher.getSales();
+        setRecyclerView();
+    }
+
+    private void setRecyclerView(){
+        adapter = new ItemsAdapterSale(listItems);
+        super.setRecyclerView(adapter);
+    }
 }

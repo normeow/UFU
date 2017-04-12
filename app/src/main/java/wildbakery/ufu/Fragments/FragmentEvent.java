@@ -6,24 +6,17 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import wildbakery.ufu.Adapters.ItemsAdapterEvent;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
+import wildbakery.ufu.FetchDataPackage.DataFetcher;
 import wildbakery.ufu.Models.EventItem;
-import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
 
 
@@ -33,13 +26,11 @@ import wildbakery.ufu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentEvent extends BaseFragment {
+public class FragmentEvent extends FragmentPage implements ItemsAdapterEvent.OnItemClickListener{
 
     private static final String TAG = "FragmentEvent";
-    private RecyclerView recyclerView;
     private List<EventItem> listItems;
-    private ItemsAdapterEvent mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private ItemsAdapterEvent adapter;
     private DetailFragmentEvent activeDetailFragment;
 
 
@@ -57,50 +48,15 @@ public class FragmentEvent extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_event, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewEvent);
-
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         Log.v(TAG, "onCreateView()");
-        VuzAPI.Factory.getInstance().getEvents().enqueue(new Callback<QueryModel<EventItem>>() {
-
-            @Override
-            public void onResponse(Call<QueryModel<EventItem>> call, Response<QueryModel<EventItem>> response) {
-
-                if(response.isSuccess()){
-
-                    Log.v(TAG, "refresh");
-                    listItems = new ArrayList<>();
-                    QueryModel<EventItem> result = response.body();
-                    listItems = result.getItems();
-
-                    mAdapter = new ItemsAdapterEvent(listItems,new ItemsAdapterEvent.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(EventItem item) {
-                            Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
-                            activeDetailFragment =  DetailFragmentEvent.newInstance(item);
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.viewEvent, activeDetailFragment).commit();
-                            recyclerView.setVisibility(View.GONE);
-                        }
-
-
-                    });
-
-                    mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-                    mLayoutManager.setReverseLayout(true);
-                    mLayoutManager.setStackFromEnd(true);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(mAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<QueryModel<EventItem>> call, Throwable t) {
-
-            }
-        });
-
+        try {
+            updateRecycleView();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return view;
     }
@@ -108,7 +64,6 @@ public class FragmentEvent extends BaseFragment {
     @Override
     public boolean onBackPressed() {
         if (activeDetailFragment != null) {
-
             getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
             activeDetailFragment = null;
             recyclerView.setVisibility(View.VISIBLE);
@@ -118,7 +73,27 @@ public class FragmentEvent extends BaseFragment {
         }
     }
 
+    @Override
+    protected void updateRecycleView() throws ExecutionException, InterruptedException {
+        DataFetcher dataFetcher = DataFetcher.getInstance();
+        listItems = dataFetcher.getEvents();
+        setRecyclerView();
+    }
 
+
+    private void setRecyclerView(){
+        adapter = new ItemsAdapterEvent(listItems, this);
+        super.setRecyclerView(adapter);
+    }
+
+    @Override
+    public void onItemClick(EventItem item) {
+        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
+        activeDetailFragment =  DetailFragmentEvent.newInstance(item);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
+        recyclerView.setVisibility(View.GONE);
+
+    }
 }
 
 

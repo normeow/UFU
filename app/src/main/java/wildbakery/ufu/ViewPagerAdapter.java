@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import wildbakery.ufu.Fragments.BaseFragment;
+import wildbakery.ufu.Fragments.FragmentPage;
 import wildbakery.ufu.Fragments.FragmentEvent;
 import wildbakery.ufu.Fragments.FragmentJob;
 import wildbakery.ufu.Fragments.FragmentNews;
@@ -18,10 +18,10 @@ import wildbakery.ufu.Fragments.FragmentSale;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUM_ITEMS = 4;
-    BaseFragment fragmentNews;
-    BaseFragment fragmentJob;
-    BaseFragment fragmentSale;
-    BaseFragment fragmentEvent;
+    FragmentPage fragmentNews;
+    FragmentPage fragmentJob;
+    FragmentPage fragmentSale;
+    FragmentPage fragmentEvent;
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);

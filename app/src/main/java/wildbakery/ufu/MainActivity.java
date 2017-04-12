@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import wildbakery.ufu.Fragments.BaseFragment;
+import wildbakery.ufu.Fragments.FragmentPage;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     //This is our viewPager
     private ViewPager viewPager;
     private TextView infoTextView;
-    private BaseFragment currentFragment;
+    private FragmentPage currentFragment;
     private ViewPagerAdapter adapter;
     //Fragments
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                currentFragment = (BaseFragment) adapter.getItem(viewPager.getCurrentItem());
+                currentFragment = (FragmentPage) adapter.getItem(viewPager.getCurrentItem());
                 Log.d("page", "onPageSelected: " + position);
                 setCurrentFragment();
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentFragment(){
-        currentFragment = (BaseFragment) adapter.getItem(viewPager.getCurrentItem());
+        currentFragment = (FragmentPage) adapter.getItem(viewPager.getCurrentItem());
     }
 
     private void setupViewPager(ViewPager viewPager) {

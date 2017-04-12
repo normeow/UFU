@@ -2,6 +2,7 @@ package wildbakery.ufu.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,31 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import wildbakery.ufu.Adapters.ItemsAdapterNews;
-import wildbakery.ufu.Models.Item;
-import wildbakery.ufu.Models.NewsItem;
 import wildbakery.ufu.R;
 
-import static wildbakery.ufu.R.id.recyclerviewNews;
 
-/**
- * Created by Tatiana on 10/04/2017.
- */
-
-public class FragmentPage extends BaseFragment {
+public class FragmentPage extends Fragment {
 
     private static final String TAG = "FragmentPage";
 
     protected RecyclerView recyclerView;
     protected LinearLayoutManager mLayoutManager;
-
-
-    public static FragmentNews newInstance() {
-        FragmentNews fragment = new FragmentNews();
-        return fragment;
-    }
 
     @Nullable
     @Override
@@ -55,4 +42,9 @@ public class FragmentPage extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
     }
+
+    public boolean onBackPressed() {
+        return true;
+    }
+    protected void updateRecycleView() throws ExecutionException, InterruptedException {};
 }
