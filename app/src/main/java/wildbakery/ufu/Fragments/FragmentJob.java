@@ -1,32 +1,40 @@
 package wildbakery.ufu.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import wildbakery.ufu.Adapters.ItemsAdapterJob;
 import wildbakery.ufu.FetchDataPackage.DataFetcher;
+import wildbakery.ufu.FetchDataPackage.VuzAPI;
 import wildbakery.ufu.Models.JobItem;
+import wildbakery.ufu.Models.QueryModel;
 import wildbakery.ufu.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentJob extends FragmentPage implements ItemsAdapterJob.OnItemClickListener {
+public class FragmentJob extends BaseFragmentPage implements ItemsAdapterJob.OnItemClickListener{
 
     private static final String TAG = "FragmentJob";
 
     private List<JobItem> listItems;
     private ItemsAdapterJob adapter;
     private DetailFragmentJob activeDetailFragment;
+    Call<QueryModel<JobItem>> call;
 
     public FragmentJob() {
     }
@@ -45,13 +53,8 @@ public class FragmentJob extends FragmentPage implements ItemsAdapterJob.OnItemC
                              Bundle savedInstanceState) {
         View view =  super.onCreateView(inflater, container, savedInstanceState);
         Log.v(TAG, "onCreateView()");
-        try {
-            updateRecycleView();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        call = VuzAPI.Factory.getInstance().getJobs();
+        fetchData();
         return view;
     }
 
@@ -68,12 +71,37 @@ public class FragmentJob extends FragmentPage implements ItemsAdapterJob.OnItemC
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        if (call != null)
+            call.cancel();
+        super.onDestroyView();
+    }
 
     @Override
-    protected void updateRecycleView() throws ExecutionException, InterruptedException {
-        DataFetcher dataFetcher = DataFetcher.getInstance();
+    public void updateRecycleView() throws ExecutionException, InterruptedException {
+        DataFetcher dataFetcher = new DataFetcher();
         listItems = dataFetcher.getJobs();
         setRecyclerView();
+    }
+
+    @Override
+    public void fetchData(){
+        swipeRefreshLayout.setRefreshing(true);
+        call.clone().enqueue(new Callback<QueryModel<JobItem>>() {
+            @Override
+            public void onResponse(Call<QueryModel<JobItem>> call, Response<QueryModel<JobItem>> response) {
+                listItems = response.body().getItems();
+                swipeRefreshLayout.setRefreshing(false);
+                setRecyclerView();
+            }
+
+            @Override
+            public void onFailure(Call<QueryModel<JobItem>> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(), "Can't get jobs", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setRecyclerView(){
@@ -89,6 +117,7 @@ public class FragmentJob extends FragmentPage implements ItemsAdapterJob.OnItemC
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
     }
+
 }
 
 

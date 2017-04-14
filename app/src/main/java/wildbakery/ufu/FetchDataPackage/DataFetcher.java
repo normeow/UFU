@@ -2,6 +2,7 @@ package wildbakery.ufu.FetchDataPackage;
 
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -10,7 +11,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import wildbakery.ufu.Models.EventItem;
+import wildbakery.ufu.Models.Item;
 import wildbakery.ufu.Models.JobItem;
 import wildbakery.ufu.Models.NewsItem;
 import wildbakery.ufu.Models.QueryModel;
@@ -19,12 +23,13 @@ import wildbakery.ufu.Models.SaleItem;
 /**
  * Server interaction logic
  */
-public class DataFetcher {
-
-    private final String TAG = "DataFetcher";
+@Deprecated
+public class  DataFetcher{
     private static DataFetcher instance;
 
-    public DataFetcher(){ }
+    public DataFetcher(){}
+
+
 
     public static DataFetcher getInstance() {
         if (instance == null)
@@ -56,6 +61,7 @@ public class DataFetcher {
         return task.get();
     }
 
+
     private static class FetchEventsTask extends AsyncTask<Void, Void, List<EventItem>> {
 
 
@@ -73,7 +79,8 @@ public class DataFetcher {
 
     }
 
-    private static class FetchJobsTask extends AsyncTask<Void, Void, List<JobItem>>{
+
+    private class FetchJobsTask extends AsyncTask<Void, Void, List<JobItem>>{
 
         private final String TAG = "FetchEventsTask";
 
@@ -90,6 +97,7 @@ public class DataFetcher {
         }
 
     }
+
 
     private class FetchNewsTask extends AsyncTask<Void, Void, List<NewsItem>>{
 
@@ -109,6 +117,7 @@ public class DataFetcher {
 
     }
 
+
     private class FetchSalesTask extends AsyncTask<Void, Void, List<SaleItem>>{
 
         private final String TAG = "FetchEventsTask";
@@ -117,6 +126,7 @@ public class DataFetcher {
         protected List<SaleItem> doInBackground(Void... voids) {
 
             Call<QueryModel<SaleItem>> call = VuzAPI.Factory.getInstance().getSales();
+
             try {
                 return  call.execute().body().getItems();
             } catch (IOException e) {

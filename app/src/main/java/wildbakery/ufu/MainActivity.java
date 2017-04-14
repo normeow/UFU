@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import wildbakery.ufu.Fragments.FragmentPage;
+import wildbakery.ufu.Fragments.BaseFragmentPage;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,11 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     //This is our viewPager
     private ViewPager viewPager;
-    private TextView infoTextView;
-    private FragmentPage currentFragment;
+    private BaseFragmentPage currentFragment;
     private ViewPagerAdapter adapter;
-    //Fragments
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
         //Initializing viewPager
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        infoTextView = (TextView) findViewById(R.id.infoTextView);
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,24 +45,19 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
                             case R.id.action_news:
-                                infoTextView.setText(R.string.news);
                                 viewPager.setCurrentItem(0);
-
-
                                 break;
                             case R.id.action_job:
-                                infoTextView.setText(R.string.job);
                                 viewPager.setCurrentItem(1);
 
                                 break;
                             case R.id.action_sale:
-                                infoTextView.setText(R.string.sale);
                                 viewPager.setCurrentItem(2);
 
                                 break;
                             case R.id.action_event:
-                                infoTextView.setText(R.string.event);
                                 viewPager.setCurrentItem(3);
+                                break;
 
                         }
                         return false;
@@ -79,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                currentFragment = (FragmentPage) adapter.getItem(viewPager.getCurrentItem());
+                currentFragment = (BaseFragmentPage) adapter.getItem(viewPager.getCurrentItem());
                 Log.d("page", "onPageSelected: " + position);
                 setCurrentFragment();
 
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentFragment(){
-        currentFragment = (FragmentPage) adapter.getItem(viewPager.getCurrentItem());
+        currentFragment = (BaseFragmentPage) adapter.getItem(viewPager.getCurrentItem());
     }
 
     private void setupViewPager(ViewPager viewPager) {
