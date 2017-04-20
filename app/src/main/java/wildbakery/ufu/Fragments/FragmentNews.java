@@ -117,7 +117,7 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
     public void onItemClick(NewsItem item) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
         activeDetailFragment = DetailFragmentNews.newInstance(item);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.linLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
     }
 
