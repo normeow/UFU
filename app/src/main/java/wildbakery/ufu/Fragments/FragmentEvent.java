@@ -66,7 +66,9 @@ public class FragmentEvent extends BaseFragmentPage implements ItemsAdapterEvent
         if (activeDetailFragment != null) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
             activeDetailFragment = null;
+
             recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
             return false;
         } else {
             return super.onBackPressed();
@@ -92,6 +94,7 @@ public class FragmentEvent extends BaseFragmentPage implements ItemsAdapterEvent
         activeDetailFragment =  DetailFragmentEvent.newInstance(item);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.GONE);
 
     }
 

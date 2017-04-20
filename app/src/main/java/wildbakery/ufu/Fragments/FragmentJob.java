@@ -65,6 +65,7 @@ public class FragmentJob extends BaseFragmentPage implements ItemsAdapterJob.OnI
             getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
             activeDetailFragment = null;
             recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
             return false;
         } else {
             return super.onBackPressed();
@@ -116,6 +117,7 @@ public class FragmentJob extends BaseFragmentPage implements ItemsAdapterJob.OnI
         activeDetailFragment = DetailFragmentJob.newInstance(item);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.GONE);
     }
 
 }
