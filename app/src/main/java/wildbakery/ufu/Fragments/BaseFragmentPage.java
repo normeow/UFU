@@ -30,14 +30,13 @@ public class BaseFragmentPage extends Fragment implements SwipeRefreshLayout.OnR
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_page, container, false);
-        //recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        View view = inflater.inflate(R.layout.base_fragment_with_swipe, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.baseRecyclerview);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_layout);
+        View view = inflater.inflate(R.layout.base_fragment_page, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.testswipe);
         swipeRefreshLayout.setOnRefreshListener(this);
         Log.v(TAG, "onCreateView()");
-        //progressDialog = new ProgressDialog(getContext());
+        recyclerView.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
         return view;
     }
 

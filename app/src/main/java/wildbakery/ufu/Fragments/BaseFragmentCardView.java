@@ -30,12 +30,12 @@ public class BaseFragmentCardView extends Fragment implements SwipeRefreshLayout
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_page, container, false);
+        //View view = inflater.inflate(R.layout.base_fragment_page, container, false);
         //recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        View view = inflater.inflate(R.layout.base_fragment_with_swipe, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.baseRecyclerview);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        View view = inflater.inflate(R.layout.base_fragment_cardview_swipe, container, false);
+        //recyclerView = (RecyclerView)view.findViewById(R.id.baseRecyclerview);
+        //swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_layout);
+        //swipeRefreshLayout.setOnRefreshListener(this);
         Log.v(TAG, "onCreateView()");
         //progressDialog = new ProgressDialog(getContext());
         return view;

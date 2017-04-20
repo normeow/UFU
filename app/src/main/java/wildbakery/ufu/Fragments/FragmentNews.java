@@ -102,6 +102,7 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
             getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
             activeDetailFragment = null;
             recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
             return false;
         } else {
             return super.onBackPressed();
@@ -117,8 +118,9 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
     public void onItemClick(NewsItem item) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
         activeDetailFragment = DetailFragmentNews.newInstance(item);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.linLayout, activeDetailFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.GONE);
     }
 
 }
