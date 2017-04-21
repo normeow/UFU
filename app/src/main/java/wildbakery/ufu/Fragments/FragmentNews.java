@@ -53,9 +53,8 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
 
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        listItems = new ArrayList<>();
+        Log.v(TAG, "onCreateView()");
         call = VuzAPI.Factory.getInstance().getNews();
-        setRecyclerView();
         fetchData();
         return view;
     }

@@ -3,6 +3,7 @@ package wildbakery.ufu;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import wildbakery.ufu.Fragments.BaseFragmentPage;
+import wildbakery.ufu.Fragments.FragmentEvent;
+import wildbakery.ufu.Fragments.FragmentJob;
+import wildbakery.ufu.Fragments.FragmentNews;
+import wildbakery.ufu.Fragments.FragmentSale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         //Initializing viewPager
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 currentFragment = (BaseFragmentPage) adapter.getItem(viewPager.getCurrentItem());
                 Log.d("page", "onPageSelected: " + position);
                 setCurrentFragment();
+                toolbar.setTitle(viewPager.getAdapter().getPageTitle(position));
 
             }
 
@@ -84,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        setupViewPager(viewPager);
         setCurrentFragment();
     }
 
@@ -93,8 +99,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(FragmentNews.newInstance(), getString(R.string.news));
+        adapter.addFragment(FragmentJob.newInstance(), getString(R.string.job));
+        adapter.addFragment(FragmentSale.newInstance(), getString(R.string.sale));
+        adapter.addFragment(FragmentEvent.newInstance(), getString(R.string.event));
         viewPager.setAdapter(adapter);
     }
 

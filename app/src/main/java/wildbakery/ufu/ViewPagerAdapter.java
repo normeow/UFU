@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import wildbakery.ufu.Fragments.BaseFragmentPage;
 import wildbakery.ufu.Fragments.FragmentEvent;
 import wildbakery.ufu.Fragments.FragmentJob;
@@ -17,38 +20,33 @@ import wildbakery.ufu.Fragments.FragmentSale;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int NUM_ITEMS = 4;
-    BaseFragmentPage fragmentNews;
-    BaseFragmentPage fragmentJob;
-    BaseFragmentPage fragmentSale;
-    BaseFragmentPage fragmentEvent;
+    private List<Fragment> fragments;
+    private List<String> titles;
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
-        fragmentNews = FragmentNews.newInstance();
-        fragmentEvent = FragmentEvent.newInstance();
-        fragmentJob = FragmentJob.newInstance();
-        fragmentSale = FragmentSale.newInstance();
+        fragments = new ArrayList<>();
+        titles = new ArrayList<>();
     }
     @Override
     public Fragment getItem(int position) {
-
-        switch (position){
-            case 0:
-                return fragmentNews;
-            case 1:
-                return fragmentJob;
-            case 2:
-                return fragmentSale;
-            case 3:
-                return fragmentEvent;
-            default:
-                return null;
-        }
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return NUM_ITEMS;
+        return fragments.size();
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles.get(position);
+    }
+
+    public void addFragment(Fragment fragment, String title){
+        fragments.add(fragment);
+        titles.add(title);
+    }
+
+
 }
