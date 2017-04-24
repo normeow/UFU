@@ -23,8 +23,6 @@ import wildbakery.ufu.FetchDataPackage.DataFetcher;
 import wildbakery.ufu.FetchDataPackage.VuzAPI;
 import wildbakery.ufu.Models.EventItem;
 import wildbakery.ufu.Models.QueryModel;
-import wildbakery.ufu.Models.SaleItem;
-import wildbakery.ufu.R;
 
 
 
@@ -33,7 +31,7 @@ import wildbakery.ufu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentEvent extends BaseFragmentPage implements ItemsAdapterEvent.OnItemClickListener{
+public class FragmentEvent extends BaseFragmentPage {
 
     private static final String TAG = "FragmentEvent";
     private List<EventItem> listItems;
@@ -84,19 +82,11 @@ public class FragmentEvent extends BaseFragmentPage implements ItemsAdapterEvent
 
 
     private void setRecyclerView(){
-        adapter = new ItemsAdapterEvent(listItems, this);
+        adapter = new ItemsAdapterEvent(listItems);
         super.setRecyclerView(adapter);
     }
 
-    @Override
-    public void onItemClick(EventItem item) {
-        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
-        activeDetailFragment =  DetailFragmentEvent.newInstance(item);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
-        recyclerView.setVisibility(View.GONE);
-        swipeRefreshLayout.setVisibility(View.GONE);
 
-    }
 
     @Override
     protected void fetchData() {

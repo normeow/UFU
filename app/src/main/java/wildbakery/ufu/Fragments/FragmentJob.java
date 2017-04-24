@@ -1,7 +1,6 @@
 package wildbakery.ufu.Fragments;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -93,6 +92,7 @@ public class FragmentJob extends BaseFragmentPage implements ItemsAdapterJob.OnI
             @Override
             public void onResponse(Call<QueryModel<JobItem>> call, Response<QueryModel<JobItem>> response) {
                 listItems = response.body().getItems();
+                listItems.add(listItems.size(),new JobItem());
                 swipeRefreshLayout.setRefreshing(false);
                 setRecyclerView();
             }
@@ -116,6 +116,7 @@ public class FragmentJob extends BaseFragmentPage implements ItemsAdapterJob.OnI
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
         activeDetailFragment = DetailFragmentJob.newInstance(item);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
+
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
     }

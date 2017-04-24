@@ -6,6 +6,7 @@ package wildbakery.ufu.Adapters;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.StatsSnapshot;
 
 import java.util.List;
 
@@ -75,17 +77,25 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
         else if(viewHolder instanceof OrientationMode2ViewHolder) {
+
             OrientationMode2ViewHolder viewHolder2 = (OrientationMode2ViewHolder) viewHolder;
+            Picasso mPicasso = Picasso.with(viewHolder2.tv_image_news_2.getContext());
+           mPicasso.setIndicatorsEnabled(true);
+            StatsSnapshot picassoStats = mPicasso.getSnapshot();
             viewHolder2.tv_category_news.setText(item.getCategory().getName());
             viewHolder2.tv_name_news.setText(item.getName());
             viewHolder2.tv_when_news.setText(item.getNewsWhen().substring(0, 10));
             viewHolder2.tv_short_description.setText(item.getShortDescription());
 
+
             if(item.getImage() != null) {
-                Picasso.with(viewHolder2.tv_image_news_2.getContext()).load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())/*.memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE)*/.resize(500, 300).centerCrop().into(viewHolder2.tv_image_news_2);
+
+                        mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())
+                .resize(300, 200).centerCrop().into(viewHolder2.tv_image_news_2);
+                Log.d("Picasso stats",picassoStats.toString());
             }
             else {
-                Picasso.with(viewHolder2.tv_image_news_2.getContext()).load(R.drawable.logo).resize(500,300).centerInside().into(viewHolder2.tv_image_news_2);
+                mPicasso.load(R.drawable.logo).resize(100,100).centerCrop().into(viewHolder2.tv_image_news_2);
             }
         }
         if(viewHolder instanceof OrientationMode1ViewHolder) {
@@ -150,6 +160,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
     }
+
 
     public interface OnItemClickListener {
 

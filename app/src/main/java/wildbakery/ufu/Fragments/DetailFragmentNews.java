@@ -51,11 +51,14 @@ public class DetailFragmentNews extends Fragment {
         tvNameDetail.setText(item.getName());
         tvDescriptionDetail.setText(Html.fromHtml(item.getDescription()));
 
+        Picasso mPicasso = Picasso.with(getContext());
+       // mPicasso.setIndicatorsEnabled(true);
+
         if(item.getImage() != null) {
-            Picasso.with(getContext()).load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())/*.memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE)*/.resize(500, 300).centerCrop().into(tvImageDetail);
+            mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())/*.memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE)*/.resize(300, 200).centerCrop().into(tvImageDetail);
         }
         else {
-            Picasso.with(getContext()).load(R.drawable.logo).resize(500,300).centerInside().into(tvImageDetail);
+            mPicasso.load(R.drawable.logo).resize(500,300).centerInside().into(tvImageDetail);
         }
 
 

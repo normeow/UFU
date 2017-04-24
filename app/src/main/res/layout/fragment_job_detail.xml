@@ -42,7 +42,7 @@
                 android:textColor="@color/DateTextGrey" />
 
             <TextView
-                android:id="@+id/tvWageJob"
+                android:id="@+id/tvWageJobDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -51,7 +51,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:text="@string/job_wage_detaiil"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

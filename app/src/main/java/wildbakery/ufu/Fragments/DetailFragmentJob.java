@@ -37,19 +37,22 @@ public class DetailFragmentJob extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_job_detail, container, false);
 
+        tvDetailWage = (TextView) view.findViewById(R.id.tvWageJobDetail);
         tvDetailName = (TextView) view.findViewById(R.id.tvNameJobDetail);
         tvDetailDescription = (TextView) view.findViewById(R.id.tvDetailDescriptionJob);
 
         tvDetailName.setText(item.getName());
+        if(item.getWage().equals("0")) {
+            tvDetailWage.setText("Не указана");
+        }else {
+            tvDetailWage.setText(item.getWage());
+        }
         tvDetailDescription.setText(Html.fromHtml(item.getDescription()));
 
         return view;
     }
 
-
-
     public static DetailFragmentJob newInstance(JobItem item) {
-
         Bundle args = new Bundle();
         ARG_ITEM = "item";
         args.putSerializable(ARG_ITEM, item);

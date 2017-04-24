@@ -10,10 +10,13 @@ public class JobItem extends Item implements Serializable {
 
     @SerializedName("wage")
     @Expose
-    private int wage;
+    private String wage;
     @SerializedName("count")
     @Expose
     private String count;
+    @SerializedName("short_description")
+    @Expose
+    private String shortDescription;
 
 
     public String getCount(){
@@ -24,12 +27,20 @@ public class JobItem extends Item implements Serializable {
         this.count = count;
     }
 
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
     /**
      * 
      * @return
      *     The wage
      */
-    public int getWage() {
+    public String getWage() {
         return wage;
     }
 
@@ -38,7 +49,7 @@ public class JobItem extends Item implements Serializable {
      * @param wage
      *     The wage
      */
-    public void setWage(int wage) {
+    public void setWage(String wage) {
         this.wage = wage;
     }
 

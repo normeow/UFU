@@ -61,7 +61,7 @@
         android:id="@+id/tvNameEvent_2" />
 
     <TextView
-        android:id="@+id/tvShortDescriptionSale_2"
+        android:id="@+id/tvDescriptionEvent_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/event_short_description_2"

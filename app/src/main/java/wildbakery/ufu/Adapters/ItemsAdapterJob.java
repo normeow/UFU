@@ -33,17 +33,12 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View view;
-
-
         if(i == TYPE_HEADER){
-
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_job_count, viewGroup, false);
                 return new OrientationMode0ViewHolder(view);
             }
-
            else {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_job_row_item, viewGroup, false);
-
                 return new OrientationMode1ViewHolder(view);
             }
 
@@ -61,8 +56,13 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;
             viewHolder1.tv_name_job.setText(item.getName());
+                viewHolder1.tv_short_description.setText(item.getShortDescription());
+                if(item.getWage().equals("0")) {
+                    viewHolder1.tv_wage_job.setText("Не указана");
+                }else {
+                    viewHolder1.tv_wage_job.setText(item.getWage());
+                }
         }
-
 
        if( viewHolder instanceof OrientationMode1ViewHolder) {
            OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;
@@ -103,8 +103,7 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mView = view.findViewById(R.id.viewJob);
             tv_wage_job = (TextView) view.findViewById(R.id.tvWageJob);
             tv_name_job = (TextView) view.findViewById(R.id.tvNameJob);
-
-            //tv_short_description = (TextView) view.findViewById(R.id.tvShortDescriptionJob);
+            tv_short_description = (TextView) view.findViewById(R.id.tvShortDescriptionJob);
         }
     }
 
