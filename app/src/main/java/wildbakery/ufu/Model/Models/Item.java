@@ -1,20 +1,24 @@
-
-package wildbakery.ufu.Models;
+package wildbakery.ufu.Model.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+import java.io.Serializable;
 
+/**
+ * Created by Tatiana on 10/04/2017.
+ */
+
+public class Item implements Serializable{
     @SerializedName("id")
     @Expose
-    private int id;
+    protected int id;
     @SerializedName("name")
     @Expose
-    private String name;
-    @SerializedName("path")
+    protected String name;
+    @SerializedName("description")
     @Expose
-    private String path;
+    protected String description;
 
     public int getId() {
         return id;
@@ -32,12 +36,12 @@ public class Image {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

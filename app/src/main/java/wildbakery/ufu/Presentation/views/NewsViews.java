@@ -1,10 +1,10 @@
-package wildbakery.ufu.News;
+package wildbakery.ufu.Presentation.views;
 
 import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import wildbakery.ufu.Models.NewsItem;
+import wildbakery.ufu.Model.Models.NewsItem;
 
 /**
  * Created by Tatiana on 24/04/2017.

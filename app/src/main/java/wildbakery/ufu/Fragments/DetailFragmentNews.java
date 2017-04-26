@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Models.NewsItem;
+import wildbakery.ufu.Model.Models.NewsItem;
 import wildbakery.ufu.R;
 
 /**
@@ -21,6 +21,8 @@ import wildbakery.ufu.R;
  */
 
 public class DetailFragmentNews extends Fragment {
+
+    public static final String KEY_STRING_ITEM = "item";
 
     private static String ARG_ITEM;
     private NewsItem item;
@@ -32,7 +34,7 @@ public class DetailFragmentNews extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = (NewsItem) getArguments().getSerializable("item");
+        item = (NewsItem) getArguments().getSerializable(KEY_STRING_ITEM);
     }
 
     @Nullable

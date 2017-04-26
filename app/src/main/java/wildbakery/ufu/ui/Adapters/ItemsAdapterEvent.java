@@ -1,4 +1,4 @@
-package wildbakery.ufu.Adapters;
+package wildbakery.ufu.ui.Adapters;
 
 /**
  * Created by DIKII PEKAR on 13.02.2017.
@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Models.EventItem;
+import wildbakery.ufu.Model.Models.EventItem;
 import wildbakery.ufu.R;
 
 

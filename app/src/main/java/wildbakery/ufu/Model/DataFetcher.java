@@ -1,24 +1,17 @@
-package wildbakery.ufu.FetchDataPackage;
+package wildbakery.ufu.Model;
 
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.widget.Toast;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import wildbakery.ufu.Models.EventItem;
-import wildbakery.ufu.Models.Item;
-import wildbakery.ufu.Models.JobItem;
-import wildbakery.ufu.Models.NewsItem;
-import wildbakery.ufu.Models.QueryModel;
-import wildbakery.ufu.Models.SaleItem;
+import wildbakery.ufu.Model.Models.EventItem;
+import wildbakery.ufu.Model.Models.JobItem;
+import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.Models.QueryModel;
+import wildbakery.ufu.Model.Models.SaleItem;
 
 /**
  * Server interaction logic

@@ -15,11 +15,11 @@ import java.util.concurrent.ExecutionException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapters.ItemsAdapterJob;
-import wildbakery.ufu.FetchDataPackage.DataFetcher;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
-import wildbakery.ufu.Models.JobItem;
-import wildbakery.ufu.Models.QueryModel;
+import wildbakery.ufu.ui.Adapters.ItemsAdapterJob;
+import wildbakery.ufu.Model.DataFetcher;
+import wildbakery.ufu.Model.VuzAPI;
+import wildbakery.ufu.Model.Models.JobItem;
+import wildbakery.ufu.Model.Models.QueryModel;
 import wildbakery.ufu.R;
 
 

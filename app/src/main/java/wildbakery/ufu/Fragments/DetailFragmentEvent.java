@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import wildbakery.ufu.Models.EventItem;
+import wildbakery.ufu.Model.Models.EventItem;
 import wildbakery.ufu.R;
 
 /**

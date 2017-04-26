@@ -1,12 +1,12 @@
 
-package wildbakery.ufu.Models;
+package wildbakery.ufu.Model.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class NewsItem extends Item implements Serializable {
+public class NewsItem extends Item{
 
     @SerializedName("news_when")
     @Expose

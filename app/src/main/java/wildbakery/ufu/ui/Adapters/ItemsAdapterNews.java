@@ -1,4 +1,4 @@
-package wildbakery.ufu.Adapters;
+package wildbakery.ufu.ui.Adapters;
 
 /**
  * Created by DIKII PEKAR on 19.12.2016.
@@ -19,7 +19,7 @@ import com.squareup.picasso.StatsSnapshot;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Models.NewsItem;
+import wildbakery.ufu.Model.Models.NewsItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

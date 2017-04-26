@@ -1,4 +1,4 @@
-package wildbakery.ufu.Adapters;
+package wildbakery.ufu.ui.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import wildbakery.ufu.Models.JobItem;
+import wildbakery.ufu.Model.Models.JobItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

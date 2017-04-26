@@ -1,4 +1,4 @@
-package wildbakery.ufu;
+package wildbakery.ufu.Utils;
 
 import android.app.Service;
 import android.content.Context;

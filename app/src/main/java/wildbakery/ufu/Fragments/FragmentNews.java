@@ -1,30 +1,28 @@
 package wildbakery.ufu.Fragments;
 
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapters.ItemsAdapterNews;
-import wildbakery.ufu.FetchDataPackage.DataFetcher;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
-import wildbakery.ufu.Models.NewsItem;
-import wildbakery.ufu.Models.QueryModel;
+import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
+import wildbakery.ufu.Model.DataFetcher;
+import wildbakery.ufu.Model.VuzAPI;
+import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.Models.QueryModel;
 import wildbakery.ufu.R;
+import wildbakery.ufu.ui.activity.DetailNewsAcivity;
 
 
 /**
@@ -120,6 +118,7 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
+
     }
 
 }

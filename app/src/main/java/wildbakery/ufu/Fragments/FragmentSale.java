@@ -14,11 +14,11 @@ import java.util.concurrent.ExecutionException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wildbakery.ufu.Adapters.ItemsAdapterSale;
-import wildbakery.ufu.FetchDataPackage.DataFetcher;
-import wildbakery.ufu.FetchDataPackage.VuzAPI;
-import wildbakery.ufu.Models.QueryModel;
-import wildbakery.ufu.Models.SaleItem;
+import wildbakery.ufu.ui.Adapters.ItemsAdapterSale;
+import wildbakery.ufu.Model.DataFetcher;
+import wildbakery.ufu.Model.VuzAPI;
+import wildbakery.ufu.Model.Models.QueryModel;
+import wildbakery.ufu.Model.Models.SaleItem;
 
 
 /**
