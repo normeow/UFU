@@ -1,11 +1,7 @@
 package wildbakery.ufu.Model.DAO;
 
-import android.content.Intent;
-
-import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.support.ConnectionSource;
-
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import wildbakery.ufu.Model.ApiModels.NewsItem;
@@ -14,16 +10,12 @@ import wildbakery.ufu.Model.ApiModels.NewsItem;
  * Created by Tatiana on 28/04/2017.
  */
 
-public class NewsDAO extends BaseDaoImpl<NewsItem, Integer> {
-    protected NewsDAO(ConnectionSource connectionSource, Class<NewsItem> dataClass) throws SQLException {
-        super(connectionSource, dataClass);
-    }
-
-    public List<NewsItem> getAllNews() throws SQLException {
-        return queryForAll();
-    }
-
-    public List<NewsItem> getBatch(int startId, int count){
-        return null;
-    }
+public interface NewsDAO {
+    List<NewsItem> getAllNews() throws SQLException;
+    List<NewsItem> getBatch(int startId, int count);
+    void insert(NewsItem item) throws SQLException;
+    void insert(Collection<NewsItem> items) throws SQLException;
+    void deleteNews(NewsItem item);
+    // update all fields but id
+    void updateNews(NewsItem item);
 }

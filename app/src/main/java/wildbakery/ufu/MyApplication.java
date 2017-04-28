@@ -18,6 +18,7 @@ public class MyApplication extends Application {
 
     @Override
     public void onTerminate() {
+        //todo it will never call in release
         super.onTerminate();
         HelperFactory.releaseHelper();
     }
