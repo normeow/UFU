@@ -1,7 +1,6 @@
 package wildbakery.ufu.Fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -19,10 +18,9 @@ import retrofit2.Response;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
 import wildbakery.ufu.Model.DataFetcher;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Model.Models.NewsItem;
-import wildbakery.ufu.Model.Models.QueryModel;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.R;
-import wildbakery.ufu.ui.activity.DetailNewsAcivity;
 
 
 /**

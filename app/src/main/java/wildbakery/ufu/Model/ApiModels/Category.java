@@ -1,24 +1,22 @@
-package wildbakery.ufu.Model.Models;
+
+package wildbakery.ufu.Model.ApiModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Created by Tatiana on 10/04/2017.
- */
+public class Category implements Serializable {
 
-public class Item implements Serializable{
     @SerializedName("id")
     @Expose
-    protected int id;
+    private int id;
     @SerializedName("name")
     @Expose
-    protected String name;
+    private String name;
     @SerializedName("description")
     @Expose
-    protected String description;
+    private String description;
 
     public int getId() {
         return id;

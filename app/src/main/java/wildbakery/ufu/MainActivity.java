@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("page", "onPageSelected: " + position);
                 setCurrentFragment();
                 toolbar.setTitle(viewPager.getAdapter().getPageTitle(position));
-
             }
 
             @Override

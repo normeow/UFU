@@ -21,8 +21,8 @@ import retrofit2.Response;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterEvent;
 import wildbakery.ufu.Model.DataFetcher;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Model.Models.EventItem;
-import wildbakery.ufu.Model.Models.QueryModel;
+import wildbakery.ufu.Model.ApiModels.EventItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
 
 
 

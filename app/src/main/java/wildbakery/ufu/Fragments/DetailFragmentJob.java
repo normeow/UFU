@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import wildbakery.ufu.Model.Models.JobItem;
+import wildbakery.ufu.Model.ApiModels.JobItem;
 import wildbakery.ufu.R;
 
 /**

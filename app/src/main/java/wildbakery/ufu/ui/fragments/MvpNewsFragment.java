@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -20,7 +21,7 @@ import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Presentation.presenters.NewsPresenter;
 import wildbakery.ufu.Presentation.views.NewsViews;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
-import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 import wildbakery.ufu.ui.activity.DetailNewsAcivity;
 
@@ -88,7 +89,7 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
 
     @Override
     public void showToastMessage(String msg) {
-
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

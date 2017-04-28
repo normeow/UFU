@@ -14,4 +14,9 @@ public class Constants {
         public static String [] month1 = {"","Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"};
     }
 
+    public static class TABLES{
+
+        public static final String TABLE_NEWS = "TABLE_NEWS";
+    }
+
 }

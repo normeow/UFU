@@ -18,8 +18,8 @@ import retrofit2.Response;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterJob;
 import wildbakery.ufu.Model.DataFetcher;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Model.Models.JobItem;
-import wildbakery.ufu.Model.Models.QueryModel;
+import wildbakery.ufu.Model.ApiModels.JobItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.R;
 
 

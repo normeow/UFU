@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import wildbakery.ufu.Fragments.DetailFragmentNews;
-import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
 /**

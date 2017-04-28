@@ -1,10 +1,8 @@
 
-package wildbakery.ufu.Model.Models;
+package wildbakery.ufu.Model.ApiModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 public class JobItem extends Item{
 

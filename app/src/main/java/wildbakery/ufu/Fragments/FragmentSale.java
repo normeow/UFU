@@ -17,8 +17,8 @@ import retrofit2.Response;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterSale;
 import wildbakery.ufu.Model.DataFetcher;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Model.Models.QueryModel;
-import wildbakery.ufu.Model.Models.SaleItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
+import wildbakery.ufu.Model.ApiModels.SaleItem;
 
 
 /**

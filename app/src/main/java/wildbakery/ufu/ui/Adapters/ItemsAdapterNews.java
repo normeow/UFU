@@ -19,7 +19,7 @@ import com.squareup.picasso.StatsSnapshot;
 import java.util.List;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

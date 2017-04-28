@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
-import wildbakery.ufu.Model.Models.EventItem;
-import wildbakery.ufu.Model.Models.JobItem;
-import wildbakery.ufu.Model.Models.NewsItem;
-import wildbakery.ufu.Model.Models.QueryModel;
-import wildbakery.ufu.Model.Models.SaleItem;
+import wildbakery.ufu.Model.ApiModels.EventItem;
+import wildbakery.ufu.Model.ApiModels.JobItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
+import wildbakery.ufu.Model.ApiModels.SaleItem;
 
 /**
  * Server interaction logic

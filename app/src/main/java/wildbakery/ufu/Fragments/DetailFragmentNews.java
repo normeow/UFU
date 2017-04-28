@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import wildbakery.ufu.Constants;
-import wildbakery.ufu.Model.Models.NewsItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
 /**

@@ -1,28 +1,49 @@
 
-package wildbakery.ufu.Model.Models;
+package wildbakery.ufu.Model.ApiModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
+import wildbakery.ufu.Constants;
 
+@DatabaseTable(tableName = Constants.TABLES.TABLE_NEWS)
 public class NewsItem extends Item{
 
     @SerializedName("news_when")
     @Expose
+    @DatabaseField()
     private String newsWhen;
+
     @SerializedName("short_description")
     @Expose
+    @DatabaseField()
     private String shortDescription;
+
     @SerializedName("category")
     @Expose
+    @DatabaseField()
     private Category category;
+
     @SerializedName("image")
     @Expose
     private Image image;
+
     @SerializedName("orientation_mode")
     @Expose
+    @DatabaseField()
     private int orientationMode;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    private String imagePath;
 
     public String getNewsWhen() {
         return newsWhen;

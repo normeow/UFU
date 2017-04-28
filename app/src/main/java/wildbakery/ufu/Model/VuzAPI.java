@@ -4,11 +4,11 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import wildbakery.ufu.Model.Models.EventItem;
-import wildbakery.ufu.Model.Models.JobItem;
-import wildbakery.ufu.Model.Models.NewsItem;
-import wildbakery.ufu.Model.Models.QueryModel;
-import wildbakery.ufu.Model.Models.SaleItem;
+import wildbakery.ufu.Model.ApiModels.EventItem;
+import wildbakery.ufu.Model.ApiModels.JobItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
+import wildbakery.ufu.Model.ApiModels.QueryModel;
+import wildbakery.ufu.Model.ApiModels.SaleItem;
 
 import static wildbakery.ufu.Constants.HTTP.BASE_URL;
 
