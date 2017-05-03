@@ -11,6 +11,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import wildbakery.ufu.DataFetchers.NewsFetcher;
 import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.Model.DAO.NewsDAO;
 import wildbakery.ufu.Model.HelperFactory;
@@ -23,7 +24,7 @@ import wildbakery.ufu.Presentation.views.NewsViews;
  * Created by Tatiana on 24/04/2017.
  */
 @InjectViewState
-public class NewsPresenter extends MvpPresenter<NewsViews> {
+public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetcher.CallbacksListener {
 
     private NewsModel model;
     private Call<QueryModel<NewsItem>> call;
@@ -32,6 +33,7 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
     //todo segregate
     private NewsDAO newsDAO;
 
+    private NewsFetcher newsFetcher;
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
@@ -41,6 +43,8 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        newsFetcher = new NewsFetcher(this);
+        model = NewsModel.getInstanse();
         tryGetNews();
     }
 
@@ -48,8 +52,8 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
         getViewState().showProgressDialog();
         isLoading = true;
         // TODO ask service to load data into model, waiting for callback, refresh view
-
-        call = VuzAPI.Factory.getInstance().getNews();
+        newsFetcher.fetchDB();
+        /*call = VuzAPI.Factory.getInstance().getNews();
         call.enqueue(new Callback<QueryModel<NewsItem>>() {
             @Override
             public void onResponse(Call<QueryModel<NewsItem>> call, Response<QueryModel<NewsItem>> response) {
@@ -81,6 +85,7 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
 
             }
         });
+        */
 
     }
 
@@ -97,5 +102,31 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
 
     public void onError(){
         getViewState().showToastMessage("Failed to get news");
+    }
+
+
+    @Override
+    public void onFailure() {
+        // something goes wrong when tried to fetch data
+        onError();
+    }
+
+    @Override
+    public void onFetchDataFromServerFinished() {
+
+    }
+
+    @Override
+    public void onFetchDataFromDbFinished() {
+        // NewsFetcher filled NewsModel with cached data
+        // if not empty show them
+        List<NewsItem> items = model.getItems();
+        if (items != null && !items.isEmpty()){
+            getViewState().hideProgressDialog();
+            getViewState().showNews(items);
+        }
+        // else continue showing progress bar
+        // try to fetch new data from server
+
     }
 }
