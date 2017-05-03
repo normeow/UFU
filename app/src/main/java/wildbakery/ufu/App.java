@@ -10,9 +10,16 @@ import wildbakery.ufu.Model.HelperFactory;
  */
 
 public class MyApplication extends Application {
+    private static Application instanse;
+
+    public static Application getInstance() {
+        return instanse;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instanse = this;
         HelperFactory.setHelper(getApplicationContext());
     }
 
