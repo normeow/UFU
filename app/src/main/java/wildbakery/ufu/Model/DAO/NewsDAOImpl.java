@@ -21,7 +21,6 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
         super(connectionSource, dataClass);
     }
 
-
     @Override
     public List<NewsItem> getAllNews() throws SQLException {
         return queryForAll();
@@ -33,12 +32,12 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     }
 
     @Override
-    public void insert(NewsItem item) throws SQLException {
+    public void insertNews(NewsItem item) throws SQLException {
         this.create(item);
     }
 
     @Override
-    public void insert(Collection<NewsItem> items) throws SQLException {
+    public void insertNews(Collection<NewsItem> items) throws SQLException {
         this.create(items);
 
     }
@@ -52,4 +51,5 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     public void updateNews(NewsItem item) {
 
     }
+
 }

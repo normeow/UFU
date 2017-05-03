@@ -1,8 +1,11 @@
 
 package wildbakery.ufu.Model.ApiModels;
 
+import android.provider.ContactsContract;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -23,17 +26,25 @@ public class NewsItem extends Item{
 
     @SerializedName("category")
     @Expose
-    @DatabaseField()
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Category category;
 
     @SerializedName("image")
     @Expose
+    // do not add in data base
     private Image image;
 
     @SerializedName("orientation_mode")
     @Expose
     @DatabaseField()
     private int orientationMode;
+
+    @SerializedName("image_path")
+    @Expose
+    @DatabaseField()
+    private String imagePath;
+
+    public NewsItem(){}
 
     public String getImagePath() {
         return imagePath;
@@ -42,8 +53,6 @@ public class NewsItem extends Item{
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-
-    private String imagePath;
 
     public String getNewsWhen() {
         return newsWhen;
@@ -89,7 +98,7 @@ public class NewsItem extends Item{
 
     @Override
     public String toString() {
-        return "SaleItem{" +
+        return "NewsItem{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", newsWhen='" + newsWhen + '\'' +

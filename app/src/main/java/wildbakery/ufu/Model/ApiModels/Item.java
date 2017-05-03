@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Item implements Serializable{
     @SerializedName("id")
     @Expose
-    @DatabaseField
+    @DatabaseField(id = true)
     protected int id;
 
     @SerializedName("name")

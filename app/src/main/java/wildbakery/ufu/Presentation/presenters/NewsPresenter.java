@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,7 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.Model.DAO.NewsDAO;
-import wildbakery.ufu.Model.DAO.NewsDAOImpl;
 import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
@@ -38,6 +36,7 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         try {
+
             newsDAO = HelperFactory.getHelper().getNewsDao();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +56,7 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
                 getViewState().hideProgressDialog();
                 getViewState().showNews(response.body().getItems());
                 try {
-                    newsDAO.insert(response.body().getItems().get(0));
+                    newsDAO.insertNews(response.body().getItems().get(0));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -88,6 +87,12 @@ public class NewsPresenter extends MvpPresenter<NewsViews> {
     public void showDetailFragment(NewsItem item){
         getViewState().showDetail(item);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        //HelperFactory.releaseHelper();
+        super.onDestroy();
     }
 
     public void onError(){

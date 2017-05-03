@@ -54,6 +54,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public NewsDAO getNewsDao() throws SQLException {
         if (newsDao == null)
             newsDao = new NewsDAOImpl(getConnectionSource(), NewsItem.class);
+        Log.v(getClass().getCanonicalName(), "got newsDao");
         return newsDao;
     }
+
 }
