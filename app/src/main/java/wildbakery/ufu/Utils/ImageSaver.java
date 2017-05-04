@@ -44,10 +44,12 @@ public class ImageSaver{
      * @return path to the image
      */
     public String saveImage(Bitmap image, String imageName){
+        //todo replace if exists flag
         FileOutputStream foStream;
         try {
             foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
             image.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            foStream.flush();
             foStream.close();
         } catch (Exception e) {
             Log.d(getClass().getCanonicalName(), "can't save image");
@@ -61,7 +63,7 @@ public class ImageSaver{
      * @param imageUrl
      * @return path to image
      */
-    public String downloadNadSaveImage(String imageUrl, String imageName){
+    public String downloadAndSaveImage(String imageUrl, String imageName){
         return saveImage(downloadImage(imageUrl), imageName);
     }
 }

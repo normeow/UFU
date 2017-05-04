@@ -1,6 +1,7 @@
 
 package wildbakery.ufu.Model.ApiModels;
 
+import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 
 import com.google.gson.annotations.Expose;
@@ -9,7 +10,9 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.Constants;
+import wildbakery.ufu.R;
 
 @DatabaseTable(tableName = Constants.TABLES.TABLE_NEWS)
 public class NewsItem extends Item{
@@ -44,7 +47,9 @@ public class NewsItem extends Item{
     @DatabaseField()
     private String imagePath;
 
-    public NewsItem(){}
+    public NewsItem(){
+        imagePath = "drawable://" + R.drawable.logo;
+    }
 
     public String getImagePath() {
         return imagePath;

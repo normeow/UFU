@@ -45,14 +45,18 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
         }
         newsFetcher = new NewsFetcher(this);
         model = NewsModel.getInstanse();
+        getNewsFromDb();
         tryGetNews();
+    }
+
+    public void getNewsFromDb(){
+        getViewState().showProgressDialog();
+        newsFetcher.fetchDB();
     }
 
     public void tryGetNews(){
         getViewState().showProgressDialog();
-        isLoading = true;
-        // TODO ask service to load data into model, waiting for callback, refresh view
-        newsFetcher.fetchDB();
+        newsFetcher.fetchServer();
         /*call = VuzAPI.Factory.getInstance().getNews();
         call.enqueue(new Callback<QueryModel<NewsItem>>() {
             @Override
@@ -113,20 +117,20 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
 
     @Override
     public void onFetchDataFromServerFinished() {
-
+        getViewState().hideProgressDialog();
+        List<NewsItem> items = model.getItems();
+        getViewState().showNews(items);
     }
 
     @Override
     public void onFetchDataFromDbFinished() {
         // NewsFetcher filled NewsModel with cached data
-        // if not empty show them
+        getViewState().hideProgressDialog();
         List<NewsItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
             getViewState().hideProgressDialog();
             getViewState().showNews(items);
         }
-        // else continue showing progress bar
-        // try to fetch new data from server
 
     }
 }

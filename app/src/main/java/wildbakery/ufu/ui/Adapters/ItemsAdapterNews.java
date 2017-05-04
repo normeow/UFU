@@ -16,11 +16,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.StatsSnapshot;
 
+import java.io.File;
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
+import wildbakery.ufu.Utils.ImageSaver;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -65,14 +68,15 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
         final NewsItem item = items.get(i);
+        Log.d(getClass().getCanonicalName() + " imagePath: ", item.getImagePath());
 
         if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder)viewHolder;
              viewHolder1.tv_name_news.setText(item.getName());
              viewHolder1.tv_when_news.setText(item.getNewsWhen().substring(0, 10));
              viewHolder1.tv_category_news.setText(item.getCategory().getName());
-            Picasso.with( viewHolder1.tv_image.getContext())
-                    .load(Constants.HTTP.IMAGE_URL + item.getImage().getName())
+             Picasso.with(viewHolder1.tv_image.getContext())
+                    .load(new File(item.getImagePath()))
                     .into( viewHolder1.tv_image);
 
         }
@@ -80,7 +84,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             OrientationMode2ViewHolder viewHolder2 = (OrientationMode2ViewHolder) viewHolder;
             Picasso mPicasso = Picasso.with(viewHolder2.tv_image_news_2.getContext());
-           mPicasso.setIndicatorsEnabled(true);
+            mPicasso.setIndicatorsEnabled(true);
             StatsSnapshot picassoStats = mPicasso.getSnapshot();
             viewHolder2.tv_category_news.setText(item.getCategory().getName());
             viewHolder2.tv_name_news.setText(item.getName());
@@ -88,15 +92,18 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewHolder2.tv_short_description.setText(item.getShortDescription());
 
 
-            if(item.getImage() != null) {
+            mPicasso.load(new File(item.getImagePath())).resize(300, 200).centerCrop().into(viewHolder2.tv_image_news_2);
+            /*if(item.getImagePath() != null) {
 
-                        mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())
+                mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())
                 .resize(300, 200).centerCrop().into(viewHolder2.tv_image_news_2);
                 Log.d("Picasso stats",picassoStats.toString());
+
+
             }
             else {
                 mPicasso.load(R.drawable.logo).resize(100,100).centerCrop().into(viewHolder2.tv_image_news_2);
-            }
+            }*/
         }
         if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;
