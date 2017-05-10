@@ -30,19 +30,10 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
     private Call<QueryModel<NewsItem>> call;
     private boolean isLoading = false;
 
-    //todo segregate
-    private NewsDAO newsDAO;
-
     private NewsFetcher newsFetcher;
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        try {
-
-            newsDAO = HelperFactory.getHelper().getNewsDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         newsFetcher = new NewsFetcher(this);
         model = NewsModel.getInstanse();
         getNewsFromDb();
@@ -57,40 +48,6 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
     public void tryGetNews(){
         getViewState().showProgressDialog();
         newsFetcher.fetchServer();
-        /*call = VuzAPI.Factory.getInstance().getNews();
-        call.enqueue(new Callback<QueryModel<NewsItem>>() {
-            @Override
-            public void onResponse(Call<QueryModel<NewsItem>> call, Response<QueryModel<NewsItem>> response) {
-                getViewState().hideProgressDialog();
-                getViewState().showNews(response.body().getItems());
-                try {
-                    newsDAO.insertNews(response.body().getItems().get(0));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    List<NewsItem> items =  newsDAO.getAllNews();
-                    if (items != null) {
-                        Log.d(this.getClass().getCanonicalName(), items.get(0).toString());
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                isLoading = false;
-            }
-
-            @Override
-            public void onFailure(Call<QueryModel<NewsItem>> call, Throwable t) {
-                getViewState().hideProgressDialog();
-                isLoading = false;
-                onError();
-
-            }
-        });
-        */
-
     }
 
     public void showDetailFragment(NewsItem item){
@@ -100,7 +57,7 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
 
     @Override
     public void onDestroy() {
-        //HelperFactory.releaseHelper();
+        // todo cancel all tasks in newsFetcher
         super.onDestroy();
     }
 
@@ -131,6 +88,10 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
             getViewState().hideProgressDialog();
             getViewState().showNews(items);
         }
+    }
+
+    public void onScrollToTheEnd(NewsItem lastItem){
+        //fetch next 20 items from server
 
     }
 }

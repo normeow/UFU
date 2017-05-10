@@ -16,4 +16,5 @@ public interface NewsViews extends MvpView {
     void showProgressDialog();
     void hideProgressDialog();
     void showToastMessage(String msg);
+    void appendRecycleView(List<NewsItem> items);
 }

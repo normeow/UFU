@@ -29,7 +29,7 @@ import wildbakery.ufu.ui.activity.DetailNewsAcivity;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.OnItemClickListener {
+public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -50,8 +50,8 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.testswipe);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
+        // mLayoutManager.setReverseLayout(true);
+        // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         return view;
     }
@@ -103,6 +103,12 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
         presenter.showDetailFragment(item);
     }
 
+    @Override
+    public void onScrolledToTheEnd(NewsItem lastItem) {
+        presenter.onScrollToTheEnd(lastItem);
+    }
 
-
+    @Override
+    public void appendRecycleView(List<NewsItem> items) {
+    }
 }
