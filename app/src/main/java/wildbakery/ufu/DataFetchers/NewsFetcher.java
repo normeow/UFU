@@ -1,11 +1,14 @@
 package wildbakery.ufu.DataFetchers;
 
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -20,6 +23,7 @@ import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.VuzAPI;
 import wildbakery.ufu.App;
 import wildbakery.ufu.Utils.ImageSaver;
+import wildbakery.ufu.Utils.RestClient;
 
 /**
  * Created by Tatiana on 24/04/2017.
@@ -39,11 +43,13 @@ public class NewsFetcher {
     private CallbacksListener listener;
     private NewsDAO newsDAO;
     private FetchDbTask dbTask;
-    private FetchServerTask serverTask;
     private RefreshDataTask refreshDataTask;
     private FetchBatchTask fetchBatchTask;
+    private VuzAPI vuzAPI;
 
     private NewsModel newsModel = NewsModel.getInstanse();
+
+    private boolean isDbFetching;
 
     public NewsFetcher(CallbacksListener listener){
         this.listener = listener;
@@ -52,16 +58,12 @@ public class NewsFetcher {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     public void fetchDB(){
         dbTask = new FetchDbTask();
         dbTask.execute();
-    }
-    // internet connection excp
-    public void fetchServer(){
-        serverTask = new FetchServerTask();
-        serverTask.execute();
     }
 
     /**
@@ -84,21 +86,6 @@ public class NewsFetcher {
     public void cancel(){
         // we can cancel only fetching. not when we are filling up the model
         dbTask.cancel(true);
-        serverTask.cancel(true);
-    }
-
-    private void cacheData(List<NewsItem> items) throws SQLException {
-        // cache image to local storage
-        ImageSaver imageSaver = new ImageSaver(App.getContext());
-        for (int i = 0; i < items.size(); i++){
-            NewsItem item = items.get(i);
-            if(item.getImage() != null) {
-                String imagePath = item.getImage().getPath();
-                String newImagePath = imageSaver.downloadAndSaveImage(Constants.HTTP.IMAGE_URL + imagePath, item.getImage().getName() + ".png");
-                item.setImagePath(newImagePath);
-            }
-        }
-
     }
 
     /**
@@ -109,11 +96,11 @@ public class NewsFetcher {
         @Override
         protected List<NewsItem> doInBackground(Void... voids) {
             try {
+
                 List<NewsItem> news = newsDAO.getAllNews();
-                NewsModel.getInstanse().setItems(news);
+                newsModel.setItems(news);
             } catch (SQLException e) {
                 e.printStackTrace();
-                listener.onFailure();
             }
             return null;
         }
@@ -126,40 +113,6 @@ public class NewsFetcher {
 
     }
 
-    private class FetchServerTask extends AsyncTask<Void, Void, List<NewsItem>>{
-        @Override
-        protected List<NewsItem> doInBackground(Void... voids) {
-            // get data from server
-            Call<QueryModel<NewsItem>> call = VuzAPI.Factory.getInstance().getNews();
-            try {
-                List<NewsItem> items = call.execute().body().getItems();
-
-                // cache image to local storage
-                ImageSaver imageSaver = new ImageSaver(App.getContext());
-                for (int i = 0; i < items.size(); i++){
-                    NewsItem item = items.get(i);
-                    String imagePath = item.getImage().getPath();
-                    String newImagePath = imageSaver.downloadAndSaveImage(Constants.HTTP.IMAGE_URL + imagePath, item.getImage().getName() + ".png");
-                    item.setImagePath(newImagePath);
-                }
-
-                // put newsItems in DataBase
-                newsDAO.insertNews(items);
-                // and in model
-                NewsModel.getInstanse().setItems(items);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<NewsItem> items) {
-            //todo handle exceptions here
-            listener.onFetchDataFromServerFinished();
-            super.onPostExecute(items);
-        }
-    }
 
     /**
      * replace data in database and model with new data. Fetch first N items
@@ -168,34 +121,24 @@ public class NewsFetcher {
         @Override
         protected List<NewsItem> doInBackground(final Integer... params) {
             List<NewsItem> items = null;
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            okhttp3.Request request = chain.request();
-                            okhttp3.HttpUrl url = request.url()
-                                    .newBuilder()
-                                    .addQueryParameter("from", "now")
-                                    .addQueryParameter("limit", Integer.toString(params[0]))
-                                    .build();
 
-                            request = request.newBuilder()
-                                    .url(url)
-                                    .build();
+            Map<String, String> queries = new HashMap<>();
+            queries.put("from", "now");
+            queries.put("limit", Integer.toString(params[0]));
 
-                            return chain.proceed(request);
-                        }
-                    }).build();
+            Call<QueryModel<NewsItem>> call = VuzAPI.Factory.newInstance(RestClient.getOkHttpClient(queries)).getNews();
 
-            Call<QueryModel<NewsItem>> call = VuzAPI.Factory.newInstance(client).getNews();
             try {
                 items = call.execute().body().getItems();
-                newsDAO.deleteAllNews();
-                cacheData(items);
-                // put newsItems in DataBase
-                newsDAO.insertNews(items);
                 synchronized (newsModel) {
                     Log.d(TAG, "doInBackground: gonna set NewsModel items");
+                    newsDAO.deleteAllNews();
+                    long t1 = System.nanoTime();
+                    //cacheData(items);
+                    //cacheDataWithoudDownloadImages(items);
+                    newsDAO.insertNews(items);
+                    long t2 = System.nanoTime();
+                    Log.d(TAG, String.format("doInBackground: time of caching data = %.1fms", (t2 - t1) / 1e6d) );
                     newsModel.setItems(items);
                 }
             } catch (Exception e) {
@@ -203,6 +146,7 @@ public class NewsFetcher {
             }
             return items;
         }
+
 
         @Override
         protected void onPostExecute(List<NewsItem> items) {
@@ -221,35 +165,26 @@ public class NewsFetcher {
         @Override
         protected List<NewsItem> doInBackground(final Integer... params) {
             start = NewsModel.getInstanse().getItems().size();
-            List<NewsItem> items = null;
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            okhttp3.Request request = chain.request();
-                            okhttp3.HttpUrl url = request.url()
-                                    .newBuilder()
-                                    .addQueryParameter("from", Integer.toString(NewsModel.getInstanse().getItems().get(start - 1).getId()))
-                                    .addQueryParameter("limit", Integer.toString(params[0]))
-                                    .build();
+                List<NewsItem> items = null;
 
-                            request = request.newBuilder()
-                                    .url(url)
-                                    .build();
+                Map<String, String> queries = new HashMap<>();
+                queries.put("from", Integer.toString(NewsModel.getInstanse().getItems().get(start - 1).getId()));
+                queries.put("limit", Integer.toString(params[0]));
 
-                            return chain.proceed(request);
-                        }
-                    }).build();
+                Call<QueryModel<NewsItem>> call = VuzAPI.Factory.newInstance(RestClient.getOkHttpClient(queries)).getNews();
 
-            Call<QueryModel<NewsItem>> call = VuzAPI.Factory.newInstance(client).getNews();
-            try {
-                items = call.execute().body().getItems();
-                cacheData(items);
-                newsDAO.insertNews(items);
-                synchronized (newsModel){
-                    newsModel.addItems(items);
-                }
-                cacheData(items);
+                try {
+                    items = call.execute().body().getItems();
+                    long t1 = System.nanoTime();
+                    // cacheData(items);
+                    //cacheDataWithoudDownloadImages(items);
+                    newsDAO.insertNews(items);
+                    long t2 = System.nanoTime();
+                    Log.d(TAG, String.format("doInBackground: time of caching data = %.1fms", (t2 - t1) / 1e6d) );
+
+                    synchronized (newsModel){
+                        newsModel.addItems(items);
+                    }
             } catch (Exception e) {
                 e.printStackTrace();
             }
