@@ -1,5 +1,8 @@
 package wildbakery.ufu.Model;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import wildbakery.ufu.Model.ApiModels.NewsItem;
@@ -9,6 +12,8 @@ import wildbakery.ufu.Model.ApiModels.NewsItem;
  */
 
 public class NewsModel {
+    private static final String TAG = "NewsModel";
+
     private List<NewsItem> items;
 
     private static NewsModel instanse;
@@ -22,17 +27,23 @@ public class NewsModel {
     }
 
     public List<NewsItem> getItems() {
-        return items;
+        // returns copy of data
+        return new ArrayList<>(items);
     }
 
     /**
      *
      * @param count count of items in batch
-     * @param lastId if of last item we know, -1 if no items
-     * @return
+     * @return last items in list
      */
-    public List<NewsItem> getBatchItems(int count, int lastId){
-        return null;
+
+    public List<NewsItem> getBatchItems(int start, int count){
+        if (items.isEmpty())
+            return null;
+        int end = (start + count) < items.size() ? start + count : items.size();
+        Log.d("TEST", "getBatchItems: start = " + start + " end = " + end);
+        List<NewsItem> subl = items.subList(start, end);
+        return subl;
     }
 
     private int getPositionById(int id){
@@ -41,5 +52,18 @@ public class NewsModel {
 
     public void setItems(List<NewsItem> items) {
         this.items = items;
+    }
+
+    public void addItems(List<NewsItem> items) {
+        if (items == null)
+            return;
+        if (this.items == null)
+            this.items = new ArrayList<>();
+        this.items.addAll(items);
+    }
+
+    public void clearModel(){
+        Log.d(TAG, "clearModel: ");
+        items = new ArrayList<>();
     }
 }

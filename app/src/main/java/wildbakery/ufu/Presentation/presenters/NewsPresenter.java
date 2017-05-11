@@ -5,30 +5,26 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import wildbakery.ufu.DataFetchers.NewsFetcher;
 import wildbakery.ufu.Model.ApiModels.QueryModel;
-import wildbakery.ufu.Model.DAO.NewsDAO;
-import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
-import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Presentation.views.NewsViews;
+import wildbakery.ufu.Presentation.views.NewsView;
 
 /**
  * Created by Tatiana on 24/04/2017.
  */
 @InjectViewState
-public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetcher.CallbacksListener {
+public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher.CallbacksListener {
 
+    private static final String TAG = "NewsPresenter";
     private NewsModel model;
-    private Call<QueryModel<NewsItem>> call;
     private boolean isLoading = false;
+    private static final int COUNT_ITEMS_TO_LOAD = 20;
+
 
     private NewsFetcher newsFetcher;
     @Override
@@ -40,14 +36,30 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
         tryGetNews();
     }
 
-    public void getNewsFromDb(){
+    private void setLoadingState(){
+        if (isLoading)
+            return;
+        isLoading = true;
         getViewState().showProgressDialog();
+    }
+
+    private void setNotLoadingState(){
+        if (!isLoading)
+            return;
+        isLoading = false;
+        getViewState().hideProgressDialog();
+    }
+
+    private void getNewsFromDb(){
+        Log.d(TAG, "getNewsFromDb: ");
+        setLoadingState();
         newsFetcher.fetchDB();
     }
 
     public void tryGetNews(){
-        getViewState().showProgressDialog();
-        newsFetcher.fetchServer();
+        Log.d(TAG, "tryGetNews: ");
+        setLoadingState();
+        newsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
 
     public void showDetailFragment(NewsItem item){
@@ -74,7 +86,8 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
 
     @Override
     public void onFetchDataFromServerFinished() {
-        getViewState().hideProgressDialog();
+        Log.d(TAG, "onFetchDataFromServerFinished: ");
+        setNotLoadingState();
         List<NewsItem> items = model.getItems();
         getViewState().showNews(items);
     }
@@ -82,16 +95,37 @@ public class NewsPresenter extends MvpPresenter<NewsViews> implements NewsFetche
     @Override
     public void onFetchDataFromDbFinished() {
         // NewsFetcher filled NewsModel with cached data
-        getViewState().hideProgressDialog();
+        Log.d(TAG, "onFetchDataFromDbFinished: ");
+        setNotLoadingState();
         List<NewsItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
-            getViewState().hideProgressDialog();
+            setNotLoadingState();
             getViewState().showNews(items);
         }
     }
 
-    public void onScrollToTheEnd(NewsItem lastItem){
-        //fetch next 20 items from server
+    @Override
+    public void onModelAppended(int start) {
+        getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
+        setNotLoadingState();
+        Log.d(TAG, "onModelAppended: success");
+    }
 
+    public void onScrollToTheEnd(int start){
+        //fetch next 20 items from server
+        if (isLoading)
+            return;
+        Log.d(TAG, "onScrollToTheEnd: start = " + start);
+        setLoadingState();
+        List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
+        if (cachedItems == null || cachedItems.isEmpty()){
+            Log.d(TAG, "onScrollToTheEnd: fetching batch");
+            newsFetcher.fetchBatch(COUNT_ITEMS_TO_LOAD);
+        }
+        else{
+
+            Log.d(TAG, "onScrollToTheEnd: get cached items from model");
+            getViewState().appendRecycleView(cachedItems);
+        }
     }
 }

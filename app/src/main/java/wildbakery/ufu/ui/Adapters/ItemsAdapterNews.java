@@ -19,22 +19,21 @@ import com.squareup.picasso.StatsSnapshot;
 import java.io.File;
 import java.util.List;
 
-import wildbakery.ufu.App;
-import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
-import wildbakery.ufu.Utils.ImageSaver;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "ItemsAdapterNews";
+
     private List<NewsItem> items;
 
-    private OnItemClickListener onItemClickListener;
+    private CallbackListener listener;
     final int ORIENTATION_MODE_1 = 1;
     final int ORIENTATION_MODE_2 = 2;
-    public ItemsAdapterNews(List<NewsItem> items, OnItemClickListener onItemClickListener) {
+    public ItemsAdapterNews(List<NewsItem> items, CallbackListener onItemClickListener) {
         this.items = items;
-        this.onItemClickListener = onItemClickListener;
+        this.listener = onItemClickListener;
     }
 
     @Override
@@ -67,8 +66,12 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
+        //scroll almost to the end. notify listener.
+        if (i == items.size() - 5){
+            Log.d(TAG, "onBindViewHolder: ");
+            listener.onScrolledToTheEnd();
+        }
         final NewsItem item = items.get(i);
-        Log.d(getClass().getCanonicalName() + " imagePath: ", item.getImagePath());
 
         if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder)viewHolder;
@@ -110,7 +113,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
                 View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onItemClick(item);
+                    ItemsAdapterNews.this.listener.onItemClick(item);
                 }
             };
             viewHolder1.mView.setOnClickListener(listener);
@@ -120,7 +123,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onItemClick(item);
+                    ItemsAdapterNews.this.listener.onItemClick(item);
                 }
             };
             viewHolder2.mView.setOnClickListener(listener);
@@ -168,10 +171,19 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    public void add(List<NewsItem> items){
+        if (!items.isEmpty()) {
+            this.items.addAll(items);
+            notifyDataSetChanged();
+        }
 
-    public interface OnItemClickListener {
+    }
+
+
+    public interface CallbackListener {
 
         void onItemClick(NewsItem item);
+        void onScrolledToTheEnd();
     }
 
 

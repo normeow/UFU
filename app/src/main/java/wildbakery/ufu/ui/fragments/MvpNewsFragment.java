@@ -19,7 +19,7 @@ import java.util.List;
 
 import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Presentation.presenters.NewsPresenter;
-import wildbakery.ufu.Presentation.views.NewsViews;
+import wildbakery.ufu.Presentation.views.NewsView;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
@@ -29,7 +29,7 @@ import wildbakery.ufu.ui.activity.DetailNewsAcivity;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
+public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -45,6 +45,7 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: created");
         View view = inflater.inflate(R.layout.base_fragment_page, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.testswipe);
@@ -60,7 +61,6 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
     public void showNews(List<NewsItem> news) {
         adapter = new ItemsAdapterNews(news, this);
         recyclerView.setAdapter(adapter);
-
     }
 
     @Override
@@ -69,8 +69,6 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
         Intent intent = new Intent(getContext(), DetailNewsAcivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(DetailFragmentNews.KEY_STRING_ITEM, newsItem);
-        NewsItem extracted = (NewsItem) bundle.getSerializable(DetailFragmentNews.KEY_STRING_ITEM);
-        Log.d(getClass().getCanonicalName(), "extracted item = " + newsItem);
         intent.putExtras(bundle);
         startActivity(intent);
 
@@ -79,7 +77,6 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
     @Override
     public void showProgressDialog() {
         swipeRefreshLayout.setRefreshing(true);
-
     }
 
     @Override
@@ -104,11 +101,12 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsViews, 
     }
 
     @Override
-    public void onScrolledToTheEnd(NewsItem lastItem) {
-        presenter.onScrollToTheEnd(lastItem);
+    public void onScrolledToTheEnd() {
+        presenter.onScrollToTheEnd(adapter.getItemCount());
     }
 
     @Override
     public void appendRecycleView(List<NewsItem> items) {
+        adapter.add(items);
     }
 }
