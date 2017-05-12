@@ -5,13 +5,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import wildbakery.ufu.Model.ApiModels.Image;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
+import wildbakery.ufu.Model.DAO.ImageDAO;
+import wildbakery.ufu.Model.DAO.ImageDAOImpl;
 import wildbakery.ufu.Model.DAO.NewsDAO;
 import wildbakery.ufu.Model.DAO.NewsDAOImpl;
 
@@ -25,6 +29,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "ufu.db";
 
     private NewsDAO newsDao;
+    private ImageDAO imageDAO;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +39,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, NewsItem.class);
+            TableUtils.createTable(connectionSource, Image.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
@@ -43,6 +49,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try{
             TableUtils.dropTable(connectionSource, NewsItem.class, true);
+            TableUtils.dropTable(connectionSource, Image.class, true);
             onCreate(sqLiteDatabase, connectionSource);
 
         } catch (SQLException e) {
@@ -57,5 +64,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         Log.v(getClass().getCanonicalName(), "got newsDao");
         return newsDao;
     }
+
+    public ImageDAO getImageDAO() throws SQLException {
+        if(imageDAO == null)
+            imageDAO = new ImageDAOImpl(getConnectionSource(), Image.class);
+        return imageDAO;
+    }
+
 
 }

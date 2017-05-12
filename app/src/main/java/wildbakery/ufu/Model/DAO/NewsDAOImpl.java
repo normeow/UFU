@@ -11,19 +11,28 @@ import java.util.Collection;
 import java.util.List;
 
 import wildbakery.ufu.Model.ApiModels.NewsItem;
+import wildbakery.ufu.Model.DatabaseHelper;
+import wildbakery.ufu.Model.HelperFactory;
 
 /**
  * Created by Tatiana on 28/04/2017.
  */
 
 public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsDAO{
+    private ImageDAO imageDAO;
     public NewsDAOImpl(ConnectionSource connectionSource, Class<NewsItem> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
     @Override
     public List<NewsItem> getAllNews() throws SQLException {
+        imageDAO = HelperFactory.getHelper().getImageDAO();
         List<NewsItem> items = queryBuilder().orderBy("newsWhen", false).query();
+        for (NewsItem item : items){
+            if (item.getImage() != null){
+                imageDAO.refreshImage(item.getImage());
+            }
+        }
         return items;
     }
 
@@ -35,12 +44,16 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
 
     @Override
     public void insertNews(NewsItem item) throws SQLException {
+        if (item.getImage() != null){
+            imageDAO.insertImage(item.getImage());
+        }
         this.createOrUpdate(item);
     }
 
     @Override
     public void insertNews(Collection<NewsItem> items) throws SQLException {
         for (NewsItem item : items){
+
             insertNews(item);
         }
 
