@@ -33,7 +33,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         newsFetcher = new NewsFetcher(this);
         model = NewsModel.getInstanse();
         getNewsFromDb();
-        tryGetNews();
     }
 
     private void setLoadingState(){
@@ -81,6 +80,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
     @Override
     public void onFailure() {
         // something goes wrong when tried to fetch data
+        setNotLoadingState();
         onError();
     }
 
@@ -96,12 +96,13 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
     public void onFetchDataFromDbFinished() {
         // NewsFetcher filled NewsModel with cached data
         Log.d(TAG, "onFetchDataFromDbFinished: ");
-        setNotLoadingState();
         List<NewsItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
-            setNotLoadingState();
+            //setNotLoadingState();
             getViewState().showNews(items);
         }
+
+        tryGetNews();
     }
 
     @Override

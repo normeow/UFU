@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.StatsSnapshot;
 
 import java.io.File;
 import java.util.List;
 
+import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
@@ -35,6 +38,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.items = items;
         this.listener = onItemClickListener;
     }
+
 
     @Override
     public int getItemViewType(int i) {
@@ -78,9 +82,12 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
              viewHolder1.tv_name_news.setText(item.getName());
              viewHolder1.tv_when_news.setText(item.getNewsWhen().substring(0, 10));
              viewHolder1.tv_category_news.setText(item.getCategory().getName());
-             Picasso.with(viewHolder1.tv_image.getContext())
-                    .load(new File(item.getImagePath()))
-                    .into( viewHolder1.tv_image);
+             if (item.getImage() != null) {
+                 Picasso.with(viewHolder1.tv_image.getContext())
+                         .load(item.getImage().getPath())
+                         .into(viewHolder1.tv_image);
+             }
+
 
         }
         else if(viewHolder instanceof OrientationMode2ViewHolder) {
@@ -95,18 +102,14 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewHolder2.tv_short_description.setText(item.getShortDescription());
 
 
-            mPicasso.load(new File(item.getImagePath())).resize(300, 200).centerCrop().into(viewHolder2.tv_image_news_2);
-            /*if(item.getImagePath() != null) {
-
-                mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())
-                .resize(300, 200).centerCrop().into(viewHolder2.tv_image_news_2);
-                Log.d("Picasso stats",picassoStats.toString());
-
-
+            if(item.getImage() != null) {
+                final String path = Constants.HTTP.IMAGE_URL + item.getImage().getPath();
+                mPicasso.load(path).resize(300, 200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(viewHolder2.tv_image_news_2);
+                Log.d(TAG, "onBindViewHolder: imagePath = " + path);
             }
-            else {
-                mPicasso.load(R.drawable.logo).resize(100,100).centerCrop().into(viewHolder2.tv_image_news_2);
-            }*/
+            else
+                mPicasso.load(R.drawable.logo).resize(100,100).centerInside().into(viewHolder2.tv_image_news_2);
+
         }
         if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;

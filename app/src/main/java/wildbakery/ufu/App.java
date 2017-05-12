@@ -25,13 +25,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instanse = this;
-        HelperFactory.setHelper(getApplicationContext());
+        //HelperFactory.setHelper(getApplicationContext());
     }
 
     @Override
     public void onTerminate() {
         //todo will it called in release?
-        HelperFactory.releaseHelper();
+        // HelperFactory.releaseHelper();
         super.onTerminate();
     }
 }

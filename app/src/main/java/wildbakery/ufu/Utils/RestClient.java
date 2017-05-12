@@ -1,5 +1,7 @@
 package wildbakery.ufu.Utils;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,7 +13,6 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 
 public class RestClient {
-
 
     public static <T> T create(String baseUrl, Class<T> apiInterfaceClass, Map<String, String> queries) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -33,7 +34,18 @@ public class RestClient {
             public Response intercept(Chain chain) throws IOException {
                 HttpUrl url = addQueryParametersToUrl(chain.request().url(), queries);
                 Request request = chain.request().newBuilder().url(url).build();
-                return chain.proceed(request);
+                Log.d("OkHttp", String.format("Sending request %s on %s%n%s",
+                        request.url(), chain.connection(), request.headers()));
+
+                long t1 = System.nanoTime();
+
+                Response response = chain.proceed(request);
+
+                long t2 = System.nanoTime();
+                Log.d("OkHttp", String.format("Received response for %s in %.1fms%n%s",
+                        response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+                return response;
             }
         };
     }

@@ -34,7 +34,7 @@ public class NewsItem extends Item{
 
     @SerializedName("image")
     @Expose
-    // do not add in data base
+    @DatabaseField(foreign = true)
     private Image image;
 
     @SerializedName("orientation_mode")
@@ -42,21 +42,9 @@ public class NewsItem extends Item{
     @DatabaseField()
     private int orientationMode;
 
-    @SerializedName("image_path")
-    @Expose
-    @DatabaseField()
-    private String imagePath;
 
     public NewsItem(){
-        imagePath = "drawable://" + R.drawable.logo;
-    }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public String getNewsWhen() {

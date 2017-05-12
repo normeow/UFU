@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
@@ -54,10 +57,11 @@ public class DetailFragmentNews extends Fragment {
         tvDescriptionDetail.setText(Html.fromHtml(item.getDescription()));
 
         Picasso mPicasso = Picasso.with(getContext());
-       // mPicasso.setIndicatorsEnabled(true);
+        mPicasso.setIndicatorsEnabled(true);
+
 
         if(item.getImage() != null) {
-            mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath())/*.memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE)*/.resize(300, 200).centerCrop().into(tvImageDetail);
+            mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath()).resize(300, 200).centerCrop().into(tvImageDetail);
         }
         else {
             mPicasso.load(R.drawable.logo).resize(500,300).centerInside().into(tvImageDetail);

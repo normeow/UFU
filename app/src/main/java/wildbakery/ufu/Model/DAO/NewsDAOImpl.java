@@ -1,10 +1,10 @@
 package wildbakery.ufu.Model.DAO;
 
-import android.content.Intent;
+import android.util.Log;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -23,33 +23,42 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
 
     @Override
     public List<NewsItem> getAllNews() throws SQLException {
-        return queryForAll();
+        List<NewsItem> items = queryBuilder().orderBy("newsWhen", false).query();
+        return items;
     }
 
     @Override
-    public List<NewsItem> getBatch(int startId, int count) {
+    public List<NewsItem> getBatch(long start, long limit) throws SQLException {
+        List<NewsItem> items = queryBuilder().orderBy("newsWhen", false).offset(start).limit(limit).query();
         return null;
     }
 
     @Override
     public void insertNews(NewsItem item) throws SQLException {
-        this.create(item);
+        this.createOrUpdate(item);
     }
 
     @Override
     public void insertNews(Collection<NewsItem> items) throws SQLException {
-        this.create(items);
+        for (NewsItem item : items){
+            insertNews(item);
+        }
 
     }
 
     @Override
-    public void deleteNews(NewsItem item) {
-
+    public void deleteNews(NewsItem item) throws SQLException {
+        delete(item);
     }
 
     @Override
-    public void updateNews(NewsItem item) {
-
+    public void updateNews(NewsItem item) throws SQLException {
+        update(item);
     }
 
+    @Override
+    public void deleteAllNews() throws SQLException {
+        Log.d(getClass().getCanonicalName(), "clear table News");
+        TableUtils.clearTable(getConnectionSource(), getDataClass());
+    }
 }

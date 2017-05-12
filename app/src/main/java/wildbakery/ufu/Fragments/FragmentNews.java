@@ -26,7 +26,7 @@ import wildbakery.ufu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.OnItemClickListener{
+public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.CallbackListener {
     private static final String TAG = "FragmentNews";
 
     private List<NewsItem> listItems;
@@ -119,4 +119,8 @@ public class FragmentNews extends BaseFragmentPage implements ItemsAdapterNews.O
 
     }
 
+    @Override
+    public void onScrolledToTheEnd() {
+
+    }
 }

@@ -48,7 +48,7 @@ public class ImageSaver{
         FileOutputStream foStream;
         try {
             foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
-            image.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, foStream);
             foStream.flush();
             foStream.close();
         } catch (Exception e) {

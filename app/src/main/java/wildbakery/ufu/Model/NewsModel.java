@@ -51,6 +51,7 @@ public class NewsModel {
     }
 
     public void setItems(List<NewsItem> items) {
+        Log.d(TAG, "setItems");
         this.items = items;
     }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,7 @@ public class NewsFetcher {
      * replace data in database and model with new data. Fetch first N items
      */
     private class RefreshDataTask extends AsyncTask<Integer, Void, List<NewsItem>>{
+        private Exception e;
         @Override
         protected List<NewsItem> doInBackground(final Integer... params) {
             List<NewsItem> items = null;
@@ -142,6 +144,7 @@ public class NewsFetcher {
                     newsModel.setItems(items);
                 }
             } catch (Exception e) {
+                this.e = e;
                 e.printStackTrace();
             }
             return items;
@@ -151,6 +154,10 @@ public class NewsFetcher {
         @Override
         protected void onPostExecute(List<NewsItem> items) {
             // and in model
+            if (e != null) {
+                listener.onFailure();
+                return;
+            }
             listener.onFetchDataFromServerFinished();
             super.onPostExecute(items);
         }
@@ -162,6 +169,7 @@ public class NewsFetcher {
     private class FetchBatchTask extends AsyncTask<Integer, Void, List<NewsItem>>{
 
         private int start;
+        private Exception e;
         @Override
         protected List<NewsItem> doInBackground(final Integer... params) {
             start = NewsModel.getInstanse().getItems().size();
@@ -186,6 +194,7 @@ public class NewsFetcher {
                         newsModel.addItems(items);
                     }
             } catch (Exception e) {
+                this.e = e;
                 e.printStackTrace();
             }
 
@@ -194,8 +203,10 @@ public class NewsFetcher {
 
         @Override
         protected void onPostExecute(List<NewsItem> items) {
-
-            // and in model
+            if (e != null){
+                listener.onFailure();
+                return;
+            }
             listener.onModelAppended(start);
             super.onPostExecute(items);
         }
