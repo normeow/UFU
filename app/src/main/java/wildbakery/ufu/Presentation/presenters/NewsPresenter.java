@@ -7,9 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
-import retrofit2.Call;
 import wildbakery.ufu.DataFetchers.NewsFetcher;
-import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Presentation.views.NewsView;
@@ -20,10 +18,10 @@ import wildbakery.ufu.Presentation.views.NewsView;
 @InjectViewState
 public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher.CallbacksListener {
 
+    private static final int COUNT_ITEMS_TO_LOAD = 20;
+
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
-    private boolean isLoading = false;
-    private static final int COUNT_ITEMS_TO_LOAD = 20;
 
 
     private NewsFetcher newsFetcher;
@@ -35,29 +33,15 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         getNewsFromDb();
     }
 
-    private void setLoadingState(){
-        if (isLoading)
-            return;
-        isLoading = true;
-        getViewState().showProgressDialog();
-    }
-
-    private void setNotLoadingState(){
-        if (!isLoading)
-            return;
-        isLoading = false;
-        getViewState().hideProgressDialog();
-    }
-
     private void getNewsFromDb(){
         Log.d(TAG, "getNewsFromDb: ");
-        setLoadingState();
+        getViewState().showProgressBar();
         newsFetcher.fetchDB();
     }
 
     public void tryGetNews(){
         Log.d(TAG, "tryGetNews: ");
-        setLoadingState();
+        getViewState().showProgressBar();
         newsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
 
@@ -78,16 +62,16 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
 
     @Override
-    public void onFailure() {
+    public void onRefreshFailed() {
         // something goes wrong when tried to fetch data
-        setNotLoadingState();
+        getViewState().hideProgressBar();
         onError();
     }
 
     @Override
     public void onFetchDataFromServerFinished() {
         Log.d(TAG, "onFetchDataFromServerFinished: ");
-        setNotLoadingState();
+        getViewState().hideProgressBar();
         List<NewsItem> items = model.getItems();
         getViewState().showNews(items);
     }
@@ -98,7 +82,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         Log.d(TAG, "onFetchDataFromDbFinished: ");
         List<NewsItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
-            //setNotLoadingState();
+            //getViewState().hideProgressBar();
             getViewState().showNews(items);
         }
 
@@ -108,25 +92,27 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
     @Override
     public void onModelAppended(int start) {
         getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
-        setNotLoadingState();
+        getViewState().hideProgressBar();
         Log.d(TAG, "onModelAppended: success");
     }
 
     public void onScrollToTheEnd(int start){
         //fetch next 20 items from server
-        if (isLoading)
-            return;
         Log.d(TAG, "onScrollToTheEnd: start = " + start);
-        setLoadingState();
         List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
         if (cachedItems == null || cachedItems.isEmpty()){
             Log.d(TAG, "onScrollToTheEnd: fetching batch");
             newsFetcher.fetchBatch(COUNT_ITEMS_TO_LOAD);
         }
         else{
-
             Log.d(TAG, "onScrollToTheEnd: get cached items from model");
             getViewState().appendRecycleView(cachedItems);
         }
+    }
+
+    @Override
+    public void onLoadBatchFailed() {
+        Log.d(TAG, "onLoadBatchFailed: ");
+        getViewState().showLoadingBatchError();
     }
 }

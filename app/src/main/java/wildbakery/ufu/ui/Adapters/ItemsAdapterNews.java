@@ -71,8 +71,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
         //scroll almost to the end. notify listener.
-        if (i == items.size() - 5){
-            Log.d(TAG, "onBindViewHolder: ");
+        if (i == items.size() - 3){
             listener.onScrolledToTheEnd();
         }
         final NewsItem item = items.get(i);
@@ -105,7 +104,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             if(item.getImage() != null) {
                 final String path = Constants.HTTP.IMAGE_URL + item.getImage().getPath();
                 mPicasso.load(path).resize(300, 200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(viewHolder2.tv_image_news_2);
-                Log.d(TAG, "onBindViewHolder: imagePath = " + path);
+                //Log.d(TAG, "onBindViewHolder: imagePath = " + path);
             }
             else
                 mPicasso.load(R.drawable.logo).resize(100,100).centerInside().into(viewHolder2.tv_image_news_2);
@@ -138,8 +137,6 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemCount() {
         return items.size();
     }
-
-
 
     public  class OrientationMode1ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_name_news, tv_when_news,tv_category_news;

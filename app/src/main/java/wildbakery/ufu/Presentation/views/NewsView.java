@@ -13,8 +13,9 @@ import wildbakery.ufu.Model.ApiModels.NewsItem;
 public interface NewsView extends MvpView {
     void showNews(List<NewsItem> news);
     void showDetail(NewsItem newsItem);
-    void showProgressDialog();
-    void hideProgressDialog();
+    void showProgressBar();
+    void hideProgressBar();
     void showToastMessage(String msg);
     void appendRecycleView(List<NewsItem> items);
+    void showLoadingBatchError();
 }

@@ -3,6 +3,9 @@ package wildbakery.ufu.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -17,6 +22,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Presentation.presenters.NewsPresenter;
 import wildbakery.ufu.Presentation.views.NewsView;
@@ -40,6 +46,8 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     private LinearLayoutManager mLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ItemsAdapterNews adapter;
+    private CoordinatorLayout rootLayout;
+    private Snackbar errorSnackBar;
 
 
     @Nullable
@@ -48,17 +56,33 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
         Log.d(TAG, "onCreateView: created");
         View view = inflater.inflate(R.layout.base_fragment_page, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.testswipe);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         // mLayoutManager.setReverseLayout(true);
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
+        rootLayout = (CoordinatorLayout) view.findViewById(R.id.fragmentLayout);
+        setSnackBar();
         return view;
+    }
+
+    private void setSnackBar(){
+        errorSnackBar = Snackbar.make(rootLayout, "Can't load news", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction("Try again", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG, "onClick: snackbar");
+                        onScrolledToTheEnd();
+
+                    }
+                });
     }
 
     @Override
     public void showNews(List<NewsItem> news) {
+        if (errorSnackBar.isShown())
+            errorSnackBar.dismiss();
         adapter = new ItemsAdapterNews(news, this);
         recyclerView.setAdapter(adapter);
     }
@@ -75,12 +99,12 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     }
 
     @Override
-    public void showProgressDialog() {
+    public void showProgressBar() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideProgressDialog() {
+    public void hideProgressBar() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -102,11 +126,19 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
 
     @Override
     public void onScrolledToTheEnd() {
+        if (errorSnackBar.isShown())
+            errorSnackBar.dismiss();
         presenter.onScrollToTheEnd(adapter.getItemCount());
     }
 
     @Override
     public void appendRecycleView(List<NewsItem> items) {
         adapter.add(items);
+    }
+
+    @Override
+    public void showLoadingBatchError() {
+        setSnackBar();
+        errorSnackBar.show();
     }
 }
