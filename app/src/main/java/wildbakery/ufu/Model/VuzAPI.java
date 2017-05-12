@@ -34,15 +34,9 @@ public interface VuzAPI {
     Call<QueryModel<SaleItem>> getSales();
 
     class Factory {
-        //now every query can contains different parameters
         private  static VuzAPI service;
-        private static final String PARAMETER_LIMIT = "limit";
-        private static final String PARAMETER_ORDERBYDESC = "orderbydesc";
-        private static final String PARAMETER_START = "start";
-        private static final String PARAMETER_TILLNOW = "tillNow";
-        private static final String KEY_NEWSWHEN = "newsWhen";
 
-
+        @Deprecated
         public static VuzAPI getInstance(){
             if (service == null){
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
@@ -64,41 +58,6 @@ public interface VuzAPI {
 
             return retrofit.create(VuzAPI.class);
         }
-
-        /**
-         *
-         * @param start
-         * @param limit number of items in batch
-         * @return
-         */
-        // todo single client builder class
-        public static okhttp3.OkHttpClient getNewsClient(final int start, final int limit){
-
-            okhttp3.OkHttpClient client = new okhttp3.OkHttpClient
-                    .Builder()
-                    .addInterceptor(new okhttp3.Interceptor() {
-                        @Override
-                        public okhttp3.Response intercept(Chain chain) throws IOException {
-                            okhttp3.Request request = chain.request();
-                            okhttp3.HttpUrl url = request.url()
-                                    .newBuilder()
-                                    .addQueryParameter(PARAMETER_ORDERBYDESC, KEY_NEWSWHEN)
-                                    .addQueryParameter(PARAMETER_LIMIT, Integer.toString(limit))
-                                    .addQueryParameter(PARAMETER_START, Integer.toString(start))
-                                    .build();
-
-                            request = request.newBuilder()
-                                    .url(url)
-                                    .build();
-
-                            return chain.proceed(request);
-                        }
-                    })
-                    .build();
-            return client;
-        }
     }
-
-
 
 }
