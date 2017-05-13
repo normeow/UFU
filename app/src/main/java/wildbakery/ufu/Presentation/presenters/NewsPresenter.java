@@ -22,6 +22,8 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
+    private boolean isRefreshing;
+    private boolean isLoading;
 
 
     private NewsFetcher newsFetcher;
@@ -52,7 +54,8 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     @Override
     public void onDestroy() {
-        // todo cancel all tasks in newsFetcher
+        Log.d(TAG, "onDestroy: ");
+        newsFetcher.cancel();
         super.onDestroy();
     }
 
@@ -82,7 +85,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         Log.d(TAG, "onFetchDataFromDbFinished: ");
         List<NewsItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
-            //getViewState().hideProgressBar();
+            getViewState().hideProgressBar();
             getViewState().showNews(items);
         }
 
@@ -91,6 +94,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     @Override
     public void onModelAppended(int start) {
+        isLoading = false;
         getViewState().hideBottomProgressBar();
         getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
         Log.d(TAG, "onModelAppended: success");
@@ -98,6 +102,9 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     public void onScrollToTheEnd(int start){
         //fetch next 20 items from server
+        if (isLoading)
+            return;
+        isLoading = true;
         Log.d(TAG, "onScrollToTheEnd: start = " + start);
         List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
         if (cachedItems == null || cachedItems.isEmpty()){
@@ -108,6 +115,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         else{
             Log.d(TAG, "onScrollToTheEnd: get cached items from model");
             getViewState().appendRecycleView(cachedItems);
+            isLoading = false;
         }
     }
 

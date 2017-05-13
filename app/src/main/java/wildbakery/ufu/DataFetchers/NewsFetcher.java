@@ -1,29 +1,21 @@
 package wildbakery.ufu.DataFetchers;
 
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.util.Log;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import retrofit2.Call;
-import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Model.ApiModels.QueryModel;
 import wildbakery.ufu.Model.DAO.NewsDAO;
 import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.App;
-import wildbakery.ufu.Utils.ImageSaver;
+import wildbakery.ufu.Utils.PicassoCache;
 import wildbakery.ufu.Utils.RestClient;
 
 /**
@@ -33,10 +25,11 @@ import wildbakery.ufu.Utils.RestClient;
 public class NewsFetcher {
 
     public interface CallbacksListener {
-        void onFailure();
+        void onRefreshFailed();
         void onFetchDataFromServerFinished();
         void onFetchDataFromDbFinished();
         void onModelAppended(int start);
+        void onLoadBatchFailed();
     }
 
     private static final String TAG = "NewsFetcher";
@@ -46,7 +39,6 @@ public class NewsFetcher {
     private FetchDbTask dbTask;
     private RefreshDataTask refreshDataTask;
     private FetchBatchTask fetchBatchTask;
-    private VuzAPI vuzAPI;
 
     private NewsModel newsModel = NewsModel.getInstanse();
 
@@ -85,8 +77,13 @@ public class NewsFetcher {
      * call when invoking component is destroying
      */
     public void cancel(){
-        // we can cancel only fetching. not when we are filling up the model
-        dbTask.cancel(true);
+        if (dbTask != null)
+            dbTask.cancel(true);
+        if (refreshDataTask != null)
+            refreshDataTask.cancel(true);
+        if(fetchBatchTask != null)
+            fetchBatchTask.cancel(true);
+        Log.d(TAG, "cancel: everything cancelled");
     }
 
     /**
@@ -131,17 +128,11 @@ public class NewsFetcher {
             Call<QueryModel<NewsItem>> call = VuzAPI.Factory.newInstance(RestClient.getOkHttpClient(queries)).getNews();
 
             try {
-                items = call.execute().body().getItems();
+                items = call.execute().body().getItems();Log.d(TAG, "doInBackground: gonna set NewsModel items");
+                newsDAO.deleteAllNews();
+                newsDAO.insertNews(items);
                 synchronized (newsModel) {
-                    Log.d(TAG, "doInBackground: gonna set NewsModel items");
-                    newsDAO.deleteAllNews();
-                    long t1 = System.nanoTime();
-                    //cacheData(items);
-                    //cacheDataWithoudDownloadImages(items);
-                    newsDAO.insertNews(items);
-                    long t2 = System.nanoTime();
-                    Log.d(TAG, String.format("doInBackground: time of caching data = %.1fms", (t2 - t1) / 1e6d) );
-                    newsModel.setItems(items);
+                     newsModel.setItems(items);
                 }
             } catch (Exception e) {
                 this.e = e;
@@ -155,7 +146,7 @@ public class NewsFetcher {
         protected void onPostExecute(List<NewsItem> items) {
             // and in model
             if (e != null) {
-                listener.onFailure();
+                listener.onRefreshFailed();
                 return;
             }
             listener.onFetchDataFromServerFinished();
@@ -183,13 +174,7 @@ public class NewsFetcher {
 
                 try {
                     items = call.execute().body().getItems();
-                    long t1 = System.nanoTime();
-                    // cacheData(items);
-                    //cacheDataWithoudDownloadImages(items);
                     newsDAO.insertNews(items);
-                    long t2 = System.nanoTime();
-                    Log.d(TAG, String.format("doInBackground: time of caching data = %.1fms", (t2 - t1) / 1e6d) );
-
                     synchronized (newsModel){
                         newsModel.addItems(items);
                     }
@@ -204,7 +189,7 @@ public class NewsFetcher {
         @Override
         protected void onPostExecute(List<NewsItem> items) {
             if (e != null){
-                listener.onFailure();
+                listener.onLoadBatchFailed();
                 return;
             }
             listener.onModelAppended(start);
