@@ -15,36 +15,27 @@ import wildbakery.ufu.Model.DAO.NewsDAO;
 import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.VuzAPI;
-import wildbakery.ufu.Utils.PicassoCache;
 import wildbakery.ufu.Utils.RestClient;
 
 /**
  * Created by Tatiana on 24/04/2017.
  */
 // get newsitems from database or server and put them into model, notify listener (presenter)
-public class NewsFetcher {
+public class NewsFetcher{
 
-    public interface CallbacksListener {
-        void onRefreshFailed();
-        void onFetchDataFromServerFinished();
-        void onFetchDataFromDbFinished();
-        void onModelAppended(int start);
-        void onLoadBatchFailed();
-    }
 
     private static final String TAG = "NewsFetcher";
 
-    private CallbacksListener listener;
+    private FetcherCallbacksListener listener;
     private NewsDAO newsDAO;
+
     private FetchDbTask dbTask;
     private RefreshDataTask refreshDataTask;
     private FetchBatchTask fetchBatchTask;
 
     private NewsModel newsModel = NewsModel.getInstanse();
 
-    private boolean isDbFetching;
-
-    public NewsFetcher(CallbacksListener listener){
+    public NewsFetcher(FetcherCallbacksListener listener){
         this.listener = listener;
         try {
             newsDAO = HelperFactory.getHelper().getNewsDao();
