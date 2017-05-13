@@ -3,23 +3,37 @@ package wildbakery.ufu.Model.ApiModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+import wildbakery.ufu.Constants;
+
+@DatabaseTable(tableName = Constants.TABLES.TABLE_SALES)
 public class SaleItem extends Item{
 
     @SerializedName("who")
     @Expose
+    @DatabaseField
     private String who;
+
     @SerializedName("image")
     @Expose
+    @DatabaseField(foreign = true)
     private Image image;
+
     @SerializedName("orientation_mode")
     @Expose
+    @DatabaseField
     private int orientationMode;
+
     @SerializedName("date_start")
     @Expose
+    @DatabaseField
     private String dateStart;
+
     @SerializedName("date_end")
     @Expose
+    @DatabaseField
     private String dateEnd;
 
     public String getWho() {
