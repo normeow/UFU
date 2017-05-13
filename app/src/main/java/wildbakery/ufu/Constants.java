@@ -25,4 +25,12 @@ public class Constants {
         public static final String COLUMN_PK_ID = "PK_ID";
     }
 
+    public static class  QUERY_PARAMETERS{
+        public static final String PARAM_ORDERBY = "orderby";
+        public static final String PARAM_ORDERBYDESC = "orderbydesc";
+        public static final String PARAM_LIMIT = "limit";
+        public static final String PARAM_FROM = "from";
+        public static final String PARAM_START = "start";
+    }
+
 }
