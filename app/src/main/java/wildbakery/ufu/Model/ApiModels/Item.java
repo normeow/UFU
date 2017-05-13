@@ -6,14 +6,21 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.io.Serializable;
 
+import wildbakery.ufu.Constants;
+
 /**
  * Created by Tatiana on 10/04/2017.
  */
 
 public class Item implements Serializable{
+
+    // for database
+    @DatabaseField(generatedId = true, columnName = Constants.TABLES.COLUMN_PK_ID)
+    protected int primaryKeyId;
+
     @SerializedName("id")
     @Expose
-    @DatabaseField(id = true)
+    @DatabaseField()
     protected int id;
 
     @SerializedName("name")
@@ -27,6 +34,14 @@ public class Item implements Serializable{
     protected String description;
 
     public Item(){}
+
+    public int getPrimaryKeyId() {
+        return primaryKeyId;
+    }
+
+    public void setPrimaryKeyId(int primaryKeyId) {
+        this.primaryKeyId = primaryKeyId;
+    }
 
     public int getId() {
         return id;

@@ -14,7 +14,7 @@ import wildbakery.ufu.Model.ApiModels.NewsItem;
 public class NewsModel {
     private static final String TAG = "NewsModel";
 
-    private List<NewsItem> items;
+    private List<NewsItem> items = new ArrayList<>();
 
     private static NewsModel instanse;
 
@@ -44,10 +44,6 @@ public class NewsModel {
         Log.d("TEST", "getBatchItems: start = " + start + " end = " + end);
         List<NewsItem> subl = items.subList(start, end);
         return subl;
-    }
-
-    private int getPositionById(int id){
-        return -1;
     }
 
     public void setItems(List<NewsItem> items) {

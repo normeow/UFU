@@ -8,7 +8,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 
-@DatabaseTable
+import wildbakery.ufu.Constants;
+
+@DatabaseTable(tableName = Constants.TABLES.TABLE_IMAGES)
 public class Image implements Serializable {
 
     @SerializedName("id")

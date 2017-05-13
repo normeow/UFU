@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Model.DatabaseHelper;
 import wildbakery.ufu.Model.HelperFactory;
@@ -27,7 +28,7 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     @Override
     public List<NewsItem> getAllNews() throws SQLException {
         imageDAO = HelperFactory.getHelper().getImageDAO();
-        List<NewsItem> items = queryBuilder().orderBy("newsWhen", false).query();
+        List<NewsItem> items = queryBuilder().orderBy(Constants.TABLES.COLUMN_PK_ID, true).query();
         for (NewsItem item : items){
             if (item.getImage() != null){
                 imageDAO.refreshImage(item.getImage());
@@ -38,7 +39,7 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
 
     @Override
     public List<NewsItem> getBatch(long start, long limit) throws SQLException {
-        List<NewsItem> items = queryBuilder().orderBy("newsWhen", false).offset(start).limit(limit).query();
+        List<NewsItem> items = queryBuilder().orderBy(Constants.TABLES.COLUMN_PK_ID, true).offset(start).limit(limit).query();
         return null;
     }
 
@@ -53,7 +54,6 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     @Override
     public void insertNews(Collection<NewsItem> items) throws SQLException {
         for (NewsItem item : items){
-
             insertNews(item);
         }
 
