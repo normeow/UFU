@@ -98,34 +98,20 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
              viewHolder1.tv_name_news.setText(item.getName());
              viewHolder1.tv_when_news.setText(item.getNewsWhen().substring(0, 10));
              viewHolder1.tv_category_news.setText(item.getCategory().getName());
-             if (item.getImage() != null) {
-                 Picasso.with(viewHolder1.tv_image.getContext())
-                         .load(item.getImage().getPath())
-                         .into(viewHolder1.tv_image);
-             }
+             PicassoCache.loadImage(item.getImage(), viewHolder1.tv_image);
 
 
         }
         else if(viewHolder instanceof OrientationMode2ViewHolder) {
 
             OrientationMode2ViewHolder viewHolder2 = (OrientationMode2ViewHolder) viewHolder;
-            Picasso mPicasso = Picasso.with(viewHolder2.tv_image_news_2.getContext());
-            mPicasso.setIndicatorsEnabled(true);
-            StatsSnapshot picassoStats = mPicasso.getSnapshot();
             viewHolder2.tv_category_news.setText(item.getCategory().getName());
             viewHolder2.tv_name_news.setText(item.getName());
             viewHolder2.tv_when_news.setText(item.getNewsWhen().substring(0, 10));
             viewHolder2.tv_short_description.setText(item.getShortDescription());
 
+            PicassoCache.loadImage(item.getImage(), viewHolder2.tv_image_news_2);
 
-
-            if(item.getImage() != null) {
-                final String path = item.getImage().getPath();
-                Log.d(TAG, "onBindViewHolder: path = " + path);
-                PicassoCache.loadImage(path, viewHolder2.tv_image_news_2);
-            }
-            else
-                mPicasso.load(R.drawable.logo).resize(100,100).centerInside().into(viewHolder2.tv_image_news_2);
 
         }
         if(viewHolder instanceof OrientationMode1ViewHolder) {

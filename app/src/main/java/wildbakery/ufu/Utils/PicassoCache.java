@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import wildbakery.ufu.App;
 import wildbakery.ufu.Constants;
+import wildbakery.ufu.Model.ApiModels.Image;
+import wildbakery.ufu.R;
 
 /**
  * Created by Tatiana on 12/05/2017.
@@ -28,7 +30,7 @@ public class PicassoCache {
     public static void loadImage(final String imagePath, final ImageView imageView){
         Log.d("TAG", "path = " + imagePath);
         final String path = Constants.HTTP.IMAGE_URL + imagePath;
-                Picasso.with(imageView.getContext())
+        Picasso.with(imageView.getContext())
                 .load(path)
                 .fit()
                 .centerCrop()
@@ -50,6 +52,18 @@ public class PicassoCache {
                                 .into(imageView);
                     }
                 });
+    }
+
+    public static void loadImage(Image image, final ImageView imageView){
+        if (image != null)
+            loadImage(image.getPath(), imageView);
+        else{
+            Picasso.with(imageView.getContext())
+                    .load(R.drawable.logo)
+                    .fit()
+                    .centerInside()
+                    .into(imageView);
+        }
     }
 
 }

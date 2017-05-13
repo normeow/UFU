@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.io.File;
 import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
+import wildbakery.ufu.Utils.PicassoCache;
 
 /**
  * Created by DIKII PEKAR on 19.12.2016.
@@ -56,17 +58,7 @@ public class DetailFragmentNews extends Fragment {
         tvNameDetail.setText(item.getName());
         tvDescriptionDetail.setText(Html.fromHtml(item.getDescription()));
 
-        Picasso mPicasso = Picasso.with(getContext());
-        mPicasso.setIndicatorsEnabled(true);
-
-
-        if(item.getImage() != null) {
-            mPicasso.load(Constants.HTTP.IMAGE_URL + item.getImage().getPath()).resize(300, 200).centerCrop().into(tvImageDetail);
-        }
-        else {
-            mPicasso.load(R.drawable.logo).resize(500,300).centerInside().into(tvImageDetail);
-        }
-
+        PicassoCache.loadImage(item.getImage(), tvImageDetail);
 
         return view;
     }
