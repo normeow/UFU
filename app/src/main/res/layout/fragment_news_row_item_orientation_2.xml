@@ -1,85 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/viewNews_2"
-              android:background="@color/TextWhite"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view_news="http://schemas.android.com/tools"
+    android:id="@+id/viewNews_2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
-              >
-
-    <RelativeLayout
-        android:orientation="vertical"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_news"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        card_view_news:cardCornerRadius="4dp"
         >
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:id="@+id/tvImageNews_2"
-             />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvWhenNews_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/news_when_2"
-            android:textColor="@color/TextWhite"
-            android:layout_margin="8dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            <ImageView
+                android:id="@+id/tvImageNews_2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/tvCategoryNews_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/news_category_2"
-            android:layout_margin="8dp"
-            android:textColor="@color/TextWhite"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvCategoryNews_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvWhenNews_2"
+                android:layout_alignBottom="@+id/tvWhenNews_2"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/news_category_2"
+                android:textColor="@color/TextWhite" />
 
-    <TextView
-        android:id="@+id/tvNameNews_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/news_name_2"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/LargeTextBlack"
-        android:layout_margin="6dp" />
+            <TextView
+                android:id="@+id/tvWhenNews_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tvImageNews_2"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/news_when_2"
+                android:textColor="@color/TextWhite" />
 
-    <TextView
-        android:id="@+id/tvShortDescriptionNews_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/news_short_description_2"
-        android:textColor="@color/Desciption_text"
-        android:layout_margin="6dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin"
+                android:orientation="vertical"
+                android:layout_below="@id/tvImageNews_2"
+                android:id="@+id/linLayoutCard">
+                <TextView
+                    android:id="@+id/tvNameNews_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/tvWhenNews_2"
+                    android:text="@string/news_name_2"
+                    android:textColor="@color/LargeTextBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="14dp"
-        android:background="@color/RecyclerViewBackground"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvShortDescriptionNews_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tvNameNews_2"
+                    android:layout_below="@+id/tvWhenNews_2"
 
-        <View
-            android:id="@+id/viewTop"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/line" />
 
-        <View
-            android:id="@+id/viewBottom"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="13dp"
-            android:background="@drawable/line" />
+                    android:text="@string/news_short_description_2"
+                    android:textColor="@color/Desciption_text" />
+            </LinearLayout>
+        </RelativeLayout>
 
-    </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
