@@ -18,7 +18,7 @@ import wildbakery.ufu.Presentation.views.NewsView;
 @InjectViewState
 public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher.CallbacksListener {
 
-    private static final int COUNT_ITEMS_TO_LOAD = 20;
+    private static final int COUNT_ITEMS_TO_LOAD = 15;
 
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
@@ -91,8 +91,8 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     @Override
     public void onModelAppended(int start) {
+        getViewState().hideBottomProgressBar();
         getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
-        getViewState().hideProgressBar();
         Log.d(TAG, "onModelAppended: success");
     }
 
@@ -102,6 +102,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
         if (cachedItems == null || cachedItems.isEmpty()){
             Log.d(TAG, "onScrollToTheEnd: fetching batch");
+            getViewState().showBottomProgressBar();
             newsFetcher.fetchBatch(COUNT_ITEMS_TO_LOAD);
         }
         else{
@@ -113,6 +114,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
     @Override
     public void onLoadBatchFailed() {
         Log.d(TAG, "onLoadBatchFailed: ");
+        getViewState().hideBottomProgressBar();
         getViewState().showLoadingBatchError();
     }
 }

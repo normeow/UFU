@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -24,6 +25,7 @@ import java.util.List;
 import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
+import wildbakery.ufu.Utils.PicassoCache;
 
 public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -34,6 +36,13 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     private CallbackListener listener;
     final int ORIENTATION_MODE_1 = 1;
     final int ORIENTATION_MODE_2 = 2;
+    final int PROGRESS_BAR = 3;
+
+    // number of item from the end when should be started loading
+    private final int countOffset = 3;
+
+    private boolean isLoading = false;
+
     public ItemsAdapterNews(List<NewsItem> items, CallbackListener onItemClickListener) {
         this.items = items;
         this.listener = onItemClickListener;
@@ -43,6 +52,9 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int i) {
         final NewsItem item = items.get(i);
+        if (item == null)
+            return PROGRESS_BAR;
+
         if(item.getOrientationMode() == 1){
             return ORIENTATION_MODE_1;
         }
@@ -50,18 +62,23 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view;
 
-        switch (i) {
-            case 1: {
+        switch (viewType) {
+            case ORIENTATION_MODE_1: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_news_row_item_orientation_1, viewGroup, false);
                 return new OrientationMode1ViewHolder(view);
             }
 
-            case 2: {
+            case ORIENTATION_MODE_2: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_news_row_item_orientation_2, viewGroup, false);
                 return new OrientationMode2ViewHolder(view);
+            }
+
+            case PROGRESS_BAR:{
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.progressbar, viewGroup, false);
+                return new ProgressBarViewHolder(view);
             }
         }
       return null;
@@ -71,7 +88,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
         //scroll almost to the end. notify listener.
-        if (i == items.size() - 3){
+        if (i == items.size() - countOffset){
             listener.onScrolledToTheEnd();
         }
         final NewsItem item = items.get(i);
@@ -101,10 +118,11 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewHolder2.tv_short_description.setText(item.getShortDescription());
 
 
+
             if(item.getImage() != null) {
-                final String path = Constants.HTTP.IMAGE_URL + item.getImage().getPath();
-                mPicasso.load(path).resize(300, 200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(viewHolder2.tv_image_news_2);
-                //Log.d(TAG, "onBindViewHolder: imagePath = " + path);
+                final String path = item.getImage().getPath();
+                Log.d(TAG, "onBindViewHolder: path = " + path);
+                PicassoCache.loadImage(path, viewHolder2.tv_image_news_2);
             }
             else
                 mPicasso.load(R.drawable.logo).resize(100,100).centerInside().into(viewHolder2.tv_image_news_2);
@@ -129,12 +147,24 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             };
             viewHolder2.mView.setOnClickListener(listener);
-
-
+        }
+        else if (viewHolder instanceof ProgressBarViewHolder){
+            ((ProgressBarViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }
     }
     @Override
     public int getItemCount() {
+        return items.size();
+    }
+
+    /**
+     * forouter invokations
+     * @return actual number of items in list without progress bar
+     */
+    public int getActualItemCount(){
+
+        if (isLoading)
+            return items.size() - 1;
         return items.size();
     }
 
@@ -167,11 +197,20 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             tv_when_news = (TextView) view.findViewById(R.id.tvWhenNews_2);
             tv_category_news = (TextView) view.findViewById(R.id.tvCategoryNews_2);
             tv_short_description = (TextView) view.findViewById(R.id.tvShortDescriptionNews_2);
-        }
+       }
 
     }
 
+    public class ProgressBarViewHolder extends RecyclerView.ViewHolder{
+        ProgressBar progressBar;
+        public ProgressBarViewHolder(View view){
+            super(view);
+            progressBar = (ProgressBar)view.findViewById(R.id.progressbar);
+        }
+    }
+
     public void add(List<NewsItem> items){
+
         if (!items.isEmpty()) {
             this.items.addAll(items);
             notifyDataSetChanged();
@@ -179,12 +218,30 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-
     public interface CallbackListener {
-
         void onItemClick(NewsItem item);
         void onScrolledToTheEnd();
     }
+
+    public void showProgressBar(){
+        Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
+        if (!isLoading) {
+            isLoading = true;
+            items.add(null);
+            notifyItemInserted(items.size() - 1);
+        }
+    }
+
+    public void hideProgressBar(){
+        Log.d(TAG, "hideProgressBar: isLoading = " + isLoading);
+        if (isLoading){
+            isLoading = false;
+            items.remove(items.size() - 1);
+            notifyItemRemoved(items.size());
+        }
+    }
+
+
 
 
 }

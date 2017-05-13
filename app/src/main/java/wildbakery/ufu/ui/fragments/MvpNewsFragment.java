@@ -128,7 +128,7 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     public void onScrolledToTheEnd() {
         if (errorSnackBar.isShown())
             errorSnackBar.dismiss();
-        presenter.onScrollToTheEnd(adapter.getItemCount());
+        presenter.onScrollToTheEnd(adapter.getActualItemCount());
     }
 
     @Override
@@ -140,5 +140,15 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     public void showLoadingBatchError() {
         setSnackBar();
         errorSnackBar.show();
+    }
+
+    @Override
+    public void showBottomProgressBar() {
+        adapter.showProgressBar();
+    }
+
+    @Override
+    public void hideBottomProgressBar() {
+        adapter.hideProgressBar();
     }
 }
