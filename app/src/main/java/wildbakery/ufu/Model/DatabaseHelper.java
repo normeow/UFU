@@ -13,9 +13,12 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import wildbakery.ufu.Model.ApiModels.Image;
+import wildbakery.ufu.Model.ApiModels.JobItem;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Model.DAO.ImageDAO;
 import wildbakery.ufu.Model.DAO.ImageDAOImpl;
+import wildbakery.ufu.Model.DAO.JobsDAO;
+import wildbakery.ufu.Model.DAO.JobsDAOImpl;
 import wildbakery.ufu.Model.DAO.NewsDAO;
 import wildbakery.ufu.Model.DAO.NewsDAOImpl;
 
@@ -30,6 +33,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private NewsDAO newsDao;
     private ImageDAO imageDAO;
+    private JobsDAO jobsDAO;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,6 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, NewsItem.class);
             TableUtils.createTable(connectionSource, Image.class);
+            TableUtils.createTable(connectionSource, JobItem.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
@@ -50,6 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try{
             TableUtils.dropTable(connectionSource, NewsItem.class, true);
             TableUtils.dropTable(connectionSource, Image.class, true);
+            TableUtils.dropTable(connectionSource, JobItem.class, true);
             onCreate(sqLiteDatabase, connectionSource);
 
         } catch (SQLException e) {
@@ -61,7 +67,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public NewsDAO getNewsDao() throws SQLException {
         if (newsDao == null)
             newsDao = new NewsDAOImpl(getConnectionSource(), NewsItem.class);
-        Log.v(getClass().getCanonicalName(), "got newsDao");
         return newsDao;
     }
 
@@ -69,6 +74,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if(imageDAO == null)
             imageDAO = new ImageDAOImpl(getConnectionSource(), Image.class);
         return imageDAO;
+    }
+
+    public JobsDAO getJobsDAO() throws SQLException {
+        if (jobsDAO == null)
+            jobsDAO = new JobsDAOImpl(getConnectionSource(), JobItem.class);
+        return jobsDAO;
     }
 
 
