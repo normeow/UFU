@@ -17,6 +17,12 @@ public class Constants {
     public static class TABLES{
 
         public static final String TABLE_NEWS = "TABLE_NEWS";
+        public static final String TABLE_IMAGES = "TABLE_IMAGES";
+        public static final String TABLE_JOBS = "TABLE_JOBS";
+        public static final String TABLE_SALES = "TABLE_SALES";
+        public static final String TABLE_EVENT = "TABLE_JOBS";
+
+        public static final String COLUMN_PK_ID = "PK_ID";
     }
 
 }
