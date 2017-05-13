@@ -1,6 +1,7 @@
 package wildbakery.ufu.ui.Adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,51 +10,61 @@ import android.widget.TextView;
 import java.util.List;
 
 import wildbakery.ufu.Model.ApiModels.JobItem;
+import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
+
 public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "ItemsAdapterJob";
     private List<JobItem> items;
 
-    private OnItemClickListener onItemClickListener;
-    public static final int TYPE_HEADER = 0;
-    public static final int TYPE_NORMAL = 1;
+    private OnItemClickListener listener;
+    public static final int TYPE_NORMAL = 0;
+    final int PROGRESS_BAR = 1;
 
-    public ItemsAdapterJob(List<JobItem> items, OnItemClickListener onItemClickListener) {
+    // number of item from the end when should be started loading
+    private final int countOffset = 2;
+
+    private boolean isLoading = false;
+
+    public ItemsAdapterJob(List<JobItem> items, OnItemClickListener listener) {
         this.items = items;
-        this.onItemClickListener = onItemClickListener;
+        this.listener = listener;
     }
 
     @Override
     public int getItemViewType(int i) {
-
-      return i == items.size()-1 ? TYPE_HEADER : TYPE_NORMAL;
+        final JobItem item = items.get(i);
+        if (item == null)
+            return PROGRESS_BAR;
+        return TYPE_NORMAL;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View view;
-        if(i == TYPE_HEADER){
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_job_count, viewGroup, false);
-                return new OrientationMode0ViewHolder(view);
-            }
-           else {
+        switch (viewType){
+            case TYPE_NORMAL:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_job_row_item, viewGroup, false);
                 return new OrientationMode1ViewHolder(view);
-            }
-
-
+            case PROGRESS_BAR:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.progressbar, viewGroup, false);
+                return new ProgressBarViewHolder(view);
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         final JobItem item = items.get(i);
-            if ( viewHolder instanceof OrientationMode0ViewHolder ) {
-                OrientationMode0ViewHolder viewHolder0 = (OrientationMode0ViewHolder) viewHolder;
-                viewHolder0.tv_job_count.setText(Integer.toString(items.size()-1) + " вакансии");
-            }
 
-        else if(viewHolder instanceof OrientationMode1ViewHolder) {
+        //scroll almost to the end. notify listener.
+        if (i == items.size() - countOffset) 
+            listener.onScrolledToTheEnd();
+        
+
+        if(viewHolder instanceof OrientationMode1ViewHolder) {
             OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;
             viewHolder1.tv_name_job.setText(item.getName());
                 viewHolder1.tv_short_description.setText(item.getShortDescription());
@@ -64,13 +75,17 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
         }
 
+        else if (viewHolder instanceof ProgressBarViewHolder){
+            ((ProgressBarViewHolder) viewHolder).progressBar.setIndeterminate(true);
+        }
+
        if( viewHolder instanceof OrientationMode1ViewHolder) {
            OrientationMode1ViewHolder viewHolder1 = (OrientationMode1ViewHolder) viewHolder;
 
            View.OnClickListener listener = new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   onItemClickListener.onItemClick(item);
+                   ItemsAdapterJob.this.listener.onItemClick(item);
                }
            };
            viewHolder1.mView.setOnClickListener(listener);
@@ -78,21 +93,44 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return items.size();
     }
 
+    public int getActualItemCount() {
+        if (isLoading)
+            return items.size() - 1;
+        return items.size();
+    }
 
-
-    public static class OrientationMode0ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_job_count;
-
-        public OrientationMode0ViewHolder(View view) {
-            super(view);
-           tv_job_count = (TextView) view.findViewById(R.id.tvJobCount);
-
+    public void add(List<JobItem> items) {
+        if (!items.isEmpty()) {
+            this.items.addAll(items);
+            notifyDataSetChanged();
         }
     }
+
+    public void showProgressBar(){
+        Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
+        if (!isLoading) {
+            isLoading = true;
+            items.add(null);
+            try {
+                notifyItemInserted(items.size() - 1);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }}
+
+    public void hideProgressBar(){
+        Log.d("", "hideProgressBar: isLoading = " + isLoading);
+        if (isLoading){
+            isLoading = false;
+            items.remove(items.size() - 1);
+            notifyItemRemoved(items.size());
+        }}
+
 
     public  class OrientationMode1ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_name_job, tv_short_description,tv_wage_job;
@@ -108,8 +146,8 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-
     public interface OnItemClickListener {
         void onItemClick(JobItem item);
+        void onScrolledToTheEnd();
     }
 }

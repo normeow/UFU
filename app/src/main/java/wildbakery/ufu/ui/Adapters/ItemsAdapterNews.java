@@ -14,15 +14,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.StatsSnapshot;
-
-import java.io.File;
 import java.util.List;
 
-import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 import wildbakery.ufu.Utils.PicassoCache;
@@ -39,7 +32,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     final int PROGRESS_BAR = 3;
 
     // number of item from the end when should be started loading
-    private final int countOffset = 3;
+    private final int countOffset = 1;
 
     private boolean isLoading = false;
 
@@ -144,7 +137,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * forouter invokations
+     * for outer invokations
      * @return actual number of items in list without progress bar
      */
     public int getActualItemCount(){
@@ -187,14 +180,6 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-    public class ProgressBarViewHolder extends RecyclerView.ViewHolder{
-        ProgressBar progressBar;
-        public ProgressBarViewHolder(View view){
-            super(view);
-            progressBar = (ProgressBar)view.findViewById(R.id.progressbar);
-        }
-    }
-
     public void add(List<NewsItem> items){
 
         if (!items.isEmpty()) {
@@ -214,7 +199,13 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (!isLoading) {
             isLoading = true;
             items.add(null);
-            notifyItemInserted(items.size() - 1);
+            try {
+                notifyItemInserted(items.size() - 1);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 
