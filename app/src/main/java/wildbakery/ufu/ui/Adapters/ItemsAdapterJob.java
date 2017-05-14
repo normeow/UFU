@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import wildbakery.ufu.Model.ApiModels.JobItem;
-import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
 
 
@@ -20,10 +19,10 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private OnItemClickListener listener;
     public static final int TYPE_NORMAL = 0;
-    final int PROGRESS_BAR = 1;
+    public static final int PROGRESS_BAR = 1;
 
     // number of item from the end when should be started loading
-    private final int countOffset = 2;
+    private final int COUNT_OFFSET = 2;
 
     private boolean isLoading = false;
 
@@ -60,7 +59,7 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final JobItem item = items.get(i);
 
         //scroll almost to the end. notify listener.
-        if (i > items.size() - countOffset){
+        if (i > items.size() - COUNT_OFFSET){
             if (!isLoading)
                 listener.onScrolledToTheEnd();
         }
@@ -137,7 +136,8 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
             isLoading = false;
             items.remove(items.size() - 1);
             notifyItemRemoved(items.size());
-        }}
+        }
+    }
 
 
     public  class OrientationMode1ViewHolder extends RecyclerView.ViewHolder{
