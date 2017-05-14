@@ -23,11 +23,11 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     private ImageDAO imageDAO;
     public NewsDAOImpl(ConnectionSource connectionSource, Class<NewsItem> dataClass) throws SQLException {
         super(connectionSource, dataClass);
+        imageDAO = HelperFactory.getHelper().getImageDAO();
     }
 
     @Override
     public List<NewsItem> getAllNews() throws SQLException {
-        imageDAO = HelperFactory.getHelper().getImageDAO();
         List<NewsItem> items = queryBuilder().orderBy(Constants.TABLES.COLUMN_PK_ID, true).query();
         for (NewsItem item : items){
             if (item.getImage() != null){
@@ -62,6 +62,8 @@ public class NewsDAOImpl extends BaseDaoImpl<NewsItem, Integer> implements NewsD
     @Override
     public void deleteNews(NewsItem item) throws SQLException {
         delete(item);
+        if (item.getImage() != null)
+            imageDAO.deleteImage(item.getImage());
     }
 
     @Override

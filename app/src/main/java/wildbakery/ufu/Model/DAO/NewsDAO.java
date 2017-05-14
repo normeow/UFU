@@ -12,11 +12,11 @@ import wildbakery.ufu.Model.ApiModels.NewsItem;
 
 public interface NewsDAO {
     List<NewsItem> getAllNews() throws SQLException;
+    @Deprecated
     List<NewsItem> getBatch(long start, long limit) throws SQLException;
     void insertNews(NewsItem item) throws SQLException;
     void insertNews(Collection<NewsItem> items) throws SQLException;
     void deleteNews(NewsItem item) throws SQLException;
-    // update all fields but id
     void updateNews(NewsItem item) throws SQLException;
     void deleteAllNews() throws SQLException;
 }
