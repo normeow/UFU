@@ -1,5 +1,14 @@
 package wildbakery.ufu.Utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ComposeShader;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Shader;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -13,6 +22,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import java.io.IOException;
 
@@ -34,6 +44,7 @@ public class PicassoCache {
                 .load(path)
                 .fit()
                 .centerCrop()
+                .transform(new VerticalGradient())
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(imageView, new Callback() {
                     @Override
@@ -60,6 +71,7 @@ public class PicassoCache {
         else{
             Picasso.with(imageView.getContext())
                     .load(R.drawable.logo)
+                    .transform(new VerticalGradient())
                     .fit()
                     .centerInside()
                     .into(imageView);

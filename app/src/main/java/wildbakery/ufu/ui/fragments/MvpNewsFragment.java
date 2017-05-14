@@ -14,17 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
-import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Presentation.presenters.NewsPresenter;
 import wildbakery.ufu.Presentation.views.NewsView;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
+import wildbakery.ufu.ui.fragments.DetailFragments.DetailFragmentNews;
 
 /**
  * Created by Tatiana on 26/04/2017.
@@ -90,13 +89,6 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
     @Override
     public void showDetail(NewsItem newsItem) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + newsItem);
-//        Intent intent = new Intent(getContext(), DetailNewsAcivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(DetailFragmentNews.KEY_STRING_ITEM, newsItem);
-//        intent.putExtras(bundle);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//        startActivity(intent);
-
         activeDetailFragment = DetailFragmentNews.newInstance(newsItem);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.newsFragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
@@ -161,14 +153,18 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
     @Override
     public boolean onBackPressed() {
         if (activeDetailFragment != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
-            activeDetailFragment = null;
-
-            recyclerView.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            presenter.hideDetailFragment();
             return false;
         } else {
             return super.onBackPressed();
         }
+    }
+
+    @Override
+    public void hideDetail() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
+        activeDetailFragment = null;
+        recyclerView.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 }

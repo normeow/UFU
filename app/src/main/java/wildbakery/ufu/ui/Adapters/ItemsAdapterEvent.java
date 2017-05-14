@@ -148,12 +148,14 @@ public class ItemsAdapterEvent extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void showProgressBar() {Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
+
         if (!isLoading) {
-            isLoading = true;
             items.add(null);
             try {
                 notifyItemInserted(items.size() - 1);
-            } catch (Exception e) {
+                isLoading = true;
+            } catch (IllegalStateException e) {
+                items.remove(items.size() - 1);
                 e.printStackTrace();
             }
         }

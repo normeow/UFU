@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragments;
+package wildbakery.ufu.ui.fragments.DetailFragments;
 
 /**
  * Created by DIKII PEKAR on 19.12.2016.

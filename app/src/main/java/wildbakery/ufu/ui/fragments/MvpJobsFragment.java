@@ -1,6 +1,5 @@
 package wildbakery.ufu.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -15,19 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
-import wildbakery.ufu.Fragments.DetailFragmentJob;
-import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Model.ApiModels.JobItem;
 import wildbakery.ufu.Presentation.presenters.JobsPresenter;
 import wildbakery.ufu.Presentation.views.JobsView;
 import wildbakery.ufu.R;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterJob;
-import wildbakery.ufu.ui.activity.DetailJobAcivity;
+import wildbakery.ufu.ui.fragments.DetailFragments.DetailFragmentJob;
 
 /**
  * Created by Tatiana on 26/04/2017.
@@ -88,11 +84,6 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
     @Override
     public void showDetail(JobItem jobsItem) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + jobsItem);
-//        Intent intent = new Intent(getContext(), DetailJobAcivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(DetailFragmentJob.KEY_STRING_ITEM, jobsItem);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
         activeDetailFragment = DetailFragmentJob.newInstance(jobsItem);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.jobsFragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
@@ -147,7 +138,7 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
     @Override
     public void showBottomProgressBar() {
         adapter.showProgressBar();
-        recyclerView.scrollToPosition(adapter.getActualItemCount());
+        recyclerView.scrollToPosition(adapter.getItemCount());
     }
 
     @Override
@@ -157,13 +148,19 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
     @Override
     public boolean onBackPressed() {
         if (activeDetailFragment != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
-            activeDetailFragment = null;
-            recyclerView.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            presenter.hideDetailFragment();
             return false;
         } else {
             return super.onBackPressed();
         }
+    }
+
+    @Override
+    public void hideDetail() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
+        activeDetailFragment = null;
+        recyclerView.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+
     }
 }

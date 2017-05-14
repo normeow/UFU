@@ -141,7 +141,6 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @return actual number of items in list without progress bar
      */
     public int getActualItemCount(){
-
         if (isLoading)
             return items.size() - 1;
         return items.size();
@@ -199,14 +198,13 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void showProgressBar(){
-        Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
         if (!isLoading) {
-            isLoading = true;
             items.add(null);
             try {
                 notifyItemInserted(items.size() - 1);
-            }
-            catch (Exception e){
+                isLoading = true;
+            } catch (IllegalStateException e) {
+                items.remove(items.size() - 1);
                 e.printStackTrace();
             }
         }

@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 
+@Deprecated
 public class ImageSaver{
     private Context context;
 

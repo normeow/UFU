@@ -13,6 +13,7 @@ import wildbakery.ufu.Model.ApiModels.JobItem;
 public interface JobsView extends MvpView {
     void showJobs(List<JobItem> jobs);
     void showDetail(JobItem jobItem);
+    void hideDetail();
     void showProgressBar();
     void hideProgressBar();
     void showToastMessage(String msg);

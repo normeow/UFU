@@ -99,9 +99,12 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public int getActualItemCount() {
+        int res = items.size();
+       // if (items.get(items.size() - 1) == null)
         if (isLoading)
-            return items.size() - 1;
-        return items.size();
+            res = res - 1;
+        Log.d(TAG, String.format("getActualItemCount: size = %d, isLoading = %s", res, Boolean.toString(isLoading)));
+        return res;
     }
 
     public void add(List<JobItem> items) {
@@ -120,11 +123,13 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void showProgressBar(){
         Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
         if (!isLoading) {
-            isLoading = true;
             items.add(null);
             try {
                 notifyItemInserted(items.size() - 1);
-            } catch (Exception e) {
+                isLoading = true;
+            } catch (IllegalStateException e) {
+                items.remove(items.size() - 1);
+                Log.d(TAG, "showProgressBar: catch exception, remove null last item");
                 e.printStackTrace();
             }
         }
@@ -133,9 +138,9 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void hideProgressBar(){
         Log.d("", "hideProgressBar: isLoading = " + isLoading);
         if (isLoading){
-            isLoading = false;
             items.remove(items.size() - 1);
             notifyItemRemoved(items.size());
+            isLoading = false;
         }
     }
 

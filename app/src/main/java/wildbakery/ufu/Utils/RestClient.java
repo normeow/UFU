@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 
 public class RestClient {
 
-    public static <T> T create(String baseUrl, Class<T> apiInterfaceClass, Map<String, String> queries) {
+    public static<T> T create(String baseUrl, Class<T> apiInterfaceClass, Map<String, String> queries) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(getOkHttpClient(queries))

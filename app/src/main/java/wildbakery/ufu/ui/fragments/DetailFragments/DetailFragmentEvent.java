@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragments;
+package wildbakery.ufu.ui.fragments.DetailFragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package wildbakery.ufu.Fragments;
+package wildbakery.ufu.ui.fragments.DetailFragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +18,8 @@ import wildbakery.ufu.R;
 
 public class DetailFragmentJob extends Fragment {
 
+
+    public static final String KEY_STRING_ITEM = "item";
     private static String ARG_ITEM;
     private JobItem item;
 

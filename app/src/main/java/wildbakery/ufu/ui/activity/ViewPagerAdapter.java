@@ -1,24 +1,20 @@
-package wildbakery.ufu;
+package wildbakery.ufu.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import wildbakery.ufu.Fragments.BaseFragmentPage;
-import wildbakery.ufu.Fragments.FragmentEvent;
-import wildbakery.ufu.Fragments.FragmentJob;
-import wildbakery.ufu.Fragments.FragmentNews;
-import wildbakery.ufu.Fragments.FragmentSale;
 
 /**
  * Created by Jaison on 23/10/16.
  */
 
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
     private List<String> titles;

@@ -41,6 +41,9 @@ public class JobsModel {
         if (items.isEmpty())
             return null;
         int end = (start + count) < items.size() ? start + count : items.size();
+        if (start > end) {
+            Log.d(TAG, "getBatchItems: wtf");
+        }
         Log.d("TEST", "getBatchItems: start = " + start + " end = " + end);
         List<JobItem> subl = items.subList(start, end);
         return subl;
