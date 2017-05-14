@@ -20,7 +20,7 @@ public class Constants {
         public static final String TABLE_IMAGES = "TABLE_IMAGES";
         public static final String TABLE_JOBS = "TABLE_JOBS";
         public static final String TABLE_SALES = "TABLE_SALES";
-        public static final String TABLE_EVENT = "TABLE_JOBS";
+        public static final String TABLE_EVENT = "TABLE_EVENT";
 
         public static final String COLUMN_PK_ID = "PK_ID";
     }
