@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     final int PROGRESS_BAR = 3;
 
     // number of item from the end when should be started loading
-    private final int countOffset = 1;
+    private static final int COUNT_OFFSET = 3;
 
     private boolean isLoading = false;
 
@@ -81,8 +80,9 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
         //scroll almost to the end. notify listener.
-        if (i == items.size() - countOffset){
-            listener.onScrolledToTheEnd();
+        if (i > items.size() - COUNT_OFFSET){
+            if (!isLoading)
+                listener.onScrolledToTheEnd();
         }
         final NewsItem item = items.get(i);
 
@@ -181,12 +181,16 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void add(List<NewsItem> items){
-
-        if (!items.isEmpty()) {
-            this.items.addAll(items);
-            notifyDataSetChanged();
+        try {
+            if (!items.isEmpty()) {
+                this.items.addAll(items);
+                notifyDataSetChanged();
+            }
         }
-
+        catch (Exception e){
+            Log.d(TAG, "add: caught");
+            e.printStackTrace();
+        }
     }
 
     public interface CallbackListener {
@@ -205,7 +209,6 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
             catch (Exception e){
                 e.printStackTrace();
             }
-
         }
     }
 

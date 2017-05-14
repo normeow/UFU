@@ -60,8 +60,10 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final JobItem item = items.get(i);
 
         //scroll almost to the end. notify listener.
-        if (i == items.size() - countOffset) 
-            listener.onScrolledToTheEnd();
+        if (i > items.size() - countOffset){
+            if (!isLoading)
+                listener.onScrolledToTheEnd();
+        }
         
 
         if(viewHolder instanceof OrientationMode1ViewHolder) {
@@ -104,9 +106,15 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void add(List<JobItem> items) {
-        if (!items.isEmpty()) {
-            this.items.addAll(items);
-            notifyDataSetChanged();
+        try {
+            if (!items.isEmpty()) {
+                this.items.addAll(items);
+                notifyDataSetChanged();
+            }
+        }
+        catch (Exception e){
+            Log.d(TAG, "add: caught");
+            e.printStackTrace();
         }
     }
 
@@ -117,11 +125,11 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
             items.add(null);
             try {
                 notifyItemInserted(items.size() - 1);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }}
+        }
+    }
 
     public void hideProgressBar(){
         Log.d("", "hideProgressBar: isLoading = " + isLoading);
