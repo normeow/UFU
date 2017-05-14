@@ -104,7 +104,8 @@ public class MvpSalesFragment extends MvpBaseFragment implements SalesView, Swip
 
     @Override
     public void showToastMessage(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        if (this.isVisible())
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -103,7 +103,8 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
 
     @Override
     public void showToastMessage(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        if (this.isVisible())
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
