@@ -18,7 +18,8 @@ import wildbakery.ufu.Presentation.views.JobsView;
  */
 @InjectViewState
 public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCallbacksListener {
-    private static final int COUNT_ITEMS_TO_LOAD = 15;
+    // shold be power of 2
+    private static final int COUNT_ITEMS_TO_LOAD = 16;
 
     private static final String TAG = "JobsPresenter";
     private JobsModel model;
@@ -117,5 +118,9 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
         Log.d(TAG, "onLoadBatchFailed: ");
         getViewState().hideBottomProgressBar();
         getViewState().showLoadingBatchError();
+    }
+
+    public void hideDetailFragment(){
+        getViewState().hideDetail();
     }
 }

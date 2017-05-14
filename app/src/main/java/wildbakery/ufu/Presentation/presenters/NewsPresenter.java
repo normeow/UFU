@@ -7,6 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.DataFetchers.FetcherCallbacksListener;
 import wildbakery.ufu.DataFetchers.NewsFetcher;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
@@ -16,14 +17,12 @@ import wildbakery.ufu.Presentation.views.NewsView;
  * Created by Tatiana on 24/04/2017.
  */
 @InjectViewState
-public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher.CallbacksListener {
+public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCallbacksListener {
 
-    private static final int COUNT_ITEMS_TO_LOAD = 15;
+    private static final int COUNT_ITEMS_TO_LOAD = 20;
 
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
-    private boolean isRefreshing;
-    private boolean isLoading;
 
 
     private NewsFetcher newsFetcher;
@@ -94,7 +93,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     @Override
     public void onModelAppended(int start) {
-        isLoading = false;
         getViewState().hideBottomProgressBar();
         getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
         Log.d(TAG, "onModelAppended: success");
@@ -102,9 +100,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
 
     public void onScrollToTheEnd(int start){
         //fetch next 20 items from server
-        if (isLoading)
-            return;
-        isLoading = true;
         Log.d(TAG, "onScrollToTheEnd: start = " + start);
         List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
         if (cachedItems == null || cachedItems.isEmpty()){
@@ -115,7 +110,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         else{
             Log.d(TAG, "onScrollToTheEnd: get cached items from model");
             getViewState().appendRecycleView(cachedItems);
-            isLoading = false;
         }
     }
 
@@ -124,5 +118,9 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements NewsFetcher
         Log.d(TAG, "onLoadBatchFailed: ");
         getViewState().hideBottomProgressBar();
         getViewState().showLoadingBatchError();
+    }
+
+    public void hideDetailFragment(){
+        getViewState().hideDetail();
     }
 }

@@ -23,7 +23,6 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
     private static final String TAG = "SalesPresenter";
     private SalesModel model;
 
-
     private SalesFetcher jobsFetcher;
     @Override
     protected void onFirstViewAttach() {
