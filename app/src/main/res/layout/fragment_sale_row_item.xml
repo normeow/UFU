@@ -1,85 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewSale"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-
-    android:clickable="true"
-    android:orientation="vertical"
-    >
-
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:scaleType="centerCrop"
-        android:id="@+id/tvImageSale"
-        />
-
-
-
-    <TextView
-        android:id="@+id/tvNameSale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sale_name"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/LargeTextBlack"
-        android:layout_margin="6dp" />
-
-    <TextView
-        android:id="@+id/tvDescriptionSale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sale_desciption"
-        android:textColor="@color/Desciption_text"
-        android:layout_margin="6dp" />
-
-    <TextView
-        android:id="@+id/tvWhoSale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sale_who"
-        android:textColor="@color/LargeTextBlack"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-         />
-
-    <TextView
-        android:id="@+id/tvDateStartSale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sale_date_start"
-        android:layout_margin="6dp"
-        android:textColor="@color/DateTextGrey"
-       />
-
-    <TextView
-        android:text="@string/sale_date_end"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="6dp"
-        android:id="@+id/tvDateEndSale" />
+    android:layout_margin="@dimen/card_horizontal_margin"
+    tools:cardCornerRadius="@dimel/card_corner_radius"
+    android:clickable="true">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/RecyclerViewBackground"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@drawable/line"
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            android:id="@+id/tvImageSale"
             />
-    </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/tvNameSale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sale_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/LargeTextBlack"
+            android:layout_margin="6dp" />
+
+        <TextView
+            android:id="@+id/tvDescriptionSale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sale_desciption"
+            android:textColor="@color/Desciption_text"
+            android:layout_margin="6dp" />
+
+        <TextView
+            android:id="@+id/tvWhoSale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sale_who"
+            android:textColor="@color/LargeTextBlack"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+             />
+
+        <TextView
+            android:id="@+id/tvDateStartSale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sale_date_start"
+            android:layout_margin="6dp"
+            android:textColor="@color/DateTextGrey"
+           />
+
+        <TextView
+            android:text="@string/sale_date_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="6dp"
+            android:id="@+id/tvDateEndSale" />
 
 </LinearLayout>
+</android.support.v7.widget.CardView>
