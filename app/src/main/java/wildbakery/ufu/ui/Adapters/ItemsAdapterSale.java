@@ -7,6 +7,7 @@ package wildbakery.ufu.ui.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,25 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import wildbakery.ufu.Constants;
 import wildbakery.ufu.Model.ApiModels.SaleItem;
 import wildbakery.ufu.R;
 
 public class ItemsAdapterSale extends  RecyclerView.Adapter<ItemsAdapterSale.ViewHolder>  {
+    private static final String TAG = "ItemsAdapterSale";
     private List<SaleItem> items;
+    private boolean isLoading;
+    private CallbackListener listener;
 
-    public ItemsAdapterSale(List<SaleItem> items) {
+
+    public interface CallbackListener{
+        void onScrolledToTheEnd();
+    }
+
+    public ItemsAdapterSale(List<SaleItem> items, CallbackListener listener) {
+        this.listener = listener;
         this.items = items;
     }
 
@@ -80,5 +91,32 @@ public class ItemsAdapterSale extends  RecyclerView.Adapter<ItemsAdapterSale.Vie
             tv_date_end = (TextView) view.findViewById(R.id.tvDateEndSale);
 
         }
+    }
+
+    public int getActualItemCount(){
+
+        if (isLoading)
+            return items.size() - 1;
+        return items.size();
+    }
+
+
+    public void add(List<SaleItem> items) {
+        try {
+            if (!items.isEmpty()) {
+                this.items.addAll(items);
+                notifyDataSetChanged();
+            }
+        }
+        catch (Exception e){
+            Log.d(TAG, "add: caught");
+            e.printStackTrace();
+        }
+    }
+
+    public void showProgressBar() {
+    }
+
+    public void hideProgressBar() {
     }
 }
