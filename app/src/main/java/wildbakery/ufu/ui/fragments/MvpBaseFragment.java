@@ -10,4 +10,6 @@ public class MvpBaseFragment extends MvpAppCompatFragment {
     public boolean onBackPressed() {
         return true;
     }
+
+    public void refresh() {  }
 }

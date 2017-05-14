@@ -20,4 +20,5 @@ public interface EventsView extends MvpView {
     void showLoadingBatchError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
+    void refresh();
 }

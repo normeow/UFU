@@ -21,4 +21,5 @@ public interface JobsView extends MvpView {
     void showLoadingBatchError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
+    void refresh();
 }

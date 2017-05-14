@@ -145,4 +145,9 @@ public class MvpSalesFragment extends MvpBaseFragment implements SalesView, Swip
     public boolean onBackPressed() {
         return super.onBackPressed();
     }
+
+    @Override
+    public void refresh() {
+        presenter.tryGetSales();
+    }
 }

@@ -167,4 +167,9 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void refresh() {
+        presenter.tryGetNews();
+    }
 }

@@ -145,4 +145,9 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     public boolean onBackPressed() {
         return super.onBackPressed();
     }
+
+    @Override
+    public void refresh() {
+        presenter.tryGetEvents();
+    }
 }

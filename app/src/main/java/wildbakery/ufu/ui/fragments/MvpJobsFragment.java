@@ -163,4 +163,9 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
         swipeRefreshLayout.setVisibility(View.VISIBLE);
 
     }
+
+    @Override
+    public void refresh() {
+        presenter.tryGetJobs();
+    }
 }

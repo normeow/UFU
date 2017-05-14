@@ -21,4 +21,5 @@ public interface NewsView extends MvpView {
     void showLoadingBatchError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
+    void refresh();
 }
