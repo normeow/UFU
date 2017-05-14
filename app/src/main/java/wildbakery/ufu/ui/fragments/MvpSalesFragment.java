@@ -1,6 +1,5 @@
 package wildbakery.ufu.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -20,7 +19,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
-import wildbakery.ufu.Fragments.DetailFragmentSale;
 import wildbakery.ufu.Model.ApiModels.SaleItem;
 import wildbakery.ufu.Presentation.presenters.SalesPresenter;
 import wildbakery.ufu.Presentation.views.SalesView;
@@ -31,7 +29,7 @@ import wildbakery.ufu.ui.Adapters.ItemsAdapterSale;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpSalesFragment extends MvpAppCompatFragment implements SalesView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterSale.CallbackListener {
+public class MvpSalesFragment extends MvpBaseFragment implements SalesView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterSale.CallbackListener {
 
     @InjectPresenter
     SalesPresenter presenter;
@@ -50,15 +48,15 @@ public class MvpSalesFragment extends MvpAppCompatFragment implements SalesView,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: created");
-        View view = inflater.inflate(R.layout.base_fragment_page, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        View view = inflater.inflate(R.layout.sales_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.salesRecycleView);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.salesSwipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         // mLayoutManager.setReverseLayout(true);
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
-        rootLayout = (CoordinatorLayout) view.findViewById(R.id.fragmentLayout);
+        rootLayout = (CoordinatorLayout) view.findViewById(R.id.salesFragmentLayout);
         setSnackBar();
         return view;
     }
@@ -135,11 +133,16 @@ public class MvpSalesFragment extends MvpAppCompatFragment implements SalesView,
     @Override
     public void showBottomProgressBar() {
         adapter.showProgressBar();
-        recyclerView.scrollToPosition(adapter.getItemCount());
+        recyclerView.scrollToPosition(adapter.getActualItemCount());
     }
 
     @Override
     public void hideBottomProgressBar() {
         adapter.hideProgressBar();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return super.onBackPressed();
     }
 }

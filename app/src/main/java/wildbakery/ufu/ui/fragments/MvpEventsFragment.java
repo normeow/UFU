@@ -29,7 +29,7 @@ import wildbakery.ufu.ui.Adapters.ItemsAdapterEvent;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpEventsFragment extends MvpAppCompatFragment implements EventsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterEvent.CallbackListener {
+public class MvpEventsFragment extends MvpBaseFragment implements EventsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterEvent.CallbackListener {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -48,15 +48,15 @@ public class MvpEventsFragment extends MvpAppCompatFragment implements EventsVie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: created");
-        View view = inflater.inflate(R.layout.base_fragment_page, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        View view = inflater.inflate(R.layout.event_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.eventsRecycleView);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.eventsSwipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         // mLayoutManager.setReverseLayout(true);
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
-        rootLayout = (CoordinatorLayout) view.findViewById(R.id.fragmentLayout);
+        rootLayout = (CoordinatorLayout) view.findViewById(R.id.eventsFragmentLayout);
         setSnackBar();
         return view;
     }
@@ -139,5 +139,10 @@ public class MvpEventsFragment extends MvpAppCompatFragment implements EventsVie
     @Override
     public void hideBottomProgressBar() {
         adapter.hideProgressBar();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return super.onBackPressed();
     }
 }

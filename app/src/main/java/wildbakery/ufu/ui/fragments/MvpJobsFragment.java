@@ -21,20 +21,19 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import wildbakery.ufu.Fragments.DetailFragmentJob;
+import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Model.ApiModels.JobItem;
 import wildbakery.ufu.Presentation.presenters.JobsPresenter;
 import wildbakery.ufu.Presentation.views.JobsView;
 import wildbakery.ufu.R;
-import wildbakery.ufu.ui.Adapters.AdapterCallbackListener;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterJob;
-import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
 import wildbakery.ufu.ui.activity.DetailJobAcivity;
 
 /**
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpJobsFragment extends MvpAppCompatFragment implements JobsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterJob.OnItemClickListener {
+public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterJob.OnItemClickListener {
 
     @InjectPresenter
     JobsPresenter presenter;
@@ -47,21 +46,21 @@ public class MvpJobsFragment extends MvpAppCompatFragment implements JobsView, S
     private ItemsAdapterJob adapter;
     private CoordinatorLayout rootLayout;
     private Snackbar errorSnackBar;
-
+    private DetailFragmentJob activeDetailFragment;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: created");
-        View view = inflater.inflate(R.layout.base_fragment_page, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        View view = inflater.inflate(R.layout.jobs_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.jobsRecycleView);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.jobsSwipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         // mLayoutManager.setReverseLayout(true);
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
-        rootLayout = (CoordinatorLayout) view.findViewById(R.id.fragmentLayout);
+        rootLayout = (CoordinatorLayout) view.findViewById(R.id.jobsFragmentLayout);
         setSnackBar();
         return view;
     }
@@ -89,11 +88,15 @@ public class MvpJobsFragment extends MvpAppCompatFragment implements JobsView, S
     @Override
     public void showDetail(JobItem jobsItem) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + jobsItem);
-        Intent intent = new Intent(getContext(), DetailJobAcivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(DetailFragmentJob.KEY_STRING_ITEM, jobsItem);
-        intent.putExtras(bundle);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), DetailJobAcivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(DetailFragmentJob.KEY_STRING_ITEM, jobsItem);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+        activeDetailFragment = DetailFragmentJob.newInstance(jobsItem);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.jobsFragmentLayout, activeDetailFragment).commit();
+        recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.GONE);
 
     }
 
@@ -144,11 +147,23 @@ public class MvpJobsFragment extends MvpAppCompatFragment implements JobsView, S
     @Override
     public void showBottomProgressBar() {
         adapter.showProgressBar();
-        recyclerView.scrollToPosition(adapter.getItemCount());
+        recyclerView.scrollToPosition(adapter.getActualItemCount());
     }
 
     @Override
     public void hideBottomProgressBar() {
         adapter.hideProgressBar();
+    }
+    @Override
+    public boolean onBackPressed() {
+        if (activeDetailFragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
+            activeDetailFragment = null;
+            recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            return super.onBackPressed();
+        }
     }
 }

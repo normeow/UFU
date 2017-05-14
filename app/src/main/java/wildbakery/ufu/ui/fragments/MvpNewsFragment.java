@@ -1,6 +1,5 @@
 package wildbakery.ufu.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -13,8 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -22,20 +19,18 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
-import wildbakery.ufu.App;
 import wildbakery.ufu.Fragments.DetailFragmentNews;
 import wildbakery.ufu.Presentation.presenters.NewsPresenter;
 import wildbakery.ufu.Presentation.views.NewsView;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.R;
-import wildbakery.ufu.ui.activity.DetailNewsAcivity;
 
 /**
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
+public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -49,21 +44,25 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     private CoordinatorLayout rootLayout;
     private Snackbar errorSnackBar;
 
+    private DetailFragmentNews activeDetailFragment;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: created");
-        View view = inflater.inflate(R.layout.base_fragment_page, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewFragmentPage);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        View view = inflater.inflate(R.layout.news_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.newsRecycleView);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.newsSwipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         // mLayoutManager.setReverseLayout(true);
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
-        rootLayout = (CoordinatorLayout) view.findViewById(R.id.fragmentLayout);
+        rootLayout = (CoordinatorLayout) view.findViewById(R.id.newsFragmentLayout);
         setSnackBar();
+//        recyclerView.setVisibility(View.VISIBLE);
+//        swipeRefreshLayout.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -87,15 +86,21 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
         recyclerView.setAdapter(adapter);
     }
 
+
     @Override
     public void showDetail(NewsItem newsItem) {
         Log.d(getClass().getCanonicalName(), "onItemClick: item = " + newsItem);
-        Intent intent = new Intent(getContext(), DetailNewsAcivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(DetailFragmentNews.KEY_STRING_ITEM, newsItem);
-        intent.putExtras(bundle);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), DetailNewsAcivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(DetailFragmentNews.KEY_STRING_ITEM, newsItem);
+//        intent.putExtras(bundle);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//        startActivity(intent);
 
+        activeDetailFragment = DetailFragmentNews.newInstance(newsItem);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.newsFragmentLayout, activeDetailFragment).commit();
+        recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -145,10 +150,25 @@ public class MvpNewsFragment extends MvpAppCompatFragment implements NewsView, S
     @Override
     public void showBottomProgressBar() {
         adapter.showProgressBar();
+        recyclerView.scrollToPosition(adapter.getItemCount());
     }
 
     @Override
     public void hideBottomProgressBar() {
         adapter.hideProgressBar();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (activeDetailFragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(activeDetailFragment).commit();
+            activeDetailFragment = null;
+
+            recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            return super.onBackPressed();
+        }
     }
 }
