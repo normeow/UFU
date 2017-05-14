@@ -28,6 +28,7 @@ import wildbakery.ufu.R;
 import wildbakery.ufu.ui.Adapters.AdapterCallbackListener;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterJob;
 import wildbakery.ufu.ui.Adapters.ItemsAdapterNews;
+import wildbakery.ufu.ui.activity.DetailJobAcivity;
 
 /**
  * Created by Tatiana on 26/04/2017.
@@ -87,13 +88,12 @@ public class MvpJobsFragment extends MvpAppCompatFragment implements JobsView, S
 
     @Override
     public void showDetail(JobItem jobsItem) {
-        // TODO uncoment this
-//        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + jobsItem);
-//        Intent intent = new Intent(getContext(), DetailJobsAcivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(DetailFragmentJobs.KEY_STRING_ITEM, jobsItem);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
+        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + jobsItem);
+        Intent intent = new Intent(getContext(), DetailJobAcivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DetailFragmentJob.KEY_STRING_ITEM, jobsItem);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
     }
 
