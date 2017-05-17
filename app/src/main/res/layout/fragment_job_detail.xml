@@ -20,7 +20,8 @@
             android:layout_marginTop="8dp"
             android:text="@string/job_name"
             android:textColor="@color/LargeTextBlack"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textIsSelectable="true"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -39,7 +40,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/textWage"
-                android:textColor="@color/DateTextGrey" />
+                android:textColor="@color/DateTextGrey"
+                android:textIsSelectable="true"/>
 
             <TextView
                 android:id="@+id/tvWageJobDetail"
@@ -51,7 +53,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:text="@string/job_wage_detaiil"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textIsSelectable="true"/>
 
         </RelativeLayout>
 
@@ -71,6 +74,7 @@
                 android:text="@string/job_description_detail"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="8dp"
+                android:textIsSelectable="true"
                  />
         </RelativeLayout>
 

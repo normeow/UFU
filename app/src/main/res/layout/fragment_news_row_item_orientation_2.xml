@@ -13,7 +13,6 @@
         android:id="@+id/card_view_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="@dimen/card_horizontal_margin"
         tools:cardCornerRadius="@dimel/card_corner_radius">
 
@@ -69,7 +68,8 @@
                     android:text="@string/news_name_2"
                     android:textColor="@color/LargeTextBlack"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
 
                 <TextView
                     android:id="@+id/tvShortDescriptionNews_2"
@@ -77,8 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/tvNameNews_2"
                     android:layout_below="@+id/tvWhenNews_2"
-
-
+                    android:textIsSelectable="true"
                     android:text="@string/news_short_description_2"
                     android:textColor="@color/Desciption_text" />
             </LinearLayout>

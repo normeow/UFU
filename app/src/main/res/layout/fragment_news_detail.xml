@@ -38,7 +38,7 @@
             android:textColor="@color/TextWhite"
             android:layout_margin="8dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentRight="true" />
 
         <TextView
             android:id="@+id/tvCategoryNews_details"
@@ -48,7 +48,7 @@
             android:layout_margin="8dp"
             android:textColor="@color/TextWhite"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentLeft="true" />
     </RelativeLayout>
 
     <TextView
@@ -61,7 +61,7 @@
         android:textColor="@color/LargeTextBlack"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-
+        android:textIsSelectable="true"
         />
 
     <RelativeLayout
@@ -74,7 +74,9 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:textColor="@color/Desciption_text"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        android:textIsSelectable="true"
+        />
 </RelativeLayout>
 </LinearLayout>
 </ScrollView>

@@ -64,7 +64,7 @@
             android:textColor="@color/LargeTextBlack"
             android:textStyle="bold"
             android:layout_marginLeft="6dp"
-            android:id="@+id/tvNameEvent_2" />
+            android:id="@+id/tvNameEvent_2"/>
 
         <TextView
             android:id="@+id/tvDescriptionEvent_2"
@@ -72,6 +72,6 @@
             android:layout_height="wrap_content"
             android:text="@string/event_short_description_2"
             android:textColor="@color/Desciption_text"
-            android:layout_margin="6dp" />
+            android:layout_margin="6dp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

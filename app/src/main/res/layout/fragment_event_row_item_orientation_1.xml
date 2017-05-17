@@ -19,10 +19,8 @@
         android:id="@+id/tvWhenEvent_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="@string/news_when_1"
         android:textColor="@color/DateTextGrey"
-
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tvImageEvent_1"
         android:layout_marginStart="11dp" />
@@ -36,14 +34,7 @@
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/tvWhenEvent_1" />
-
-    <View
-        android:layout_width="wrap_content"
-        android:background="@drawable/line"
-        android:layout_height="1dp"
-        android:layout_marginTop="100dp"
-
+        android:layout_alignStart="@+id/tvWhenEvent_1"
         />
 
 </RelativeLayout>
