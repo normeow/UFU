@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ public class DetailFragmentJob extends Fragment {
             tvDetailWage.setText(item.getWage());
         }
         tvDetailDescription.setText(Html.fromHtml(item.getDescription()));
+
+        tvDetailDescription.setMovementMethod(LinkMovementMethod.getInstance());
 
         return view;
     }

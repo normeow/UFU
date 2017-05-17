@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class DetailFragmentNews extends Fragment {
         tvCatrgoryDetail.setText(item.getCategory().getName());
         tvNameDetail.setText(item.getName());
         tvDescriptionDetail.setText(Html.fromHtml(item.getDescription()));
-
+        tvDescriptionDetail.setMovementMethod(LinkMovementMethod.getInstance());
         PicassoCache.loadImage(item.getImage(), tvImageDetail);
 
         return view;
