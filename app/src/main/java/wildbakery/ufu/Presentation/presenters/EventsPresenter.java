@@ -65,7 +65,7 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
     public void onRefreshFailed() {
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        onError();
+        getViewState().showOnRefreshError();
     }
 
     @Override

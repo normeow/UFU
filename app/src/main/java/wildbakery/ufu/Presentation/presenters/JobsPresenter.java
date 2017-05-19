@@ -62,12 +62,12 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
         getViewState().showToastMessage("Failed to get jobs");
     }
 
-
     @Override
     public void onRefreshFailed() {
+        Log.d(TAG, "onRefreshFailed: ");
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        onError();
+        getViewState().showOnRefreshError();
     }
 
     @Override

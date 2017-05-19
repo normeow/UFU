@@ -130,9 +130,9 @@ public class EventsFetcher {
             // and in model
             if (e != null) {
                 listener.onRefreshFailed();
-                return;
             }
-            listener.onFetchDataFromServerFinished();
+            else
+                listener.onFetchDataFromServerFinished();
             super.onPostExecute(items);
         }
     }
@@ -174,9 +174,9 @@ public class EventsFetcher {
         protected void onPostExecute(List<EventItem> items) {
             if (e != null){
                 listener.onLoadBatchFailed();
-                return;
             }
-            listener.onModelAppended(start);
+            else
+                listener.onModelAppended(start);
             super.onPostExecute(items);
         }
     }

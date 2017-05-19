@@ -9,12 +9,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
@@ -41,7 +41,8 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     private SwipeRefreshLayout swipeRefreshLayout;
     private ItemsAdapterEvent adapter;
     private CoordinatorLayout rootLayout;
-    private Snackbar errorSnackBar;
+    private Snackbar errorLoadSnackBar;
+    private Snackbar refreshErrorSnackBar;
 
 
     @Nullable
@@ -62,8 +63,8 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     }
 
     private void setSnackBar(){
-        errorSnackBar = Snackbar.make(rootLayout, "Can't load events", BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction("Try again", new View.OnClickListener() {
+        errorLoadSnackBar = Snackbar.make(rootLayout, getString(R.string.cant_load), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.try_again), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, "onClick: snackbar");
@@ -73,10 +74,26 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
                 });
     }
 
+    private void setRefreshSnackBar(){
+        refreshErrorSnackBar = Snackbar.make(rootLayout, getString(R.string.cant_refresh), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.try_again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG, "onClick: snackbar");
+                        presenter.tryGetEvents();
+
+                    }
+                });
+
+        View view = refreshErrorSnackBar.getView();
+        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view.setLayoutParams(params);
+    }
     @Override
     public void showEvents(List<EventItem> events) {
-        if (errorSnackBar.isShown())
-            errorSnackBar.dismiss();
+        if (errorLoadSnackBar.isShown())
+            errorLoadSnackBar.dismiss();
         adapter = new ItemsAdapterEvent(events, this);
         recyclerView.setAdapter(adapter);
     }
@@ -104,7 +121,7 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
 
     @Override
     public void showToastMessage(String msg) {
-        if (this.isVisible())
+        if (getUserVisibleHint())
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -115,8 +132,8 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
 
     @Override
     public void onScrolledToTheEnd() {
-        if (errorSnackBar.isShown())
-            errorSnackBar.dismiss();
+        if (errorLoadSnackBar.isShown())
+            errorLoadSnackBar.dismiss();
         presenter.onScrollToTheEnd(adapter.getActualItemCount());
     }
 
@@ -128,7 +145,7 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     @Override
     public void showLoadingBatchError() {
         setSnackBar();
-        errorSnackBar.show();
+        errorLoadSnackBar.show();
     }
 
     @Override
@@ -150,5 +167,23 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     @Override
     public void refresh() {
         presenter.tryGetEvents();
+    }
+
+    @Override
+    public void showOnRefreshError() {
+        if (getUserVisibleHint()) {
+            Log.d(TAG, "showOnRefreshError: ");
+            setRefreshSnackBar();
+            refreshErrorSnackBar.show();
+        }
+    }
+
+    private void hideSnackBars(){
+
+        if (errorLoadSnackBar.isShown())
+            errorLoadSnackBar.dismiss();
+        if (refreshErrorSnackBar.isShown())
+            refreshErrorSnackBar.dismiss();
+
     }
 }

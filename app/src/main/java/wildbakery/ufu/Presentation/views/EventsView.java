@@ -18,6 +18,7 @@ public interface EventsView extends MvpView {
     void showToastMessage(String msg);
     void appendRecycleView(List<EventItem> items);
     void showLoadingBatchError();
+    void showOnRefreshError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
     void refresh();

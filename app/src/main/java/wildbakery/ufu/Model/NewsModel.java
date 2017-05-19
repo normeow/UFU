@@ -39,8 +39,10 @@ public class NewsModel {
 
     public List<NewsItem> getBatchItems(int start, int count){
         if (items.isEmpty())
-            return null;
+            return null; //[100;40]
         int end = (start + count) < items.size() ? start + count : items.size();
+        if (end < start)
+            start = end;
         Log.d("TEST", "getBatchItems: start = " + start + " end = " + end);
         List<NewsItem> subl = items.subList(start, end);
         return subl;

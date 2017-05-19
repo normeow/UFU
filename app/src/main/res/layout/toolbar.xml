@@ -5,6 +5,7 @@
     android:layout_height="?android:actionBarSize"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorAccent"
-    app:titleTextColor="@color/colorTextPrimary">
+    app:titleTextColor="@color/colorTextPrimary"
+    >
 
 </android.support.v7.widget.Toolbar>

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.R;
@@ -42,10 +43,17 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,8 +92,11 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 currentFragment = (MvpBaseFragment) adapter.getItem(viewPager.getCurrentItem());
                 Log.d("page", "onPageSelected: " + position);
+                currentFragment.hideArrowBack();
+
                 setCurrentFragment();
-                toolbar.setTitle(viewPager.getAdapter().getPageTitle(position));
+                // current framgent changed
+                currentFragment.showArrowBack();
             }
 
             @Override
@@ -94,11 +105,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setCurrentFragment();
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        //getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }
 
@@ -114,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentFragment(){
+        getSupportActionBar().setTitle(viewPager.getAdapter().getPageTitle(viewPager.getCurrentItem()));
         currentFragment = (MvpBaseFragment) adapter.getItem(viewPager.getCurrentItem());
+        Log.d(TAG, "setCurrentFragment: curItem = " + viewPager.getCurrentItem());
     }
 
     private void setupViewPager(ViewPager viewPager) {

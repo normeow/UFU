@@ -57,7 +57,7 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
     }
 
     public void onError(){
-        getViewState().showToastMessage("Failed to get jobs");
+        getViewState().showToastMessage("Failed to get sales");
     }
 
 
@@ -65,7 +65,7 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
     public void onRefreshFailed() {
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        onError();
+        getViewState().showOnRefreshError();
     }
 
     @Override

@@ -130,9 +130,9 @@ public class SalesFetcher {
             // and in model
             if (e != null) {
                 listener.onRefreshFailed();
-                return;
             }
-            listener.onFetchDataFromServerFinished();
+            else
+                listener.onFetchDataFromServerFinished();
             super.onPostExecute(items);
         }
     }
@@ -174,9 +174,9 @@ public class SalesFetcher {
         protected void onPostExecute(List<SaleItem> items) {
             if (e != null){
                 listener.onLoadBatchFailed();
-                return;
             }
-            listener.onModelAppended(start);
+            else
+                listener.onModelAppended(start);
             super.onPostExecute(items);
         }
     }

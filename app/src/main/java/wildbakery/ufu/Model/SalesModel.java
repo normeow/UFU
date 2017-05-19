@@ -41,6 +41,9 @@ public class SalesModel {
         if (items.isEmpty())
             return null;
         int end = (start + count) < items.size() ? start + count : items.size();
+        if (end < start)
+            start = end;
+
         Log.d("TEST", "getBatchItems: start = " + start + " end = " + end);
         List<SaleItem> subl = items.subList(start, end);
         return subl;

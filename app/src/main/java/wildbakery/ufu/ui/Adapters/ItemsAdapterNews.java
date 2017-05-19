@@ -5,6 +5,7 @@ package wildbakery.ufu.ui.Adapters;
  */
 
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,8 +82,10 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //scroll almost to the end. notify listener.
         if (i > items.size() - COUNT_OFFSET){
-            if (!isLoading)
+            if (!isLoading) {
                 listener.onScrolledToTheEnd();
+                Log.d(TAG, "onBindViewHolder: i = " + i);
+            }
         }
         final NewsItem item = items.get(i);
 
@@ -181,9 +184,11 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void add(List<NewsItem> items){
         try {
+            Log.d(TAG, "add: size before adding = " + items.size());
             if (!items.isEmpty()) {
                 this.items.addAll(items);
                 notifyDataSetChanged();
+                Log.d(TAG, "add: size after adding = " + items.size());
             }
         }
         catch (Exception e){
@@ -198,6 +203,7 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void showProgressBar(){
+        Log.d(TAG, "showProgressBar: isLoading = " + isLoading);
         if (!isLoading) {
             items.add(null);
             try {
@@ -205,9 +211,11 @@ public class ItemsAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHold
                 isLoading = true;
             } catch (IllegalStateException e) {
                 items.remove(items.size() - 1);
+                Log.d(TAG, "showProgressBar: failed, remove last item");
                 e.printStackTrace();
             }
         }
+        
     }
 
     public void hideProgressBar(){

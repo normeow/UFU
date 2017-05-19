@@ -138,9 +138,9 @@ public class NewsFetcher{
             // and in model
             if (e != null) {
                 listener.onRefreshFailed();
-                return;
             }
-            listener.onFetchDataFromServerFinished();
+            else
+                listener.onFetchDataFromServerFinished();
             super.onPostExecute(items);
         }
     }
@@ -154,7 +154,7 @@ public class NewsFetcher{
         private Exception e;
         @Override
         protected List<NewsItem> doInBackground(final Integer... params) {
-            start = NewsModel.getInstanse().getItems().size();
+                start = NewsModel.getInstanse().getItems().size();
                 List<NewsItem> items = null;
 
                 Map<String, String> queries = new HashMap<>();
@@ -181,9 +181,9 @@ public class NewsFetcher{
         protected void onPostExecute(List<NewsItem> items) {
             if (e != null){
                 listener.onLoadBatchFailed();
-                return;
             }
-            listener.onModelAppended(start);
+            else
+                listener.onModelAppended(start);
             super.onPostExecute(items);
         }
     }

@@ -20,5 +20,6 @@ public interface SalesView extends MvpView {
     void showLoadingBatchError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
+    void showOnRefreshError();
     void refresh();
 }

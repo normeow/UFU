@@ -127,7 +127,7 @@ public class ItemsAdapterJob extends RecyclerView.Adapter<RecyclerView.ViewHolde
             try {
                 notifyItemInserted(items.size() - 1);
                 isLoading = true;
-            } catch (IllegalStateException e) {
+            } catch (Exception e) {
                 items.remove(items.size() - 1);
                 Log.d(TAG, "showProgressBar: catch exception, remove null last item");
                 e.printStackTrace();

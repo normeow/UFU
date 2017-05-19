@@ -6,9 +6,11 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
     private ItemsAdapterJob adapter;
     private CoordinatorLayout rootLayout;
     private Snackbar errorSnackBar;
+    private Snackbar refreshErrorSnackBar;
     private DetailFragmentJob activeDetailFragment;
 
     @Nullable
@@ -62,8 +65,8 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
     }
 
     private void setSnackBar(){
-        errorSnackBar = Snackbar.make(rootLayout, "Can't load jobs", BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction("Try again", new View.OnClickListener() {
+        errorSnackBar = Snackbar.make(rootLayout, getString(R.string.cant_load), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.try_again), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, "onClick: snackbar");
@@ -71,6 +74,23 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
 
                     }
                 });
+    }
+
+    private void setRefreshSnackBar(){
+        refreshErrorSnackBar = Snackbar.make(rootLayout, getString(R.string.cant_refresh), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.try_again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG, "onClick: snackbar");
+                        presenter.tryGetJobs();
+
+                    }
+                });
+
+        View view = refreshErrorSnackBar.getView();
+        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view.setLayoutParams(params);
     }
 
     @Override
@@ -89,6 +109,8 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
 
+        setHasOptionsMenu(false);
+        showArrowBack();
     }
 
     @Override
@@ -103,7 +125,7 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
 
     @Override
     public void showToastMessage(String msg) {
-        if (this.isVisible())
+        if (getUserVisibleHint())
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -162,11 +184,28 @@ public class MvpJobsFragment extends MvpBaseFragment implements JobsView, SwipeR
         activeDetailFragment = null;
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
-
+        hideArrowBack();
     }
 
     @Override
     public void refresh() {
         presenter.tryGetJobs();
     }
+
+    @Override
+    public void showOnRefreshError() {
+        if (getUserVisibleHint()) {
+            Log.d(TAG, "showOnRefreshError: ");
+            setRefreshSnackBar();
+            refreshErrorSnackBar.show();
+        }
+    }
+    @Override
+    public void showArrowBack() {
+        if (activeDetailFragment != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
 }

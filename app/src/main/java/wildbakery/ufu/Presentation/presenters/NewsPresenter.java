@@ -12,6 +12,7 @@ import wildbakery.ufu.DataFetchers.NewsFetcher;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Presentation.views.NewsView;
+import wildbakery.ufu.Utils.ConnectionDetector;
 
 /**
  * Created by Tatiana on 24/04/2017.
@@ -23,6 +24,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
 
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
+    private boolean isLoading;
 
 
     private NewsFetcher newsFetcher;
@@ -59,15 +61,17 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
     }
 
     public void onError(){
-        getViewState().showToastMessage("Failed to get news");
+        Log.d(TAG, "onError: ");
+        getViewState().showToastMessage("Failed to get events");
     }
 
 
     @Override
     public void onRefreshFailed() {
+        Log.d(TAG, "onRefreshFailed: ");
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        onError();
+        getViewState().showOnRefreshError();
     }
 
     @Override
@@ -93,29 +97,33 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
 
     @Override
     public void onModelAppended(int start) {
+        isLoading = false;
         getViewState().hideBottomProgressBar();
         getViewState().appendRecycleView(model.getBatchItems(start, COUNT_ITEMS_TO_LOAD));
-        Log.d(TAG, "onModelAppended: success");
+        Log.d(TAG, "onModelAppended: start = " + start);
     }
 
     public void onScrollToTheEnd(int start){
         //fetch next 20 items from server
-        Log.d(TAG, "onScrollToTheEnd: start = " + start);
-        List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
-        if (cachedItems == null || cachedItems.isEmpty()){
-            Log.d(TAG, "onScrollToTheEnd: fetching batch");
-            getViewState().showBottomProgressBar();
-            newsFetcher.fetchBatch(COUNT_ITEMS_TO_LOAD);
-        }
-        else{
-            Log.d(TAG, "onScrollToTheEnd: get cached items from model");
-            getViewState().appendRecycleView(cachedItems);
+        if (!isLoading){
+            Log.d(TAG, "onScrollToTheEnd: start = " + start);
+            List<NewsItem> cachedItems = model.getBatchItems(start, COUNT_ITEMS_TO_LOAD);
+            if (cachedItems == null || cachedItems.isEmpty()){
+                Log.d(TAG, "onScrollToTheEnd: fetching batch");
+                getViewState().showBottomProgressBar();
+                newsFetcher.fetchBatch(COUNT_ITEMS_TO_LOAD);
+            }
+            else{
+                Log.d(TAG, "onScrollToTheEnd: get cached items from model");
+                getViewState().appendRecycleView(cachedItems);
+            }
         }
     }
 
     @Override
     public void onLoadBatchFailed() {
         Log.d(TAG, "onLoadBatchFailed: ");
+        isLoading = false;
         getViewState().hideBottomProgressBar();
         getViewState().showLoadingBatchError();
     }
@@ -123,4 +131,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
     public void hideDetailFragment(){
         getViewState().hideDetail();
     }
+
+
+
 }

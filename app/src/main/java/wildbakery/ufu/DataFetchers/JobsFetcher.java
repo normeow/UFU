@@ -131,9 +131,9 @@ public class JobsFetcher {
             // and in model
             if (e != null) {
                 listener.onRefreshFailed();
-                return;
             }
-            listener.onFetchDataFromServerFinished();
+            else
+                listener.onFetchDataFromServerFinished();
             super.onPostExecute(items);
         }
     }
@@ -175,9 +175,9 @@ public class JobsFetcher {
         protected void onPostExecute(List<JobItem> items) {
             if (e != null){
                 listener.onLoadBatchFailed();
-                return;
             }
-            listener.onModelAppended(start);
+            else
+                listener.onModelAppended(start);
             super.onPostExecute(items);
         }
     }

@@ -49,10 +49,10 @@
     <string name="event_when_detail">When</string>
     <string name="event_description_detail">Description</string>
 
-
-
-
     <string name="textWage">Уровень зарплаты</string>
-
+    <string name="cant_load">Не могу загрузить данные</string>
+    <string name="try_again">Повторить</string>
+    <string name="cant_refresh">Ошибка обновления</string>
+    <string name="no_internet">Проверьте интернет-соединение</string>
 
 </resources>

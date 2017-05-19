@@ -9,6 +9,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
+import android.telecom.Call;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -25,6 +26,7 @@ import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import wildbakery.ufu.App;
 import wildbakery.ufu.Constants;
@@ -40,8 +42,11 @@ public class PicassoCache {
     public static void loadImage(final String imagePath, final ImageView imageView){
         Log.d("TAG", "path = " + imagePath);
         final String path = Constants.HTTP.IMAGE_URL + imagePath;
-        Picasso.with(imageView.getContext())
-                .load(path)
+        Picasso mPicasso = Picasso.with(imageView.getContext());
+        // now we have a local var and can pass it in function to do some actions, return in and then continue loading
+        //mPicasso.load(path);
+        // manipulatins with image size
+                mPicasso.load(path)
                 .fit()
                 .centerCrop()
                 .transform(new VerticalGradient())
@@ -77,5 +82,11 @@ public class PicassoCache {
                     .into(imageView);
         }
     }
+
+    private static void orientationMode1Transformation(){
+
+    }
+
+
 
 }

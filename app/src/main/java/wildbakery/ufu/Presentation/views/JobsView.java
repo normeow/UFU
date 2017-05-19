@@ -19,6 +19,7 @@ public interface JobsView extends MvpView {
     void showToastMessage(String msg);
     void appendRecycleView(List<JobItem> items);
     void showLoadingBatchError();
+    void showOnRefreshError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
     void refresh();

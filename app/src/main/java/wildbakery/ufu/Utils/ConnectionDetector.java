@@ -5,21 +5,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import wildbakery.ufu.App;
+
 /**
  * Created by DIKII PEKAR on 15.11.2016.
  */
 
 public class ConnectionDetector {
 
-
-Context context;
-
-    public ConnectionDetector(Context context){
-        this.context = context;
-    }
-    public boolean isConnected(){
+    public static boolean isConnected(){
         ConnectivityManager connectivity =(ConnectivityManager)
-                context.getSystemService(Service.CONNECTIVITY_SERVICE);
+                App.getContext().getSystemService(Service.CONNECTIVITY_SERVICE);
         if(connectivity !=null){
             NetworkInfo info = connectivity.getActiveNetworkInfo();
         if(info !=null){

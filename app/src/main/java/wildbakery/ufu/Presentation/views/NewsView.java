@@ -19,6 +19,7 @@ public interface NewsView extends MvpView {
     void showToastMessage(String msg);
     void appendRecycleView(List<NewsItem> items);
     void showLoadingBatchError();
+    void showOnRefreshError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
     void refresh();

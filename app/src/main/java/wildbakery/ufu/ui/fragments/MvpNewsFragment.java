@@ -6,12 +6,16 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -41,7 +45,8 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
     private SwipeRefreshLayout swipeRefreshLayout;
     private ItemsAdapterNews adapter;
     private CoordinatorLayout rootLayout;
-    private Snackbar errorSnackBar;
+    private Snackbar errorLoadSnackBar;
+    private Snackbar refreshErrorSnackBar;
 
     private DetailFragmentNews activeDetailFragment;
 
@@ -55,19 +60,16 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.newsSwipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        // mLayoutManager.setReverseLayout(true);
-        // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         rootLayout = (CoordinatorLayout) view.findViewById(R.id.newsFragmentLayout);
-        setSnackBar();
-//        recyclerView.setVisibility(View.VISIBLE);
-//        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        setBottomSnackBar();
+        setRefreshSnackBar();
         return view;
     }
 
-    private void setSnackBar(){
-        errorSnackBar = Snackbar.make(rootLayout, "Can't load news", BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction("Try again", new View.OnClickListener() {
+    private void setBottomSnackBar(){
+        errorLoadSnackBar = Snackbar.make(rootLayout, R.string.cant_load, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(R.string.try_again, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, "onClick: snackbar");
@@ -77,10 +79,26 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
                 });
     }
 
+    private void setRefreshSnackBar(){
+        refreshErrorSnackBar = Snackbar.make(rootLayout, getString(R.string.cant_refresh), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.try_again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG, "onClick: snackbar");
+                        presenter.tryGetNews();
+
+                    }
+                });
+
+        View view = refreshErrorSnackBar.getView();
+        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view.setLayoutParams(params);
+    }
+
     @Override
     public void showNews(List<NewsItem> news) {
-        if (errorSnackBar.isShown())
-            errorSnackBar.dismiss();
+        hideSnackBars();
         adapter = new ItemsAdapterNews(news, this);
         recyclerView.setAdapter(adapter);
     }
@@ -88,11 +106,12 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
 
     @Override
     public void showDetail(NewsItem newsItem) {
-        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + newsItem);
+        Log.d(getClass().getCanonicalName(), "showDetail: item = " + newsItem);
         activeDetailFragment = DetailFragmentNews.newInstance(newsItem);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.newsFragmentLayout, activeDetailFragment).commit();
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
+        showArrowBack();
     }
 
     @Override
@@ -107,7 +126,8 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
 
     @Override
     public void showToastMessage(String msg) {
-        if (this.isVisible())
+        Log.d(TAG, "showToastMessage: ");
+        if (this.getUserVisibleHint())
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -118,14 +138,13 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
 
     @Override
     public void onItemClick(NewsItem item) {
-        Log.d(getClass().getCanonicalName(), "onItemClick: item = " + item);
         presenter.showDetailFragment(item);
     }
 
     @Override
     public void onScrolledToTheEnd() {
-        if (errorSnackBar.isShown())
-            errorSnackBar.dismiss();
+        if (errorLoadSnackBar.isShown())
+            errorLoadSnackBar.dismiss();
         presenter.onScrollToTheEnd(adapter.getActualItemCount());
     }
 
@@ -136,8 +155,8 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
 
     @Override
     public void showLoadingBatchError() {
-        setSnackBar();
-        errorSnackBar.show();
+        setBottomSnackBar();
+        errorLoadSnackBar.show();
     }
 
     @Override
@@ -167,10 +186,38 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
         activeDetailFragment = null;
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
+        hideArrowBack();
     }
 
     @Override
     public void refresh() {
         presenter.tryGetNews();
     }
+
+    @Override
+    public void showOnRefreshError() {
+        if(getUserVisibleHint()) {
+            Log.d(TAG, "showOnRefreshError: ");
+            setRefreshSnackBar();
+            refreshErrorSnackBar.show();
+        }
+    }
+
+    private void hideSnackBars(){
+
+        if (errorLoadSnackBar.isShown())
+            errorLoadSnackBar.dismiss();
+        if (refreshErrorSnackBar.isShown())
+            refreshErrorSnackBar.dismiss();
+
+    }
+
+    @Override
+    public void showArrowBack() {
+        if (activeDetailFragment != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
 }
