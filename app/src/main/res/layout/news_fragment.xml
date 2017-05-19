@@ -2,13 +2,20 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/newsFragmentLayout">
+
+    <include
+        layout="@layout/getting_data_msg_fragment"
+        android:id="@+id/news_gettingdata"
+        android:visibility="gone"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/newsSwipeLayout">
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/newsRecycleView"

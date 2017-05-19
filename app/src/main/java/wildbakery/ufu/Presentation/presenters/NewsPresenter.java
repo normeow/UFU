@@ -7,11 +7,13 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.DataFetchers.FetcherCallbacksListener;
 import wildbakery.ufu.DataFetchers.NewsFetcher;
 import wildbakery.ufu.Model.NewsModel;
 import wildbakery.ufu.Model.ApiModels.NewsItem;
 import wildbakery.ufu.Presentation.views.NewsView;
+import wildbakery.ufu.R;
 import wildbakery.ufu.Utils.ConnectionDetector;
 
 /**
@@ -25,6 +27,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
     private static final String TAG = "NewsPresenter";
     private NewsModel model;
     private boolean isLoading;
+    private boolean isNoData = true;
 
 
     private NewsFetcher newsFetcher;
@@ -44,6 +47,10 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
 
     public void tryGetNews(){
         Log.d(TAG, "tryGetNews: ");
+        if (isNoData) {
+            getViewState().hideNoDataMessage();
+            getViewState().showGettingDataMessage();
+        }
         getViewState().showProgressBar();
         newsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
@@ -62,7 +69,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
 
     public void onError(){
         Log.d(TAG, "onError: ");
-        getViewState().showToastMessage("Failed to get events");
+        getViewState().showToastMessage(App.getContext().getResources().getString(R.string.cant_load));
     }
 
 
@@ -71,12 +78,21 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
         Log.d(TAG, "onRefreshFailed: ");
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        getViewState().showOnRefreshError();
+        if (isNoData) {
+            getViewState().hideGettingDataMessage();
+            getViewState().showNoDataMessage();
+        }
+        //getViewState().showOnRefreshError();
+        onError();
     }
 
     @Override
     public void onFetchDataFromServerFinished() {
         Log.d(TAG, "onFetchDataFromServerFinished: ");
+        if (isNoData){
+            getViewState().hideGettingDataMessage();
+        }
+        isNoData = false;
         getViewState().hideProgressBar();
         List<NewsItem> items = model.getItems();
         getViewState().showNews(items);
@@ -90,6 +106,7 @@ public class NewsPresenter extends MvpPresenter<NewsView> implements FetcherCall
         if (items != null && !items.isEmpty()){
             getViewState().hideProgressBar();
             getViewState().showNews(items);
+            isNoData = false;
         }
 
         tryGetNews();

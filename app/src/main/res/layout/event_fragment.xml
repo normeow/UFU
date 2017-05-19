@@ -4,6 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/eventsFragmentLayout">
+    <include
+        layout="@layout/getting_data_msg_fragment"
+        android:id="@+id/events_gettingdata"
+        android:visibility="gone"/>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"

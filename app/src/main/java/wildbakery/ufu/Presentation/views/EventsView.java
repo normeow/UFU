@@ -19,6 +19,10 @@ public interface EventsView extends MvpView {
     void appendRecycleView(List<EventItem> items);
     void showLoadingBatchError();
     void showOnRefreshError();
+    void showNoDataMessage();
+    void hideNoDataMessage();
+    void showGettingDataMessage();
+    void hideGettingDataMessage();
     void showBottomProgressBar();
     void hideBottomProgressBar();
     void refresh();

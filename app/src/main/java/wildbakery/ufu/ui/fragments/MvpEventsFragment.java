@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,7 @@ import wildbakery.ufu.ui.Adapters.ItemsAdapterEvent;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpEventsFragment extends MvpBaseFragment implements EventsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterEvent.CallbackListener {
+public class MvpEventsFragment extends MvpBaseFragment implements EventsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterEvent.CallbackListener, TryAgatinFragment.TryAgainListener {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -43,6 +44,8 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
     private CoordinatorLayout rootLayout;
     private Snackbar errorLoadSnackBar;
     private Snackbar refreshErrorSnackBar;
+    private View gettingDataMsg;
+    private Fragment tryAgainFragment = null;
 
 
     @Nullable
@@ -58,6 +61,7 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         rootLayout = (CoordinatorLayout) view.findViewById(R.id.eventsFragmentLayout);
+        gettingDataMsg = view.findViewById(R.id.events_gettingdata);
         setSnackBar();
         return view;
     }
@@ -184,6 +188,43 @@ public class MvpEventsFragment extends MvpBaseFragment implements EventsView, Sw
             errorLoadSnackBar.dismiss();
         if (refreshErrorSnackBar.isShown())
             refreshErrorSnackBar.dismiss();
+
+    }
+    @Override
+    public void showNoDataMessage() {
+        Log.d(TAG, "showNoDataMessage: ");
+        if (tryAgainFragment == null) {
+            tryAgainFragment = new TryAgatinFragment();
+            getChildFragmentManager().beginTransaction().replace(R.id.eventsFragmentLayout, tryAgainFragment).commit();
+        }
+
+    }
+
+    @Override
+    public void showGettingDataMessage() {
+        Log.d(TAG, "showGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideGettingDataMessage() {
+        Log.d(TAG, "hideGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideNoDataMessage() {
+        Log.d(TAG, "hideNoDataMessage: ");
+        if (tryAgainFragment != null) {
+            getChildFragmentManager().beginTransaction().remove(tryAgainFragment).commit();
+            tryAgainFragment = null;
+        }
+    }
+
+
+    @Override
+    public void onTryAgainClicked() {
+        refresh();
 
     }
 }

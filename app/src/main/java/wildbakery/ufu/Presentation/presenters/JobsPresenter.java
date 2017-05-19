@@ -7,11 +7,13 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.DataFetchers.FetcherCallbacksListener;
 import wildbakery.ufu.DataFetchers.JobsFetcher;
 import wildbakery.ufu.Model.ApiModels.JobItem;
 import wildbakery.ufu.Model.JobsModel;
 import wildbakery.ufu.Presentation.views.JobsView;
+import wildbakery.ufu.R;
 
 /**
  * Created by Tatiana on 13/05/2017.
@@ -23,6 +25,7 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
 
     private static final String TAG = "JobsPresenter";
     private JobsModel model;
+    private boolean isNoData = true;
 
 
     private JobsFetcher jobsFetcher;
@@ -42,6 +45,10 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
 
     public void tryGetJobs(){
         Log.d(TAG, "tryGetJobs: ");
+        if (isNoData) {
+            getViewState().hideNoDataMessage();
+            getViewState().showGettingDataMessage();
+        }
         getViewState().showProgressBar();
         jobsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
@@ -59,20 +66,30 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
     }
 
     public void onError(){
-        getViewState().showToastMessage("Failed to get jobs");
+
+        getViewState().showToastMessage(App.getContext().getResources().getString(R.string.cant_load));
     }
 
     @Override
     public void onRefreshFailed() {
         Log.d(TAG, "onRefreshFailed: ");
         // something goes wrong when tried to fetch data
+        if (isNoData) {
+            getViewState().hideGettingDataMessage();
+            getViewState().showNoDataMessage();
+        }
         getViewState().hideProgressBar();
-        getViewState().showOnRefreshError();
+        //getViewState().showOnRefreshError();
+        onError();
     }
 
     @Override
     public void onFetchDataFromServerFinished() {
         Log.d(TAG, "onFetchDataFromServerFinished: ");
+        if (isNoData){
+            getViewState().hideGettingDataMessage();
+        }
+        isNoData = false;
         getViewState().hideProgressBar();
         List<JobItem> items = model.getItems();
         getViewState().showJobs(items);
@@ -84,6 +101,7 @@ public class JobsPresenter extends MvpPresenter<JobsView> implements FetcherCall
         Log.d(TAG, "onFetchDataFromDbFinished: ");
         List<JobItem> items = model.getItems();
         if (items != null && !items.isEmpty()){
+            isNoData = false;
             getViewState().hideProgressBar();
             getViewState().showJobs(items);
         }

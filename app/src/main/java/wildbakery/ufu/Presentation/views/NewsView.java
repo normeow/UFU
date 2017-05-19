@@ -22,5 +22,9 @@ public interface NewsView extends MvpView {
     void showOnRefreshError();
     void showBottomProgressBar();
     void hideBottomProgressBar();
+    void showNoDataMessage();
+    void hideNoDataMessage();
+    void showGettingDataMessage();
+    void hideGettingDataMessage();
     void refresh();
 }

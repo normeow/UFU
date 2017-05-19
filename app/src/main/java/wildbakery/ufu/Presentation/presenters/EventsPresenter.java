@@ -7,11 +7,13 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.DataFetchers.FetcherCallbacksListener;
 import wildbakery.ufu.DataFetchers.EventsFetcher;
 import wildbakery.ufu.Model.ApiModels.EventItem;
 import wildbakery.ufu.Model.EventsModel;
 import wildbakery.ufu.Presentation.views.EventsView;
+import wildbakery.ufu.R;
 
 /**
  * Created by Tatiana on 13/05/2017.
@@ -22,6 +24,7 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
 
     private static final String TAG = "EventsPresenter";
     private EventsModel model;
+    private boolean isNoData = true;
 
     private EventsFetcher eventsFetcher;
     @Override
@@ -40,6 +43,10 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
 
     public void tryGetEvents(){
         Log.d(TAG, "tryGetEvents: ");
+        if (isNoData) {
+            getViewState().hideNoDataMessage();
+            getViewState().showGettingDataMessage();
+        }
         getViewState().showProgressBar();
         eventsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
@@ -57,7 +64,8 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
     }
 
     public void onError(){
-        getViewState().showToastMessage("Failed to get events");
+
+        getViewState().showToastMessage(App.getContext().getResources().getString(R.string.cant_load));
     }
 
 
@@ -65,12 +73,21 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
     public void onRefreshFailed() {
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        getViewState().showOnRefreshError();
+        //getViewState().showOnRefreshError();
+        if (isNoData) {
+            getViewState().hideGettingDataMessage();
+            getViewState().showNoDataMessage();
+        }
+        onError();
     }
 
     @Override
     public void onFetchDataFromServerFinished() {
         Log.d(TAG, "onFetchDataFromServerFinished: ");
+        if (isNoData){
+            getViewState().hideGettingDataMessage();
+        }
+        isNoData = false;
         getViewState().hideProgressBar();
         List<EventItem> items = model.getItems();
         getViewState().showEvents(items);
@@ -84,6 +101,7 @@ public class EventsPresenter extends MvpPresenter<EventsView> implements Fetcher
         if (items != null && !items.isEmpty()){
             getViewState().hideProgressBar();
             getViewState().showEvents(items);
+            isNoData = false;
         }
 
         tryGetEvents();

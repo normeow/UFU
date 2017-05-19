@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -33,7 +32,7 @@ import wildbakery.ufu.ui.fragments.DetailFragments.DetailFragmentNews;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener {
+public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterNews.CallbackListener, TryAgatinFragment.TryAgainListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -47,6 +46,8 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
     private CoordinatorLayout rootLayout;
     private Snackbar errorLoadSnackBar;
     private Snackbar refreshErrorSnackBar;
+    private View gettingDataMsg;
+    private Fragment tryAgainFragment = null;
 
     private DetailFragmentNews activeDetailFragment;
 
@@ -62,6 +63,7 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         rootLayout = (CoordinatorLayout) view.findViewById(R.id.newsFragmentLayout);
+        gettingDataMsg = view.findViewById(R.id.news_gettingdata);
         setBottomSnackBar();
         setRefreshSnackBar();
         return view;
@@ -197,7 +199,6 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
     @Override
     public void showOnRefreshError() {
         if(getUserVisibleHint()) {
-            Log.d(TAG, "showOnRefreshError: ");
             setRefreshSnackBar();
             refreshErrorSnackBar.show();
         }
@@ -220,4 +221,42 @@ public class MvpNewsFragment extends MvpBaseFragment implements NewsView, SwipeR
         }
     }
 
+    @Override
+    public void showNoDataMessage() {
+        Log.d(TAG, "showNoDataMessage: ");
+
+        if (tryAgainFragment == null) {
+            tryAgainFragment = new TryAgatinFragment();
+            getChildFragmentManager().beginTransaction().replace(R.id.newsFragmentLayout, tryAgainFragment).commit();
+        }
+
+    }
+
+    @Override
+    public void showGettingDataMessage() {
+        Log.d(TAG, "showGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideGettingDataMessage() {
+        Log.d(TAG, "hideGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideNoDataMessage() {
+        Log.d(TAG, "hideNoDataMessage: ");
+        if (tryAgainFragment != null) {
+            getChildFragmentManager().beginTransaction().remove(tryAgainFragment).commit();
+            tryAgainFragment = null;
+        }
+    }
+
+
+    @Override
+    public void onTryAgainClicked() {
+        refresh();
+
+    }
 }

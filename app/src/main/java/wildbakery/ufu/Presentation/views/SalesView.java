@@ -21,5 +21,9 @@ public interface SalesView extends MvpView {
     void showBottomProgressBar();
     void hideBottomProgressBar();
     void showOnRefreshError();
+    void showNoDataMessage();
+    void hideNoDataMessage();
+    void showGettingDataMessage();
+    void hideGettingDataMessage();
     void refresh();
 }

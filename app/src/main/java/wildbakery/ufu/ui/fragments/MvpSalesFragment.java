@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import wildbakery.ufu.ui.Adapters.ItemsAdapterSale;
  * Created by Tatiana on 26/04/2017.
  */
 
-public class MvpSalesFragment extends MvpBaseFragment implements SalesView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterSale.CallbackListener {
+public class MvpSalesFragment extends MvpBaseFragment implements SalesView, SwipeRefreshLayout.OnRefreshListener, ItemsAdapterSale.CallbackListener, TryAgatinFragment.TryAgainListener {
 
     @InjectPresenter
     SalesPresenter presenter;
@@ -44,6 +44,8 @@ public class MvpSalesFragment extends MvpBaseFragment implements SalesView, Swip
     private CoordinatorLayout rootLayout;
     private Snackbar errorSnackBar;
     private Snackbar refreshErrorSnackBar;
+    private View gettingDataMsg;
+    private Fragment tryAgainFragment = null;
 
 
     @Nullable
@@ -59,6 +61,7 @@ public class MvpSalesFragment extends MvpBaseFragment implements SalesView, Swip
         // mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         rootLayout = (CoordinatorLayout) view.findViewById(R.id.salesFragmentLayout);
+        gettingDataMsg = view.findViewById(R.id.sales_gettingdata);
         setSnackBar();
         return view;
     }
@@ -178,5 +181,44 @@ public class MvpSalesFragment extends MvpBaseFragment implements SalesView, Swip
             setRefreshSnackBar();
             refreshErrorSnackBar.show();
         }
+    }
+
+    @Override
+    public void showNoDataMessage() {
+        Log.d(TAG, "showNoDataMessage: ");
+
+        if (tryAgainFragment == null) {
+            tryAgainFragment = new TryAgatinFragment();
+            getChildFragmentManager().beginTransaction().replace(R.id.salesFragmentLayout, tryAgainFragment).commit();
+        }
+
+    }
+
+    @Override
+    public void showGettingDataMessage() {
+        Log.d(TAG, "showGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideGettingDataMessage() {
+        Log.d(TAG, "hideGettingDataMessage: ");
+        gettingDataMsg.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideNoDataMessage() {
+        Log.d(TAG, "hideNoDataMessage: ");
+        if (tryAgainFragment != null) {
+            getChildFragmentManager().beginTransaction().remove(tryAgainFragment).commit();
+            tryAgainFragment = null;
+        }
+    }
+
+
+    @Override
+    public void onTryAgainClicked() {
+        refresh();
+
     }
 }

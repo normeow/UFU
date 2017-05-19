@@ -7,11 +7,13 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import wildbakery.ufu.App;
 import wildbakery.ufu.DataFetchers.FetcherCallbacksListener;
 import wildbakery.ufu.DataFetchers.SalesFetcher;
 import wildbakery.ufu.Model.ApiModels.SaleItem;
 import wildbakery.ufu.Model.SalesModel;
 import wildbakery.ufu.Presentation.views.SalesView;
+import wildbakery.ufu.R;
 
 /**
  * Created by Tatiana on 13/05/2017.
@@ -22,6 +24,7 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
 
     private static final String TAG = "SalesPresenter";
     private SalesModel model;
+    private boolean isNoData = true;
 
     private SalesFetcher jobsFetcher;
     @Override
@@ -40,6 +43,10 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
 
     public void tryGetSales(){
         Log.d(TAG, "tryGetSales: ");
+        if (isNoData) {
+            getViewState().hideNoDataMessage();
+            getViewState().showGettingDataMessage();
+        }
         getViewState().showProgressBar();
         jobsFetcher.refreshData(COUNT_ITEMS_TO_LOAD);
     }
@@ -57,7 +64,8 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
     }
 
     public void onError(){
-        getViewState().showToastMessage("Failed to get sales");
+
+        getViewState().showToastMessage(App.getContext().getResources().getString(R.string.cant_load));
     }
 
 
@@ -65,12 +73,21 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
     public void onRefreshFailed() {
         // something goes wrong when tried to fetch data
         getViewState().hideProgressBar();
-        getViewState().showOnRefreshError();
+        //getViewState().showOnRefreshError();
+        if (isNoData) {
+            getViewState().hideGettingDataMessage();
+            getViewState().showNoDataMessage();
+        }
+        onError();
     }
 
     @Override
     public void onFetchDataFromServerFinished() {
         Log.d(TAG, "onFetchDataFromServerFinished: ");
+        if (isNoData){
+            getViewState().hideGettingDataMessage();
+        }
+        isNoData = false;
         getViewState().hideProgressBar();
         List<SaleItem> items = model.getItems();
         getViewState().showSales(items);
@@ -84,6 +101,7 @@ public class SalesPresenter extends MvpPresenter<SalesView> implements FetcherCa
         if (items != null && !items.isEmpty()){
             getViewState().hideProgressBar();
             getViewState().showSales(items);
+            isNoData = false;
         }
 
         tryGetSales();
