@@ -13,6 +13,7 @@ import android.view.View;
 
 import wildbakery.ufu.Model.HelperFactory;
 import wildbakery.ufu.R;
+import wildbakery.ufu.Utils.BottomNavigationViewHelper;
 import wildbakery.ufu.ui.fragments.MvpBaseFragment;
 import wildbakery.ufu.ui.fragments.MvpEventsFragment;
 import wildbakery.ufu.ui.fragments.MvpJobsFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

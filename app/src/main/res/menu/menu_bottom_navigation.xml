@@ -7,22 +7,21 @@
         android:id="@+id/action_news"
         android:icon="@drawable/news50"
         android:title="@string/news"
-
         app:showAsAction="ifRoom"
         />
     <item
-            android:id="@+id/action_job"
-            android:checked="false"
-            android:icon="@drawable/job50"
-            android:title="@string/job"
-            app:showAsAction="ifRoom"/>
-        <item
-            android:id="@+id/action_sale"
-            android:checked="false"
-            android:icon="@drawable/sale50"
-            android:title="@string/sale"
-            app:showAsAction="ifRoom"
-            />
+        android:id="@+id/action_job"
+        android:checked="false"
+        android:icon="@drawable/job50"
+        android:title="@string/job"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_sale"
+        android:checked="false"
+        android:icon="@drawable/sale50"
+        android:title="@string/sale"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/action_event"
         android:checked="false"
