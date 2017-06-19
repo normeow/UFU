@@ -9,6 +9,10 @@ import java.lang.reflect.Field;
 
 public class BottomNavigationViewHelper {
 
+    /**
+     * remove shifting animation from nav bar
+     * @param view - navigation bar
+     */
     public static void removeShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
